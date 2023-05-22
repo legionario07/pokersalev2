@@ -12,7 +12,8 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "PokerSaleV2 Domain"
-include ':app'
-include ':domain'
-include ':data'
+include(":app")
+include(":domain")
+include(":data")
