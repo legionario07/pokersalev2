@@ -1,3 +1,4 @@
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,14 +6,14 @@ plugins {
 
 android {
     namespace = "br.com.khodahafez.pokersale"
-    compileSdk = 33
+    compileSdk = AndroidConfig.COMPILE_SDK
 
     defaultConfig {
         applicationId ="br.com.khodahafez.pokersale"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = AndroidConfig.MIN_SDK
+        targetSdk = AndroidConfig.TARGET_SDK
+        versionCode = AndroidConfig.VERSION_CODE_APP
+        versionName = AndroidConfig.VERSION_NAME_APP
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

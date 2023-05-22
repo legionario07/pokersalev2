@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "br.com.khodahafez.domain"
-    compileSdk = 33
+    compileSdk = AndroidConfig.COMPILE_SDK
 
     defaultConfig {
-        minSdk = 24
+        minSdk = AndroidConfig.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
