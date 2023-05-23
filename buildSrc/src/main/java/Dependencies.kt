@@ -11,6 +11,13 @@ object Dependencies {
     val depComposeMaterial3 = lib("androidx.compose.material3:material3")
     val depJunit = lib("junit:junit", Versions.JUNIT)
     val depJunitExt = lib("androidx.test.ext:junit", Versions.JUNIT_EXT)
+    val depMaterial = lib("com.google.android.material:material", Versions.MATERIAL)
+    val depExpressoCore = lib("androidx.test.espresso:espresso-core", Versions.EXPRESSO_CORE)
+    val depAppCompat = lib("androidx.appcompat:appcompat", Versions.APP_COMPAT)
+    val depCoreKtx = lib("androidx.core:core-ktx", Versions.CORE_KTX)
+    val depLifecycleRuntimeKtx = lib("androidx.lifecycle:lifecycle-runtime-ktx", Versions.LIFECYCLE_RUNTIME_KTX)
+    val depTruth = lib("com.google.truth:truth", Versions.TRUTH)
+    val depMockk = lib("io.mockk:mockk", Versions.MOCKK)
 }
 
 fun lib(path: String, version: String = "", suffix: String = ""): String {
