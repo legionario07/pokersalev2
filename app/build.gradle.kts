@@ -1,20 +1,23 @@
 import Dependencies
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "br.com.khodahafez.pokersale"
-    compileSdk = AndroidConfig.COMPILE_SDK
+    compileSdk = 33
+    buildToolsVersion = "33.0.0"
 
     defaultConfig {
-        applicationId ="br.com.khodahafez.pokersale"
-        minSdk = AndroidConfig.MIN_SDK
-        targetSdk = AndroidConfig.TARGET_SDK
-        versionCode = AndroidConfig.VERSION_CODE_APP
-        versionName = AndroidConfig.VERSION_NAME_APP
+        applicationId = "br.com.khodahafez.pokersale"
+        minSdk = 24
+        targetSdk = 33
+        versionCode = 1
+        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -25,7 +28,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-        proguardFiles (getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -46,10 +52,13 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildToolsVersion = "33.0.0"
 }
 
 dependencies {
 
+    implementation(project(":domain"))
+    implementation(project(":data"))
     implementation(Dependencies.depCoreKtx)
     implementation(Dependencies.depAppCompat)
     implementation(Dependencies.depMaterial)
@@ -60,6 +69,7 @@ dependencies {
     implementation(Dependencies.depComposeUiGraphics)
     implementation(Dependencies.depComposeUiToolingPreview)
     implementation(Dependencies.depComposeMaterial3)
+    implementation("com.google.firebase:firebase-database-ktx:20.1.0")
     testImplementation(Dependencies.depJunit)
     androidTestImplementation(Dependencies.depJunitExt)
     androidTestImplementation(Dependencies.depExpressoCore)
@@ -67,4 +77,11 @@ dependencies {
     androidTestImplementation(Dependencies.depComposeUiTestJUnit)
     debugImplementation(Dependencies.depComposeUiTooling)
     debugImplementation(Dependencies.depComposeUiTestManifest)
+
+    // Import the BoM for the Firebase platform
+    implementation(platform(Dependencies.depFirebaseBom))
+
+    // Add the dependency for the Realtime Database library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation(Dependencies.depFirebaseDatabaseKtx)
 }

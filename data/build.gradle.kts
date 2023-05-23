@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "br.com.khodahafez.data"
-    compileSdk = AndroidConfig.COMPILE_SDK
+    compileSdk = 33
 
     defaultConfig {
-        minSdk = AndroidConfig.MIN_SDK
 
+        minSdk = 24
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 //        consumerProguardFiles = "consumer-rules.pro"
     }
@@ -28,16 +28,21 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildToolsVersion = "30.0.3"
 }
 
 dependencies {
 
+    implementation(project(":domain"))
     implementation(Dependencies.depCoreKtx)
     implementation(Dependencies.depAppCompat)
     implementation(Dependencies.depMaterial)
+    implementation("com.google.firebase:firebase-database-ktx:20.1.0")
     testImplementation(Dependencies.depJunit)
     testImplementation(Dependencies.depMockk)
     testImplementation(Dependencies.depTruth)
     androidTestImplementation(Dependencies.depJunitExt)
     androidTestImplementation(Dependencies.depExpressoCore)
+    implementation(Dependencies.depLifecycleRuntimeKtx)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
 }

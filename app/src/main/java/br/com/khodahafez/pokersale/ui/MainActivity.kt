@@ -10,15 +10,30 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
+import br.com.khodahafez.data.viewmodels.MainActivityViewModel
+import br.com.khodahafez.data.viewmodels.MainViewModelFactory
 import br.com.khodahafez.pokersale.ui.ui.theme.PokerSaleV2DomainTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: MainActivityViewModel by lazy {
+        ViewModelProvider(
+            this,
+            MainViewModelFactory()
+        )[MainActivityViewModel::class.java]
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.saveLocale()
         setContent {
             PokerSaleV2DomainTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     Greeting("Android")
                 }
             }

@@ -1,7 +1,7 @@
 package br.com.khodahafez.domain.model
 
 data class MatchOfPoker(
-    val id: Int,
+    val id: String? = null,
     val dateTime: Long? = null,
     val isSpecialMatch: Boolean,
     val locale: Locale? = null,

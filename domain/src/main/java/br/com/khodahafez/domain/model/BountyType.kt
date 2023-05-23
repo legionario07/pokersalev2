@@ -1,6 +1,6 @@
 package br.com.khodahafez.domain.model
 
 data class BountyType(
-    val id: Int,
+    val id: String? = null,
     val type: String? = null
 )

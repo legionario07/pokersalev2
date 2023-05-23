@@ -1,7 +1,7 @@
 package br.com.khodahafez.domain.model
 
 data class Expenses(
-    val id: Int,
+    val id: String? = null,
     val player: Player? = null,
     val buyIn: Double? = null,
     val reBuy: Double? = null,

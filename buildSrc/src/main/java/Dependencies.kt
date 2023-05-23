@@ -6,7 +6,7 @@ object Dependencies {
     val depComposeUiGraphics = lib("androidx.compose.ui:ui-graphics")
     val depComposeUiTooling = lib("androidx.compose.ui:ui-tooling")
     val depComposeUiToolingPreview = lib("androidx.compose.ui:ui-tooling-preview")
-    val depComposeUiTestJUnit = lib("androidx.compose.ui:ui-test-junit")
+    val depComposeUiTestJUnit = lib("androidx.compose.ui:ui-test-junit4")
     val depComposeUiTestManifest = lib("androidx.compose.ui:ui-test-manifest")
     val depComposeMaterial3 = lib("androidx.compose.material3:material3")
     val depJunit = lib("junit:junit", Versions.JUNIT)
@@ -18,6 +18,9 @@ object Dependencies {
     val depLifecycleRuntimeKtx = lib("androidx.lifecycle:lifecycle-runtime-ktx", Versions.LIFECYCLE_RUNTIME_KTX)
     val depTruth = lib("com.google.truth:truth", Versions.TRUTH)
     val depMockk = lib("io.mockk:mockk", Versions.MOCKK)
+
+    val depFirebaseBom = lib("com.google.firebase:firebase-bom", Versions.FIREBASE_BOM)
+    val depFirebaseDatabaseKtx = lib("com.google.firebase:firebase-database-ktx")
 }
 
 fun lib(path: String, version: String = "", suffix: String = ""): String {

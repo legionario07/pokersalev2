@@ -1,6 +1,6 @@
 package br.com.khodahafez.domain.model
 
 data class Locale(
-    val id: Int,
-    val name: String? = null
+    var id: String? = null,
+    var name: String? = null
 )

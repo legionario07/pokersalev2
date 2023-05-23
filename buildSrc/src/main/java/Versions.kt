@@ -10,5 +10,5 @@ object Versions {
     const val LIFECYCLE_RUNTIME_KTX = "2.3.1"
     const val TRUTH = "1.1.3"
     const val MOCKK = "1.13.5"
-
+    const val FIREBASE_BOM = "32.0.0"
 }
