@@ -105,8 +105,7 @@ fun CreateScreen(players: List<PlayerHelper>) {
         Surface(modifier = Modifier.fillMaxSize()) {
             Card(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
+                    .fillMaxSize()
                     .padding(9.dp),
                 shape = RoundedCornerShape(10.dp),
                 colors = CardDefaults.cardColors(
@@ -141,7 +140,10 @@ fun CreateScreen(players: List<PlayerHelper>) {
                                         .padding(start = 30.dp),
                                     verticalArrangement = Arrangement.Center
                                 ) {
-                                    Text(text = players.indexOf(it).inc().toString())
+                                    Text(
+                                        text = players.indexOf(it).inc().toString(),
+                                        style = MaterialTheme.typography.titleMedium
+                                        )
                                 }
                                 Column(
                                     modifier = Modifier
