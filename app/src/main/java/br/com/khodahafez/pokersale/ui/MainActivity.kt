@@ -32,53 +32,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import br.com.khodahafez.data.viewmodels.MainActivityViewModel
 import br.com.khodahafez.data.viewmodels.MainViewModelFactory
 import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.pokersale.navigation.ScreenEnum
+import br.com.khodahafez.pokersale.navigation.navigationGraph
 import br.com.khodahafez.pokersale.ui.model.PlayerHelper
 import br.com.khodahafez.pokersale.ui.ui.theme.PokerSaleV2DomainTheme
-
-private val players = mutableListOf(
-    PlayerHelper(
-        Player(
-            id = "1I12S23SS2",
-            name = "Paulo Dias"
-        ),
-        pointsTotal = 100,
-        bounties = 10
-    ),
-    PlayerHelper(
-        Player(
-            id = "1I1223SS2",
-            name = "Teste Jogador"
-        ),
-        pointsTotal = 12,
-        bounties = 11
-    ),
-    PlayerHelper(
-        Player(
-            id = "1I1223SS2",
-            name = "Teste Jogador 2"
-        ),
-        pointsTotal = 122,
-        bounties = 1
-    ),
-    PlayerHelper(
-        Player(
-            id = "1I1223SS21",
-            name = "Teste Jogador 3"
-        ),
-        pointsTotal = 142,
-        bounties = 2
-    )
-)
-
-val horizontalGradientBrush = Brush.horizontalGradient(
-    colors = listOf(
-        Red,
-        Color.Magenta
-    )
-)
 
 class MainActivity : ComponentActivity() {
 
@@ -89,13 +51,32 @@ class MainActivity : ComponentActivity() {
         )[MainActivityViewModel::class.java]
     }
 
+    private lateinit var navController: NavHostController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            setupInitNavHostController()
             PokerSaleV2DomainTheme {
-                CreateScreen(players)
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    Column(modifier = Modifier.fillMaxSize()) {
+                        navigationGraph(
+                            navController = navController,
+                            startDestination = getStartRoute()
+                        )
+                    }
+                }
             }
         }
+    }
+
+    @Composable
+    private fun setupInitNavHostController() {
+        navController = rememberNavController()
+    }
+
+    private fun getStartRoute(): ScreenEnum {
+        return ScreenEnum.LOGIN
     }
 }
 
@@ -191,6 +172,50 @@ fun CreateScreen(players: List<PlayerHelper>) {
         }
     }
 }
+
+
+private val players = mutableListOf(
+    PlayerHelper(
+        Player(
+            id = "1I12S23SS2",
+            name = "Paulo Dias"
+        ),
+        pointsTotal = 100,
+        bounties = 10
+    ),
+    PlayerHelper(
+        Player(
+            id = "1I1223SS2",
+            name = "Teste Jogador"
+        ),
+        pointsTotal = 12,
+        bounties = 11
+    ),
+    PlayerHelper(
+        Player(
+            id = "1I1223SS2",
+            name = "Teste Jogador 2"
+        ),
+        pointsTotal = 122,
+        bounties = 1
+    ),
+    PlayerHelper(
+        Player(
+            id = "1I1223SS21",
+            name = "Teste Jogador 3"
+        ),
+        pointsTotal = 142,
+        bounties = 2
+    )
+)
+
+val horizontalGradientBrush = Brush.horizontalGradient(
+    colors = listOf(
+        Red,
+        Color.Magenta
+    )
+)
+
 
 @Preview(showBackground = true)
 @Composable

@@ -45,7 +45,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = "1.4.2"
     }
     packagingOptions {
         resources {
@@ -64,6 +64,8 @@ dependencies {
     implementation(Dependencies.depMaterial)
     implementation(Dependencies.depLifecycleRuntimeKtx)
     implementation(Dependencies.depComposeActivity)
+    implementation(Dependencies.depComposeNavigation)
+    implementation(Dependencies.depComposeIcons)
     implementation(platform(Dependencies.depComposeBom))
     implementation(Dependencies.depComposeUi)
     implementation(Dependencies.depComposeUiGraphics)

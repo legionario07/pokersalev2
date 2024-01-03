@@ -1,6 +1,8 @@
 object Dependencies {
 
     val depComposeActivity = lib("androidx.activity:activity-compose", Versions.COMPOSE_ACTIVITY)
+    val depComposeNavigation = lib("androidx.navigation:navigation-compose", Versions.COMPOSE_NAVIGATION)
+    val depComposeIcons = lib("androidx.compose.material:material-icons-extended", Versions.COMPOSE_ICONS)
     val depComposeBom = lib("androidx.compose:compose-bom", Versions.COMPOSE_BOM)
     val depComposeUi = lib("androidx.compose.ui:ui")
     val depComposeUiGraphics = lib("androidx.compose.ui:ui-graphics")
