@@ -13,8 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
+import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
+import br.com.khodahafez.pokersale.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,15 +25,15 @@ internal fun LoginField(
     value: String,
     onChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    label: String = "login",
-    placeholder: String = "Enter your Login"
+    label: String = stringResource(id = R.string.poker_sale_login_label),
+    placeholder: String = stringResource(id = R.string.poker_sale_login_hint)
 ) {
 
     val focusManager = LocalFocusManager.current
     val leadingIcon = @Composable {
         Icon(
             Icons.Default.Person,
-            contentDescription = "",
+            contentDescription = EMPTY_STRING,
             tint = MaterialTheme.colorScheme.primary
         )
     }

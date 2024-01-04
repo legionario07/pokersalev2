@@ -18,10 +18,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
+import br.com.khodahafez.pokersale.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,8 +33,8 @@ internal fun PasswordField(
     onChange: (String) -> Unit,
     submit: () -> Unit,
     modifier: Modifier = Modifier,
-    label: String = "Password",
-    placeholder: String = "Enter your Password"
+    label: String = stringResource(id = R.string.poker_sale_password_label),
+    placeholder: String = stringResource(id = R.string.poker_sale_password_hint)
 ) {
 
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -39,7 +42,7 @@ internal fun PasswordField(
     val leadingIcon = @Composable {
         Icon(
             Icons.Default.Key,
-            contentDescription = "",
+            contentDescription = EMPTY_STRING,
             tint = MaterialTheme.colorScheme.primary
         )
     }
@@ -47,7 +50,7 @@ internal fun PasswordField(
         IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
             Icon(
                 if (isPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
-                contentDescription = "",
+                contentDescription = EMPTY_STRING,
                 tint = MaterialTheme.colorScheme.primary
             )
         }

@@ -1,7 +1,9 @@
 package br.com.khodahafez.domain.model
 
+import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
+
 data class Profile(
-    val id: String? = null,
-    val name: String? = null,
-    val password: String? = null
+    var id: String? = null,
+    var login: String = EMPTY_STRING,
+    var password: String = EMPTY_STRING
 )
