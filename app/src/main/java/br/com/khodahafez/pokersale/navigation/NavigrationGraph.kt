@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import br.com.khodahafez.pokersale.ui.CreateScreen
 import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
 
 @Composable
@@ -16,7 +17,17 @@ internal fun navigationGraph(
         startDestination = startDestination.route
     ) {
         composable(route = ScreenEnum.LOGIN.route) {
-            LoginScreen()
+            LoginScreen(
+                onLoginSuccessful = {
+                    navController.navigate(ScreenEnum.HOME.route)
+                }
+            )
+        }
+
+        composable(route = ScreenEnum.HOME.route) {
+            CreateScreen(
+                mutableListOf()
+            )
         }
     }
 }

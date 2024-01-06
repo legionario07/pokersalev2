@@ -1,95 +1,27 @@
 {
   "project_info": {
-    "project_number": "1012720658066",
-    "firebase_url": "https://pokersalev2-default-rtdb.firebaseio.com",
-    "project_id": "pokersalev2",
-    "storage_bucket": "pokersalev2.appspot.com"
+    "project_number": "239021008228",
+    "firebase_url": "https://pokersale-f2864-default-rtdb.firebaseio.com",
+    "project_id": "pokersale-f2864",
+    "storage_bucket": "pokersale-f2864.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1012720658066:android:c95c340ddaae95b21ae84b",
-        "android_client_info": {
-          "package_name": "br.com.khodahafez.data"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1012720658066-0dll1ouf61rms8us2tf3hu10lfacfdqq.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCh95lJQ3kHWXabHxsnqpSJyO_viQofxZY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1012720658066-0dll1ouf61rms8us2tf3hu10lfacfdqq.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1012720658066:android:f4994d903df485fc1ae84b",
-        "android_client_info": {
-          "package_name": "br.com.khodahafez.domain"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1012720658066-0dll1ouf61rms8us2tf3hu10lfacfdqq.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCh95lJQ3kHWXabHxsnqpSJyO_viQofxZY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1012720658066-0dll1ouf61rms8us2tf3hu10lfacfdqq.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1012720658066:android:b0bec4cdaebc66ef1ae84b",
+        "mobilesdk_app_id": "1:239021008228:android:f099115a053f72210c8671",
         "android_client_info": {
           "package_name": "br.com.khodahafez.pokersale"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "1012720658066-0dll1ouf61rms8us2tf3hu10lfacfdqq.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCh95lJQ3kHWXabHxsnqpSJyO_viQofxZY"
+          "current_key": "AIzaSyBupmmc0L9fBNsQ5bu--6h6DMX5Pw9-KZY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1012720658066-0dll1ouf61rms8us2tf3hu10lfacfdqq.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

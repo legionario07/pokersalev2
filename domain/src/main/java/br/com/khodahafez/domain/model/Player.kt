@@ -1,7 +1,10 @@
 package br.com.khodahafez.domain.model
 
+import br.com.khodahafez.domain.PokerSaleConstants
+
 data class Player(
-    val id: String? = null,
+    var id: String? = null,
     val name: String = "",
-    val profile: Profile? = null,
+    var login: String = PokerSaleConstants.EMPTY_STRING,
+    var password: String = PokerSaleConstants.EMPTY_STRING
 )

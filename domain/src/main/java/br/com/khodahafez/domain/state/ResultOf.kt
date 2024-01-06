@@ -7,6 +7,6 @@ sealed class ResultOf<out T> {
     data class Success<out R>(val response: R) : ResultOf<R>()
     data class Loading<out R>(val isShowDialog: Boolean) : ResultOf<Nothing>()
     data class Failure(
-        val error: PokerSaleV2Error
+        val error: Throwable
     ) : ResultOf<Nothing>()
 }

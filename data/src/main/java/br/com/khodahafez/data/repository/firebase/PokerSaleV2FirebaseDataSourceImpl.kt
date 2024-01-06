@@ -23,7 +23,7 @@ class PokerSaleV2FirebaseDataSourceImpl(
                 dbReference.child(locale.id!!).setValue(locale)
                 emit(ResultOf.Success(locale))
             }.onFailure {
-                emit(ResultOf.Failure(PokerSaleV2Error.GenericError(it)))
+                emit(ResultOf.Failure(it))
             }
         }.flowOn(scopeIo)
     }
@@ -34,7 +34,7 @@ class PokerSaleV2FirebaseDataSourceImpl(
                 dbReference.child(locale.id!!).setValue(locale)
                 emit(ResultOf.Success(locale))
             }.onFailure {
-                emit(ResultOf.Failure(PokerSaleV2Error.GenericError(it)))
+                emit(ResultOf.Failure(it))
             }
         }.flowOn(scopeIo)
     }
