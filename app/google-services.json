@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "239021008228",
+    "firebase_url": "https://pokersale-f2864-default-rtdb.firebaseio.com",
+    "project_id": "pokersale-f2864",
+    "storage_bucket": "pokersale-f2864.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:239021008228:android:f099115a053f72210c8671",
+        "android_client_info": {
+          "package_name": "br.com.khodahafez.pokersale"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBupmmc0L9fBNsQ5bu--6h6DMX5Pw9-KZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
