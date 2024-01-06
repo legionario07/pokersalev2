@@ -13,4 +13,5 @@ object Versions {
     const val TRUTH = "1.1.3"
     const val MOCKK = "1.13.5"
     const val FIREBASE_BOM = "32.0.0"
+    const val HILT_ANDROID = "2.44"
 }

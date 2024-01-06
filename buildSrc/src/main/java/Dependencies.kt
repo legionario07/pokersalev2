@@ -23,6 +23,9 @@ object Dependencies {
 
     val depFirebaseBom = lib("com.google.firebase:firebase-bom", Versions.FIREBASE_BOM)
     val depFirebaseDatabaseKtx = lib("com.google.firebase:firebase-database-ktx")
+
+    val depHiltAndroid = lib("com.google.dagger:hilt-android", Versions.HILT_ANDROID)
+    val depHiltAndroidKapt = lib("com.google.dagger:hilt-compiler", Versions.HILT_ANDROID)
 }
 
 fun lib(path: String, version: String = "", suffix: String = ""): String {
