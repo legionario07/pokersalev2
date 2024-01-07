@@ -6,7 +6,7 @@ data class PositionInTheMatch(
 )
 
 data class PositionScore(
-    val id: String? = null,
+    var id: String? = null,
     val position: Int,
     val points: Int,
 )

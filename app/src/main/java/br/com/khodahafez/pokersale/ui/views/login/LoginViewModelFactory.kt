@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import br.com.khodahafez.data.repository.firebase.FirebaseDatabaseConstants
 import br.com.khodahafez.data.repository.firebase.PlayerRepositoryImpl
 import br.com.khodahafez.data.repository.firebase.PokerSaleV2FirebaseDataSourceImpl
+import br.com.khodahafez.pokersale.di.FirebaseModule
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
 import com.google.firebase.database.FirebaseDatabase
@@ -17,8 +18,7 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
     @NonNull
     @Override
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val firebase = FirebaseDatabase.getInstance()
-        val dbReferences = firebase.getReference(FirebaseDatabaseConstants.REFERENCIES.DATABASE_POKER_SALE.plus("/users"))
+        val dbReferences = FirebaseModule.provideFirebaseReference("/users")
 
         val playerRepository = RepositoryModule.providePlayerRepository(dbReferences)
 

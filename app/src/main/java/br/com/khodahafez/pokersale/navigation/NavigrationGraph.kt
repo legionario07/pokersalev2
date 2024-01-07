@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.khodahafez.pokersale.ui.CreateScreen
 import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
+import br.com.khodahafez.pokersale.ui.views.position_score.PositionScoreScreen
 
 @Composable
 internal fun navigationGraph(
@@ -28,6 +29,10 @@ internal fun navigationGraph(
             CreateScreen(
                 mutableListOf()
             )
+        }
+
+        composable(route = ScreenEnum.POSITION_SCORE.route) {
+            PositionScoreScreen()
         }
     }
 }
