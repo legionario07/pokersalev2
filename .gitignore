@@ -34,6 +34,7 @@ google-services.json
 
 *.iml
 .gradle
+/buildSrc/build
 /local.properties
 /.idea/caches
 /.idea/libraries
