@@ -1,10 +1,12 @@
 package br.com.khodahafez.domain.model
 
+import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
+
 data class MatchOfPoker(
     val id: String? = null,
-    val dateTime: Long? = null,
-    val isSpecialMatch: Boolean,
-    val locale: Locale? = null,
-    val scores: Set<Score> = setOf(),
-    val expenses: Set<Expenses> = setOf(),
+    val date: String? = EMPTY_STRING,
+    val isSpecialMatch: Boolean = false,
+    val players: Set<Player> = mutableSetOf(),
+    val ranking: Int = 1,
+    val matchOfPokerType: MatchOfPokerType = MatchOfPokerType.IN_PROGRESS
 )

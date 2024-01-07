@@ -1,9 +1,11 @@
 package br.com.khodahafez.pokersale.di
 
+import br.com.khodahafez.data.repository.firebase.BalanceRepositoryImpl
 import br.com.khodahafez.data.repository.firebase.BountyTypeRepositoryImpl
 import br.com.khodahafez.data.repository.firebase.FirebaseDatabaseConstants.REFERENCIES.DATABASE_POKER_SALE
 import br.com.khodahafez.data.repository.firebase.PlayerRepositoryImpl
 import br.com.khodahafez.data.repository.firebase.PositionScoreRepositoryImpl
+import br.com.khodahafez.domain.repository.remote.BalanceRepository
 import br.com.khodahafez.domain.repository.remote.BountyTypeRepository
 import br.com.khodahafez.domain.repository.remote.PlayerRepository
 import br.com.khodahafez.domain.repository.remote.PositionScoreRepository
@@ -26,73 +28,5 @@ object FirebaseModule {
     }
 }
 
-object RepositoryModule {
-    fun providePlayerRepository(databaseReference: DatabaseReference): PlayerRepository {
-        return PlayerRepositoryImpl(
-            databaseReference = databaseReference
-        )
-    }
-
-    fun providePositionScoreRepository(databaseReference: DatabaseReference): PositionScoreRepository {
-        return PositionScoreRepositoryImpl(
-            databaseReference = databaseReference
-        )
-    }
-
-    fun provideBountyTypeRepository(databaseReference: DatabaseReference): BountyTypeRepository {
-        return BountyTypeRepositoryImpl(
-            databaseReference = databaseReference
-        )
-    }
-}
-
-object UseCaseModule {
-    fun provideLoginUseCase(
-        playerRepository: PlayerRepository,
-    ): LoginUseCase {
-        return LoginUseCase(
-            scope = Dispatchers.IO,
-            playerRepository = playerRepository,
-            encryptUtil = EncryptUtils
-        )
-    }
-
-    fun providePlayerSaveUseCase(
-        playerRepository: PlayerRepository,
-    ): PlayerSaveUseCase {
-        return PlayerSaveUseCase(
-            scope = Dispatchers.IO,
-            playerRepository = playerRepository,
-            encryptUtil = EncryptUtils
-        )
-    }
-
-    fun provideSavePositionScoreUseCase(
-        positionScoreRepository: PositionScoreRepository,
-    ): SavePositionScoreUseCase {
-        return SavePositionScoreUseCase(
-            scope = Dispatchers.IO,
-            positionScoreRepository = positionScoreRepository,
-        )
-    }
-
-    fun provideGetAllPositionScoreUseCase(
-        positionScoreRepository: PositionScoreRepository,
-    ): GetAllPositionScoreUseCase {
-        return GetAllPositionScoreUseCase(
-            scope = Dispatchers.IO,
-            positionScoreRepository = positionScoreRepository,
-        )
-    }
-
-    fun provideSaveBountyTypeUseCase(
-        repository: BountyTypeRepository,
-    ): SaveBountyTypeUseCase {
-        return SaveBountyTypeUseCase(
-            scope = Dispatchers.IO,
-            repository = repository,
-        )
-    }
-}
 
 

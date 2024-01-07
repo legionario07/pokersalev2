@@ -8,5 +8,6 @@ data class Player(
     val lastAccess: String = PokerSaleConstants.EMPTY_STRING,
     val createdAt: String = PokerSaleConstants.EMPTY_STRING,
     var login: String = PokerSaleConstants.EMPTY_STRING,
-    var password: String = PokerSaleConstants.EMPTY_STRING
+    var password: String = PokerSaleConstants.EMPTY_STRING,
+    var isAdmin: Boolean = false
 )
