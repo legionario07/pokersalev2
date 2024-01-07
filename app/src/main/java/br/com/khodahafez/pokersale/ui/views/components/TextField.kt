@@ -1,4 +1,4 @@
-package br.com.khodahafez.pokersale.ui.views.login
+package br.com.khodahafez.pokersale.ui.views.components
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -21,12 +21,12 @@ import br.com.khodahafez.pokersale.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun LoginField(
-    value: String,
-    onChange: (String) -> Unit,
+internal fun TextField(
     modifier: Modifier = Modifier,
+    value: String,
     label: String = stringResource(id = R.string.poker_sale_login_label),
-    placeholder: String = stringResource(id = R.string.poker_sale_login_hint)
+    placeholder: String = stringResource(id = R.string.poker_sale_login_hint),
+    onChange: (String) -> Unit,
 ) {
 
     val focusManager = LocalFocusManager.current

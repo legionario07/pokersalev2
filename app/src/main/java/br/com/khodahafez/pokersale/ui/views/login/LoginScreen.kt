@@ -25,6 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.pokersale.R
 import br.com.khodahafez.pokersale.ui.utils.showToast
+import br.com.khodahafez.pokersale.ui.views.components.TextField
 
 @Composable
 internal fun LoginScreen(
@@ -73,7 +74,7 @@ private fun LoginScreenContent(
             .fillMaxSize()
             .padding(horizontal = 24.dp)
     ) {
-        LoginField(
+        TextField(
             modifier = Modifier.fillMaxWidth(),
             value = login,
             onChange = {
