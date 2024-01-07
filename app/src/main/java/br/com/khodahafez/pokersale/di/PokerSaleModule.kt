@@ -1,10 +1,13 @@
 package br.com.khodahafez.pokersale.di
 
+import br.com.khodahafez.data.repository.firebase.BountyTypeRepositoryImpl
 import br.com.khodahafez.data.repository.firebase.FirebaseDatabaseConstants.REFERENCIES.DATABASE_POKER_SALE
 import br.com.khodahafez.data.repository.firebase.PlayerRepositoryImpl
 import br.com.khodahafez.data.repository.firebase.PositionScoreRepositoryImpl
+import br.com.khodahafez.domain.repository.remote.BountyTypeRepository
 import br.com.khodahafez.domain.repository.remote.PlayerRepository
 import br.com.khodahafez.domain.repository.remote.PositionScoreRepository
+import br.com.khodahafez.domain.usecase.bounty_type.SaveBountyTypeUseCase
 import br.com.khodahafez.domain.usecase.login.LoginUseCase
 import br.com.khodahafez.domain.usecase.player.PlayerSaveUseCase
 import br.com.khodahafez.domain.usecase.position_score.GetAllPositionScoreUseCase
@@ -32,6 +35,12 @@ object RepositoryModule {
 
     fun providePositionScoreRepository(databaseReference: DatabaseReference): PositionScoreRepository {
         return PositionScoreRepositoryImpl(
+            databaseReference = databaseReference
+        )
+    }
+
+    fun provideBountyTypeRepository(databaseReference: DatabaseReference): BountyTypeRepository {
+        return BountyTypeRepositoryImpl(
             databaseReference = databaseReference
         )
     }
@@ -73,6 +82,15 @@ object UseCaseModule {
         return GetAllPositionScoreUseCase(
             scope = Dispatchers.IO,
             positionScoreRepository = positionScoreRepository,
+        )
+    }
+
+    fun provideSaveBountyTypeUseCase(
+        repository: BountyTypeRepository,
+    ): SaveBountyTypeUseCase {
+        return SaveBountyTypeUseCase(
+            scope = Dispatchers.IO,
+            repository = repository,
         )
     }
 }

@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.khodahafez.pokersale.ui.CreateScreen
+import br.com.khodahafez.pokersale.ui.views.bounty_type.BountyTypeScreen
 import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
 import br.com.khodahafez.pokersale.ui.views.position_score.PositionScoreScreen
 
@@ -33,6 +34,10 @@ internal fun navigationGraph(
 
         composable(route = ScreenEnum.POSITION_SCORE.route) {
             PositionScoreScreen()
+        }
+
+        composable(route = ScreenEnum.BOUNTY_TYPE.route) {
+            BountyTypeScreen()
         }
     }
 }

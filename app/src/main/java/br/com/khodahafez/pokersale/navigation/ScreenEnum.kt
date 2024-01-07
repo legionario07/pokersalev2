@@ -4,6 +4,10 @@ internal enum class ScreenEnum(
     val route: String,
     val displayName: String
 ) {
+    BOUNTY_TYPE(
+        route = ScreensConstants.POSITION_SCORE,
+        displayName = ScreensConstants.POSITION_SCORE_DISPLAY
+    ),
     POSITION_SCORE(
         route = ScreensConstants.POSITION_SCORE,
         displayName = ScreensConstants.POSITION_SCORE_DISPLAY
@@ -27,4 +31,7 @@ internal object ScreensConstants {
 
     const val POSITION_SCORE = "Position_Score"
     const val POSITION_SCORE_DISPLAY = "Pontos por Posição"
+
+    const val BOUNTY_TYPE_SCORE = "Bounty_Type"
+    const val BOUNTY_TYPE_DISPLAY = "Tipos de Bounty"
 }
