@@ -49,7 +49,6 @@ class PlayerRepositoryImpl(
     override fun get(login: String, password: String): Flow<ResultOf<Player>> {
         return callbackFlow {
             kotlin.runCatching {
-                var resultOf: ResultOf<Player>? = null
                 val query = databaseReference.orderByChild("login").equalTo(login)
                 val listener = object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {

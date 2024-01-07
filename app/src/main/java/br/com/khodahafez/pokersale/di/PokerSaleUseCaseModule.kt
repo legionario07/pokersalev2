@@ -2,12 +2,14 @@ package br.com.khodahafez.pokersale.di
 
 import br.com.khodahafez.domain.repository.remote.BalanceRepository
 import br.com.khodahafez.domain.repository.remote.BountyTypeRepository
+import br.com.khodahafez.domain.repository.remote.MatchRepository
 import br.com.khodahafez.domain.repository.remote.PlayerRepository
 import br.com.khodahafez.domain.repository.remote.PositionScoreRepository
 import br.com.khodahafez.domain.usecase.balance.GetAllBalanceUseCase
 import br.com.khodahafez.domain.usecase.balance.SaveBalanceUseCase
 import br.com.khodahafez.domain.usecase.bounty_type.SaveBountyTypeUseCase
 import br.com.khodahafez.domain.usecase.login.LoginUseCase
+import br.com.khodahafez.domain.usecase.match.register.SaveMatchUseCase
 import br.com.khodahafez.domain.usecase.player.PlayerSaveUseCase
 import br.com.khodahafez.domain.usecase.position_score.GetAllPositionScoreUseCase
 import br.com.khodahafez.domain.usecase.position_score.SavePositionScoreUseCase
@@ -78,6 +80,15 @@ object UseCaseModule {
         return GetAllBalanceUseCase(
             scope = Dispatchers.IO,
             repository = repository,
+        )
+    }
+
+    fun provideSaveMatchOfPokerUseCase(
+        repository: MatchRepository
+    ): SaveMatchUseCase {
+        return SaveMatchUseCase(
+            scope = Dispatchers.IO,
+            repository = repository
         )
     }
 }

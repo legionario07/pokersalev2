@@ -39,6 +39,10 @@ internal fun navigationGraph(
         composable(route = ScreenEnum.BOUNTY_TYPE.route) {
             BountyTypeScreen()
         }
+
+        composable(route = ScreenEnum.REGISTER_MATCH.route) {
+            BountyTypeScreen()
+        }
     }
 }
 

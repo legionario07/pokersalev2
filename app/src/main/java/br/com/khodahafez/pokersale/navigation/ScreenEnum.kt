@@ -5,6 +5,10 @@ internal enum class ScreenEnum(
     val displayName: String
 ) {
 
+    REGISTER_MATCH(
+        route = ScreensConstants.REGISTER_MATCH,
+        displayName = ScreensConstants.REGISTER_MATCH_DISPLAY
+    ),
     BALANCE(
         route = ScreensConstants.BALANCE,
         displayName = ScreensConstants.BALANCE_DISPLAY
@@ -28,6 +32,7 @@ internal enum class ScreenEnum(
 }
 
 internal object ScreensConstants {
+
     const val LOGIN = "login"
     const val LOGIN_DISPLAY = "Login"
 
@@ -42,4 +47,7 @@ internal object ScreensConstants {
 
     const val BALANCE = "Balance"
     const val BALANCE_DISPLAY = "Caixa"
+
+    const val REGISTER_MATCH = "Match_Register"
+    const val REGISTER_MATCH_DISPLAY = "Nova Partida"
 }
