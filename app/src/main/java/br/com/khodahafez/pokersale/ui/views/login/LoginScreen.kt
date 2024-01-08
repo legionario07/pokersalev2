@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +27,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.pokersale.R
 import br.com.khodahafez.pokersale.ui.utils.showToast
-import br.com.khodahafez.pokersale.ui.views.components.TextField
+import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
 
 @Composable
 internal fun LoginScreen(
@@ -74,8 +76,9 @@ private fun LoginScreenContent(
             .fillMaxSize()
             .padding(horizontal = 24.dp)
     ) {
-        TextField(
+        TextFieldComponent(
             modifier = Modifier.fillMaxWidth(),
+            icon = Icons.Default.Person,
             value = login,
             onChange = {
                 login = it

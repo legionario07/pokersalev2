@@ -9,4 +9,16 @@
     <string name="poker_sale_password_hint">Digite sua senha</string>
     <string name="poker_sale_remember_label">Lembrar</string>
     <string name="poker_sale_button_label">Login</string>
+
+    <!--Match-->
+    <string name="poker_sale_match_buy_in">Buy-in</string>
+    <string name="poker_sale_match_simple_re_buy">Rebuy</string>
+    <string name="poker_sale_match_double_re_buy">Rebuy Duplo</string>
+    <string name="poker_sale_match_addon">Addon</string>
+    <string name="poker_sale_match_tax">Taxa</string>
+    <string name="poker_sale_match_ranking_number">Número do Ranking</string>
+    <string name="poker_sale_match_ranking_number_label">Ranking</string>
+    <string name="poker_sale_match_is_special_match">Partida Especial?</string>
+    <string name="poker_sale_match_register_button_label">Continuar</string>
+    <string name="poker_sale_match_register_cancel_button_label">Cancelar Partida</string>
 </resources>

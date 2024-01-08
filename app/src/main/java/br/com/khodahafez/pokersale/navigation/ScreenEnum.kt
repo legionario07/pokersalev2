@@ -1,13 +1,26 @@
 package br.com.khodahafez.pokersale.navigation
 
+import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
+import br.com.khodahafez.pokersale.navigation.ScreensConstants.REGISTER_MATCH_ARGUMENT
+
 internal enum class ScreenEnum(
     val route: String,
-    val displayName: String
+    val displayName: String,
+    val argument: String = EMPTY_STRING
 ) {
 
+    REGISTER_MATCH_DATA_USER(
+        route = ScreensConstants.REGISTER_MATCH_DATA_USER,
+        displayName = ScreensConstants.REGISTER_MATCH_DATA_USER_DISPLAY
+    ),
     REGISTER_MATCH(
         route = ScreensConstants.REGISTER_MATCH,
-        displayName = ScreensConstants.REGISTER_MATCH_DISPLAY
+        displayName = ScreensConstants.REGISTER_MATCH_DISPLAY,
+        argument = REGISTER_MATCH_ARGUMENT
+    ),
+    REGISTER_MATCH_DATA_FOR_ENTRY(
+        route = ScreensConstants.REGISTER_MATCH_DATA_ENTRY,
+        displayName = ScreensConstants.REGISTER_MATCH_DATA_ENTRY_DISPLAY
     ),
     BALANCE(
         route = ScreensConstants.BALANCE,
@@ -48,6 +61,13 @@ internal object ScreensConstants {
     const val BALANCE = "Balance"
     const val BALANCE_DISPLAY = "Caixa"
 
-    const val REGISTER_MATCH = "Match_Register"
+    const val REGISTER_MATCH_DATA_ENTRY = "Match_Register_Data_Entry"
+    const val REGISTER_MATCH_DATA_ENTRY_DISPLAY = "Nova Partida"
+
+    const val REGISTER_MATCH = "Match_Register/"
     const val REGISTER_MATCH_DISPLAY = "Nova Partida"
+    const val REGISTER_MATCH_ARGUMENT = "{idMatchCreated}"
+
+    const val REGISTER_MATCH_DATA_USER = "REGISTER_MATCH_DATA_USER"
+    const val REGISTER_MATCH_DATA_USER_DISPLAY = "Dados do Usuário"
 }

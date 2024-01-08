@@ -8,6 +8,7 @@ import br.com.khodahafez.domain.state.ResultOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlin.coroutines.CoroutineContext
 
 class SaveMatchUseCase(
@@ -15,21 +16,11 @@ class SaveMatchUseCase(
     private val repository: MatchRepository,
 ) {
 
-    fun save(matchOfPoker: MatchOfPoker): Flow<MatchOfPoker> {
-        return repository.save(matchOfPoker).map {
-            when (it) {
-                is ResultOf.Success -> {
-                    it.response
-                }
-
-                is ResultOf.Failure -> {
-                    throw it.error
-                }
-
-                else -> {
-                    null!!
-                }
+    fun save(matchOfPoker: MatchOfPoker): Flow<ResultOf<MatchOfPoker>> {
+        return repository.save(matchOfPoker)
+            .onStart {
+                emit(ResultOf.Loading(true))
             }
-        }.flowOn(scope)
+            .flowOn(scope)
     }
 }

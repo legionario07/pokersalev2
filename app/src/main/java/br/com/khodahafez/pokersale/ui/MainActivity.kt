@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -22,7 +23,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -31,11 +31,8 @@ import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import br.com.khodahafez.data.viewmodels.MainActivityViewModel
-import br.com.khodahafez.data.viewmodels.MainViewModelFactory
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.pokersale.navigation.ScreenEnum
 import br.com.khodahafez.pokersale.navigation.navigationGraph
@@ -43,13 +40,6 @@ import br.com.khodahafez.pokersale.ui.model.PlayerHelper
 import br.com.khodahafez.pokersale.ui.ui.theme.PokerSaleV2DomainTheme
 
 class MainActivity : ComponentActivity() {
-
-    private val viewModel: MainActivityViewModel by lazy {
-        ViewModelProvider(
-            this,
-            MainViewModelFactory()
-        )[MainActivityViewModel::class.java]
-    }
 
     private lateinit var navController: NavHostController
 
@@ -59,7 +49,7 @@ class MainActivity : ComponentActivity() {
             setupInitNavHostController()
             PokerSaleV2DomainTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    Column(modifier = Modifier.fillMaxSize()) {
+                    Box(modifier = Modifier.fillMaxSize()) {
                         navigationGraph(
                             navController = navController,
                             startDestination = getStartRoute()
@@ -76,7 +66,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun getStartRoute(): ScreenEnum {
-        return ScreenEnum.LOGIN
+        return ScreenEnum.REGISTER_MATCH_DATA_USER
     }
 }
 
@@ -124,7 +114,7 @@ fun CreateScreen(players: List<PlayerHelper>) {
                                     Text(
                                         text = players.indexOf(it).inc().toString(),
                                         style = MaterialTheme.typography.titleMedium
-                                        )
+                                    )
                                 }
                                 Column(
                                     modifier = Modifier
