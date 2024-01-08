@@ -33,73 +33,46 @@ class RegisterMatchViewModel(
     private val _stateUI = MutableStateFlow<RegisterMatchStateUI>(RegisterMatchStateUI.InitialState)
     val stateUI: StateFlow<RegisterMatchStateUI> = _stateUI
 
-    var ranking by mutableStateOf("")
-    var buyIn by mutableStateOf(BUY_IN)
-    var simpleReBuy by mutableStateOf(RE_BUY)
-    var doubleReBuy by mutableStateOf(DOUBLE_RE_BUY)
-    var addon by mutableStateOf(ADDON)
-    var tax by mutableStateOf(TAX)
-    var isSpecialMatch by mutableStateOf(false)
-
     fun save() {
+//
+//        if(messageValidations != EMPTY_STRING)  {
+//            _stateUI.update {
+//                RegisterMatchStateUI.Error(messageValidations)
+//            }
+//        }else {
 
-        val messageValidations = validateData()
-        if(messageValidations != EMPTY_STRING)  {
-            _stateUI.update {
-                RegisterMatchStateUI.Error(messageValidations)
-            }
-        }else {
-
-            val matchOfPoker = MatchOfPoker(
-                registeredBy = playerLogged,
-                ranking = ranking.toInt(),
-                date = Calendar.getInstance().timeInMillis.converterToStringDate(),
-                buyInValue = buyIn.toDouble(),
-                doubleReBuyValue = doubleReBuy.toDouble(),
-                reBuyValue = simpleReBuy.toDouble(),
-                addonValue = addon.toDouble(),
-                taxValue = tax.toDouble(),
-                isSpecialMatch = isSpecialMatch
-            )
-
-            viewModelScope.launch {
-                saveUseCase.save(
-                    matchOfPoker
-                ).catch {
-                    _stateUI.update {
-                        RegisterMatchStateUI.Error(PokerSaleConstants.ErrorMessage.GENERIC_ERROR)
-                    }
-                }.collect { resultOf ->
-                    when (resultOf) {
-                        is ResultOf.Success -> {
-                            _stateUI.update {
-                                RegisterMatchStateUI.SaveSuccessful(resultOf.response.id.orEmpty())
-                            }
-                        }
-
-                        is ResultOf.Failure -> {
-                            _stateUI.update {
-                                RegisterMatchStateUI.Error(resultOf.error.message)
-                            }
-                        }
-
-                        else -> {
-                            _stateUI.update {
-                                RegisterMatchStateUI.Loading
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun validateData(): String {
-        if(ranking.isEmpty() || ranking.isBlank()) {
-           return MESSAGE_ERROR_RANKING_EMPTY
-        }
-
-        return EMPTY_STRING
+//
+//
+//            viewModelScope.launch {
+//                saveUseCase.save(
+//                    matchOfPoker
+//                ).catch {
+//                    _stateUI.update {
+//                        RegisterMatchStateUI.Error(PokerSaleConstants.ErrorMessage.GENERIC_ERROR)
+//                    }
+//                }.collect { resultOf ->
+//                    when (resultOf) {
+//                        is ResultOf.Success -> {
+//                            _stateUI.update {
+//                                RegisterMatchStateUI.SaveSuccessful(resultOf.response.id.orEmpty())
+//                            }
+//                        }
+//
+//                        is ResultOf.Failure -> {
+//                            _stateUI.update {
+//                                RegisterMatchStateUI.Error(resultOf.error.message)
+//                            }
+//                        }
+//
+//                        else -> {
+//                            _stateUI.update {
+//                                RegisterMatchStateUI.Loading
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 }
 

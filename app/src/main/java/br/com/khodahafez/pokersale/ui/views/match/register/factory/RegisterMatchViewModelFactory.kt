@@ -1,4 +1,4 @@
-package br.com.khodahafez.pokersale.ui.views.match.register
+package br.com.khodahafez.pokersale.ui.views.match.register.factory
 
 import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
@@ -7,6 +7,7 @@ import br.com.khodahafez.domain.utils.Session
 import br.com.khodahafez.pokersale.di.FirebaseModule
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
+import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchViewModel
 
 class RegisterMatchViewModelFactory : ViewModelProvider.Factory {
 

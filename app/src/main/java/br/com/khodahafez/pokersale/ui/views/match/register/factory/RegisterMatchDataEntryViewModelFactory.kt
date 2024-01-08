@@ -1,4 +1,4 @@
-package br.com.khodahafez.pokersale.ui.views.match.register
+package br.com.khodahafez.pokersale.ui.views.match.register.factory
 
 import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
@@ -7,8 +7,9 @@ import br.com.khodahafez.domain.utils.Session
 import br.com.khodahafez.pokersale.di.FirebaseModule
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
+import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchDataEntryViewModel
 
-class RegisterMatchDataUserModelFactory : ViewModelProvider.Factory {
+class RegisterMatchDataEntryViewModelFactory : ViewModelProvider.Factory {
 
     @NonNull
     @Override
@@ -19,7 +20,7 @@ class RegisterMatchDataUserModelFactory : ViewModelProvider.Factory {
 
         val saveUseCase = UseCaseModule.provideSaveMatchOfPokerUseCase(repository)
 
-        return RegisterMatchDataUserViewModel(
+        return RegisterMatchDataEntryViewModel(
             playerLogged = Session.player,
             saveUseCase = saveUseCase
         ) as T

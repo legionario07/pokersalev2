@@ -5,8 +5,7 @@ import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.usecase.match.register.SaveMatchUseCase
 
 class RegisterMatchDataUserViewModel(
-    private val playerLogged: Player?,
-    private val saveUseCase: SaveMatchUseCase,
 ): ViewModel() {
+
 
 }

@@ -12,7 +12,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,10 +27,11 @@ import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
 import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
 import br.com.khodahafez.pokersale.ui.views.login.LabeledCheckBox
+import br.com.khodahafez.pokersale.ui.views.match.register.factory.RegisterMatchDataEntryViewModelFactory
 
 @Composable
 fun RegisterMatchDataEntryScreen(
-    viewModel: RegisterMatchViewModel = viewModel(factory = RegisterMatchViewModelFactory()),
+    viewModel: RegisterMatchDataEntryViewModel = viewModel(factory = RegisterMatchDataEntryViewModelFactory()),
     onContinueFlow: (String) -> Unit
 ) {
     val stateUI by viewModel.stateUI.collectAsState()
@@ -41,19 +41,19 @@ fun RegisterMatchDataEntryScreen(
     }
 
     when (val result = stateUI) {
-        is RegisterMatchStateUI.InitialState -> {
+        is RegisterMatchDataEntryStateUI.InitialDataEntryState -> {
             // Do Noting
         }
 
-        is RegisterMatchStateUI.SaveSuccessful -> {
+        is RegisterMatchDataEntryStateUI.SaveSuccessful -> {
             onContinueFlow(result.idMatchCreated)
         }
 
-        is RegisterMatchStateUI.Loading -> {
+        is RegisterMatchDataEntryStateUI.Loading -> {
            loading = true
         }
 
-        is RegisterMatchStateUI.Error -> {
+        is RegisterMatchDataEntryStateUI.Error -> {
             loading = false
             context.showToast(result.message)
         }
@@ -68,7 +68,7 @@ fun RegisterMatchDataEntryScreen(
 
 @Composable
 fun RegisterMatchScreenContent(
-    viewModel: RegisterMatchViewModel,
+    viewModel: RegisterMatchDataEntryViewModel,
     onClick: () -> Unit
 ) {
 
