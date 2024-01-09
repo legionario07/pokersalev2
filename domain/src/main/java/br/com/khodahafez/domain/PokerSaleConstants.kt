@@ -18,4 +18,8 @@ object PokerSaleConstants {
 
         const val MESSAGE_ERROR_RANKING_EMPTY = "Digite um valor para o ranking"
     }
+
+    object Domain {
+        const val MIN_PLAYERS_FOR_MATCH = 6
+    }
 }

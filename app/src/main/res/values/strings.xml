@@ -24,4 +24,5 @@
     <string name="poker_sale_match_register_add_player">Incluir Jogador</string>
     <string name="poker_sale_match_register_remove_player">Remover Jogador</string>
     <string name="poker_sale_match_register_save_label">Salvar</string>
+    <string name="poker_sale_match_register_label">Cadastrar Partida</string>
 </resources>

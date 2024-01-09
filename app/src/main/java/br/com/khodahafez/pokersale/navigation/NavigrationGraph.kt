@@ -45,13 +45,21 @@ internal fun navigationGraph(
         }
 
         composable(route = ScreenEnum.REGISTER_MATCH_DATA_FOR_ENTRY.route) {
-            RegisterMatchDataEntryScreen(
-                onContinueFlow = { idCreatedMatch ->
-                    navController.navigate(
-                        ScreenEnum.REGISTER_MATCH.route.plus(idCreatedMatch)
-                    )
-                }
+            RegisterMatchScreen(
+                idMatchCreated = "fafasf",
+//                onClickInCardPlayer = {
+//                    navController.navigate(
+//                        ScreenEnum.REGISTER_MATCH_DATA_USER.route.plus()
+//                    )
+//                }
             )
+//            RegisterMatchDataEntryScreen(
+//                onContinueFlow = { idCreatedMatch ->
+//                    navController.navigate(
+//                        ScreenEnum.REGISTER_MATCH.route.plus(idCreatedMatch)
+//                    )
+//                }
+//            )
         }
 
         composable(route = ScreenEnum.REGISTER_MATCH.route.plus(ScreensConstants.REGISTER_MATCH_ARGUMENT)) { backStackEntry ->

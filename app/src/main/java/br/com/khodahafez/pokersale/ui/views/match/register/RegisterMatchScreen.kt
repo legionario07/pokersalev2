@@ -22,7 +22,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.khodahafez.domain.PokerSaleConstants.Domain.MIN_PLAYERS_FOR_MATCH
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.pokersale.R
 import br.com.khodahafez.pokersale.ui.utils.showToast
@@ -73,6 +76,10 @@ fun RegisterMatchScreen(
         mutableStateOf(false)
     }
 
+    val isShowButtonSave = remember {
+        derivedStateOf { playersSelected.size >= MIN_PLAYERS_FOR_MATCH }
+    }
+
     val context = LocalContext.current
     var loading by remember {
         mutableStateOf(false)
@@ -108,6 +115,7 @@ fun RegisterMatchScreen(
     }
 
     RegisterMatchContentScreen(
+        isShowButtonSave = isShowButtonSave,
         onClickRemove = { isShowDialogRemovePlayer.value = true }
     ) {
         isShowDialogAddPlayer.value = true
@@ -158,6 +166,7 @@ fun RegisterMatchScreen(
 
 @Composable
 fun RegisterMatchContentScreen(
+    isShowButtonSave: State<Boolean>,
     onClickRemove: () -> Unit,
     onClickAdd: () -> Unit,
 ) {
@@ -172,32 +181,51 @@ fun RegisterMatchContentScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    bottom = 12.dp
-                ),
-            onClick = {
-                onClickRemove()
-            },
-            colors = buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondary
-            ),
-            shape = RoundedCornerShape(5.dp),
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(stringResource(id = R.string.poker_sale_match_register_remove_player))
+
+            Button(
+                modifier = Modifier
+                    .weight(1f),
+                onClick = {
+                    onClickRemove()
+                },
+                colors = buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary
+                ),
+                shape = RoundedCornerShape(5.dp),
+            ) {
+                Text(stringResource(id = R.string.poker_sale_match_register_remove_player))
+            }
+
+            Button(
+                modifier = Modifier
+                    .weight(1f),
+                onClick = {
+                    onClickAdd()
+                },
+                colors = buttonColors(
+                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
+                shape = RoundedCornerShape(5.dp),
+            ) {
+                Text(stringResource(id = R.string.poker_sale_match_register_add_player))
+            }
         }
 
-        Button(
-            modifier = Modifier
-                .fillMaxWidth(),
-            onClick = {
-                onClickAdd()
-            },
-            shape = RoundedCornerShape(5.dp),
-        ) {
-            Text(stringResource(id = R.string.poker_sale_match_register_add_player))
+        if (isShowButtonSave.value) {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                onClick = {
+                    // TODO
+                },
+                shape = RoundedCornerShape(5.dp),
+            ) {
+                Text(stringResource(id = R.string.poker_sale_match_register_label))
+            }
         }
     }
 }
@@ -252,17 +280,16 @@ private fun PlayersListContent(
                         ) {
                             Text(
                                 text = player.name,
-                                style = MaterialTheme.typography.titleMedium
+                                style = MaterialTheme.typography.titleSmall
                             )
                         }
                         Text(
                             text = player.id.orEmpty(),
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleSmall
                         )
                     }
                 }
             }
         }
     }
-
 }
