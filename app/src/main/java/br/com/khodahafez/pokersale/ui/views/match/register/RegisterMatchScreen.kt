@@ -34,8 +34,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.PokerSaleConstants.Domain.MIN_PLAYERS_FOR_MATCH
 import br.com.khodahafez.domain.model.Player
@@ -52,16 +56,26 @@ fun RegisterMatchScreen(
 //    onClickInCardPlayer: (Player) -> Unit,
 ) {
 
+    val context = LocalContext.current
+
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+
+    LaunchedEffect(key1 = Unit) {
+        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+            viewModel.getMatchById(idMatchCreated)
+        }
+    }
+
     val players = remember {
-        mutableStateListOf<Player>()
+        mutableStateListOf<RegisterMatchScreenModel>()
+    }
+
+    val playersWithExpanse = remember {
+        mutableStateListOf<RegisterMatchScreenModel>()
     }
 
     val playerClicked = remember {
-        mutableStateOf<Player>(Player())
-    }
-
-    val playersSelected = remember {
-        mutableStateListOf<Player>()
+        mutableStateOf(Player())
     }
 
     val isShowDialogAddPlayer = remember {
@@ -77,19 +91,14 @@ fun RegisterMatchScreen(
     }
 
     val isShowButtonSave = remember {
-        derivedStateOf { playersSelected.size >= MIN_PLAYERS_FOR_MATCH }
+        derivedStateOf { playersWithExpanse.size >= MIN_PLAYERS_FOR_MATCH }
     }
 
-    val context = LocalContext.current
     var loading by remember {
         mutableStateOf(false)
     }
 
     val uiState by viewModel.stateUI.collectAsState()
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.getAllPlayers()
-    }
 
     when (val result = uiState) {
         is RegisterMatchStateUI.InitialState -> {
@@ -106,7 +115,9 @@ fun RegisterMatchScreen(
 
         is RegisterMatchStateUI.GetAllUsersState -> {
             loading = false
-            players.addAll(result.players)
+            players.addAll(result.players.map {
+                RegisterMatchScreenModel(player = it)
+            })
         }
 
         is RegisterMatchStateUI.SaveSuccessful -> {
@@ -114,18 +125,27 @@ fun RegisterMatchScreen(
         }
     }
 
+    if (playersWithExpanse.isEmpty()) {
+        DisclaimerScreen()
+    }
+
     RegisterMatchContentScreen(
         isShowButtonSave = isShowButtonSave,
-        onClickRemove = { isShowDialogRemovePlayer.value = true }
+        onClickSave = {
+            println(playersWithExpanse)
+        },
+        onClickRemove = {
+            isShowDialogRemovePlayer.value = true
+        }
     ) {
         isShowDialogAddPlayer.value = true
     }
 
     if (isShowDialogAddPlayer.value) {
         SingleSelectDialog(
-            optionsList = players.minus(playersSelected),
+            optionsList = players.minus(playersWithExpanse),
             onSubmitButtonClick = { playerSelected ->
-                playersSelected.add(playerSelected)
+                playersWithExpanse.add(RegisterMatchScreenModel(playerSelected))
                 isShowDialogAddPlayer.value = false
             },
             onDismissRequest = {
@@ -136,9 +156,12 @@ fun RegisterMatchScreen(
 
     if (isShowDialogRemovePlayer.value) {
         SingleSelectDialog(
-            optionsList = playersSelected,
+            optionsList = playersWithExpanse,
             onSubmitButtonClick = { playerRemoved ->
-                playersSelected.remove(playerRemoved)
+//                playersSelected.remove(playerRemoved)
+                playersWithExpanse.removeIf {
+                    it.player == playerRemoved
+                }
                 isShowDialogRemovePlayer.value = false
             },
             onDismissRequest = {
@@ -153,20 +176,52 @@ fun RegisterMatchScreen(
             onDismissRequest = {
                 isShowDialogExpense.value = false
             }
-        ) {
-            println("Sai")
+        ) { registerMatchDataUserScreenModel ->
+            playersWithExpanse.removeIf {
+                it.player.id == playerClicked.value.id
+            }
+            playersWithExpanse.add(
+                RegisterMatchScreenModel(
+                    player = playerClicked.value,
+                    totalEntries = viewModel.calculateExpense(
+                        registerMatchDataUserScreenModel
+                    )
+                )
+            )
         }
     }
 
-    PlayersListContent(players = playersSelected) { player ->
+    PlayersListContent(players = playersWithExpanse) { player ->
         playerClicked.value = player
         isShowDialogExpense.value = true
     }
 }
 
 @Composable
+private fun DisclaimerScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                top = 42.dp,
+                start = 24.dp,
+                end = 24.dp
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(id = R.string.poker_sale_disclaimer),
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
 fun RegisterMatchContentScreen(
     isShowButtonSave: State<Boolean>,
+    onClickSave: () -> Unit,
     onClickRemove: () -> Unit,
     onClickAdd: () -> Unit,
 ) {
@@ -220,7 +275,7 @@ fun RegisterMatchContentScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 onClick = {
-                    // TODO
+                    onClickSave()
                 },
                 shape = RoundedCornerShape(5.dp),
             ) {
@@ -232,7 +287,7 @@ fun RegisterMatchContentScreen(
 
 @Composable
 private fun PlayersListContent(
-    players: List<Player>,
+    players: List<RegisterMatchScreenModel>,
     onClickCard: (Player) -> Unit
 ) {
 
@@ -253,13 +308,13 @@ private fun PlayersListContent(
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
         LazyColumn {
-            items(players) { player ->
+            items(players) { registerMatchScreenModel ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(70.dp)
                         .padding(6.dp)
-                        .clickable(onClick = { onClickCard(player) }),
+                        .clickable(onClick = { onClickCard(registerMatchScreenModel.player) }),
                     shape = RoundedCornerShape(6.dp),
                     elevation = CardDefaults.cardElevation(4.dp)
                 ) {
@@ -279,12 +334,12 @@ private fun PlayersListContent(
                             verticalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                text = player.name,
+                                text = registerMatchScreenModel.player.name,
                                 style = MaterialTheme.typography.titleSmall
                             )
                         }
                         Text(
-                            text = player.id.orEmpty(),
+                            text = registerMatchScreenModel.totalEntries.toString(),
                             style = MaterialTheme.typography.titleSmall
                         )
                     }
@@ -293,3 +348,8 @@ private fun PlayersListContent(
         }
     }
 }
+
+data class RegisterMatchScreenModel(
+    val player: Player,
+    val totalEntries: Double = 0.0,
+)

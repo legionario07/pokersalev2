@@ -3,8 +3,11 @@ package br.com.khodahafez.pokersale.ui.views.match.register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.khodahafez.domain.PokerSaleConstants
+import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
+import br.com.khodahafez.domain.model.MatchOfPoker
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.state.ResultOf
+import br.com.khodahafez.domain.usecase.match.register.GetMatchUseCase
 import br.com.khodahafez.domain.usecase.match.register.SaveMatchUseCase
 import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,11 +19,40 @@ import kotlinx.coroutines.launch
 class RegisterMatchViewModel(
     private val playerLogged: Player?,
     private val saveUseCase: SaveMatchUseCase,
+    private val getMatchUseCase: GetMatchUseCase,
     private val getAllPlayerUseCase: GetAllPlayerUseCase
 ) : ViewModel() {
 
     private val _stateUI = MutableStateFlow<RegisterMatchStateUI>(RegisterMatchStateUI.InitialState)
     val stateUI: StateFlow<RegisterMatchStateUI> = _stateUI
+
+    private var matchOfPoker: MatchOfPoker? = null
+
+    init {
+        getAllPlayers()
+    }
+
+    fun getMatchById(idMatch: String) {
+        viewModelScope.launch {
+            getMatchUseCase.getById(idMatch)
+                .catch {
+                    _stateUI.update {
+                        RegisterMatchStateUI.Error(PokerSaleConstants.ErrorMessage.GENERIC_ERROR)
+                    }
+                }
+                .collect { resultOf ->
+                    when (resultOf) {
+                        is ResultOf.Success -> {
+                            matchOfPoker = resultOf.response
+                        }
+
+                        else -> {
+                            // Do Nothing
+                        }
+                    }
+                }
+        }
+    }
 
     fun getAllPlayers() {
         viewModelScope.launch {
@@ -51,6 +83,21 @@ class RegisterMatchViewModel(
                     }
                 }
         }
+    }
+
+    fun calculateExpense(
+        registerMatchDataUserScreenModel: RegisterMatchDataUserScreenModel
+    ): Double {
+        var total = 0.0
+        with(registerMatchDataUserScreenModel) {
+            total += buyInCounter * matchOfPoker?.buyInValue!!
+            total += reBuyCounter * matchOfPoker?.reBuyValue!!
+            total += doubleReBuyCounter * matchOfPoker?.doubleReBuyValue!!
+            total += addonCounter * matchOfPoker?.addonValue!!
+            total += taxCounter * matchOfPoker?.taxValue!!
+        }
+
+        return total
     }
 }
 

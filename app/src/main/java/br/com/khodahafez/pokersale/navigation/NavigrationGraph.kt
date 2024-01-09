@@ -46,7 +46,7 @@ internal fun navigationGraph(
 
         composable(route = ScreenEnum.REGISTER_MATCH_DATA_FOR_ENTRY.route) {
             RegisterMatchScreen(
-                idMatchCreated = "fafasf",
+                idMatchCreated = "-Nni6R4NaoiA3ciZ849w",
 //                onClickInCardPlayer = {
 //                    navController.navigate(
 //                        ScreenEnum.REGISTER_MATCH_DATA_USER.route.plus()

@@ -74,7 +74,11 @@ class MatchRepositoryImpl(
                 val listener = object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            trySend(ResultOf.Success(dataSnapshot.children.first().getValue<MatchOfPoker>()!!))
+                            trySend(
+                                ResultOf.Success(
+                                    dataSnapshot.children.first().getValue<MatchOfPoker>()!!
+                                )
+                            )
                         } else {
                             trySend(
                                 ResultOf.Failure(
@@ -104,7 +108,13 @@ class MatchRepositoryImpl(
                 val listener = object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            trySend(ResultOf.Success(dataSnapshot.children as List<MatchOfPoker>))
+                            val listMatches: MutableList<MatchOfPoker> = dataSnapshot.children.map {
+                                it.getValue<MatchOfPoker>()!!
+                            }.toMutableList()
+
+                            trySend(
+                                ResultOf.Success(listMatches)
+                            )
                         } else {
                             trySend(
                                 ResultOf.Failure(

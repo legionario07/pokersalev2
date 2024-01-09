@@ -49,7 +49,6 @@ fun RegisterMatchDataUserScreen(
 
     RegisterMatchDataUserContentScreen(
         player = player,
-        expense = expense
     ) {
 
     }
@@ -58,8 +57,7 @@ fun RegisterMatchDataUserScreen(
 @Composable
 fun RegisterMatchDataUserContentScreen(
     player: Player,
-    expense: MutableState<Expenses>,
-    onClickSave: (Expenses) -> Unit,
+    onClickSave: (RegisterMatchDataUserScreenModel) -> Unit,
 ) {
 
     val reBuyCounter = remember {
@@ -159,7 +157,14 @@ fun RegisterMatchDataUserContentScreen(
                     all = 24.dp
                 ),
             onClick = {
-              onClickSave(Expenses())
+                onClickSave(
+                    RegisterMatchDataUserScreenModel(
+                        reBuyCounter = reBuyCounter.value,
+                        doubleReBuyCounter = doubleReBuyCounter.value,
+                        addonCounter = addonCounter.value,
+                        taxCounter = taxCounter.value
+                    )
+                )
             },
             shape = RoundedCornerShape(5.dp),
         ) {
@@ -217,8 +222,18 @@ private fun RowEntryValue(
             imageVector = Icons.Default.Add,
             isEnabled = isEnabled,
             size = 24.dp
-        ) { onClickAdd(
-            value
-        ) }
+        ) {
+            onClickAdd(
+                value
+            )
+        }
     }
 }
+
+data class RegisterMatchDataUserScreenModel(
+    val buyInCounter: Int = 1,
+    val reBuyCounter: Int,
+    val doubleReBuyCounter: Int,
+    val addonCounter: Int,
+    val taxCounter: Int,
+)

@@ -36,6 +36,8 @@ import androidx.compose.ui.window.Dialog
 import br.com.khodahafez.domain.model.Expenses
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchDataUserContentScreen
+import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchDataUserScreenModel
+import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchScreenModel
 
 @Composable
 fun ItemAlertDialog(
@@ -124,7 +126,7 @@ fun ItemAlertDialog(
 
 @Composable
 fun SingleSelectDialog(
-    optionsList: List<Player>,
+    optionsList: List<RegisterMatchScreenModel>,
     onSubmitButtonClick: (Player) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
@@ -146,7 +148,7 @@ fun SingleSelectDialog(
                 LazyColumn {
                     items(optionsList) { item ->
                         RadioButtonItem(
-                            item,
+                            item.player,
                             optionsList.getOrNull(selectedIndex.value)
                         ) { selectedValue ->
                             onSubmitButtonClick(selectedValue)
@@ -159,11 +161,11 @@ fun SingleSelectDialog(
 }
 
 @Composable
-fun RadioButtonItem(player: Player, selectedValue: Player?, onClickListener: (Player) -> Unit) {
+fun RadioButtonItem(player: Player, selectedValue: RegisterMatchScreenModel?, onClickListener: (Player) -> Unit) {
     Row(Modifier
         .fillMaxWidth()
         .selectable(
-            selected = (player.name == selectedValue?.name.orEmpty()),
+            selected = (player.name == selectedValue?.player?.name.orEmpty()),
             onClick = {
                 onClickListener(player)
             }
@@ -171,7 +173,7 @@ fun RadioButtonItem(player: Player, selectedValue: Player?, onClickListener: (Pl
         verticalAlignment = Alignment.CenterVertically
     ) {
         RadioButton(
-            selected = (player.name == selectedValue?.name.orEmpty()),
+            selected = (player.name == selectedValue?.player?.name.orEmpty()),
             onClick = {
                 onClickListener(player)
             }
@@ -184,27 +186,20 @@ fun RadioButtonItem(player: Player, selectedValue: Player?, onClickListener: (Pl
     }
 }
 
-
 @Composable
 fun FillDataUserDialog(
     player: Player,
     onDismissRequest: () -> Unit,
-    onClickSave: (Expenses) -> Unit
+    onClickSave: (RegisterMatchDataUserScreenModel) -> Unit
 ) {
 
-    val expense = remember {
-        mutableStateOf(Expenses())
-    }
-
-
-    Dialog(onDismissRequest = { onDismissRequest()}) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
         Surface(
             modifier = Modifier.fillMaxHeight(0.7f),
             shape = RoundedCornerShape(10.dp)
         ) {
             RegisterMatchDataUserContentScreen(
                 player = player,
-                expense = expense
             ) {
                 onDismissRequest()
                 onClickSave(it)

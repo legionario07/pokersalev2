@@ -8,13 +8,13 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlin.coroutines.CoroutineContext
 
-class SaveMatchUseCase(
+class GetMatchUseCase(
     private val scope: CoroutineContext,
     private val repository: MatchRepository,
 ) {
 
-    fun save(matchOfPoker: MatchOfPoker): Flow<ResultOf<MatchOfPoker>> {
-        return repository.save(matchOfPoker)
+    fun getById(id: String): Flow<ResultOf<MatchOfPoker>> {
+        return repository.getById(id)
             .onStart {
                 emit(ResultOf.Loading(true))
             }

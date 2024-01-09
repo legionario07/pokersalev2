@@ -17,16 +17,17 @@ class RegisterMatchViewModelFactory : ViewModelProvider.Factory {
         val dbReferences = FirebaseModule.provideFirebaseReference("/matches")
         val dbReferencesPlayers = FirebaseModule.provideFirebaseReference("/users")
 
-        val repository = RepositoryModule.provideMatchOfPokerRepository(dbReferences)
+        val repositoryMatch = RepositoryModule.provideMatchOfPokerRepository(dbReferences)
         val repositoryPlayer = RepositoryModule.providePlayerRepository(dbReferencesPlayers)
 
-        val saveUseCase = UseCaseModule.provideSaveMatchOfPokerUseCase(repository)
-
+        val saveUseCase = UseCaseModule.provideSaveMatchOfPokerUseCase(repositoryMatch)
         val getAllPlayerUseCase = UseCaseModule.provideGetAllPlayerUseCase(repositoryPlayer)
+        val getMatchUseCase = UseCaseModule.provideGetMatchUseCase(repositoryMatch)
 
         return RegisterMatchViewModel(
             playerLogged = Session.player,
             saveUseCase = saveUseCase,
+            getMatchUseCase = getMatchUseCase,
             getAllPlayerUseCase = getAllPlayerUseCase,
         ) as T
     }
