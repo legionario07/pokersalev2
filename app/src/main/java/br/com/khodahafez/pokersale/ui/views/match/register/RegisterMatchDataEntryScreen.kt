@@ -47,6 +47,7 @@ fun RegisterMatchDataEntryScreen(
 
         is RegisterMatchDataEntryStateUI.SaveSuccessful -> {
             onContinueFlow(result.idMatchCreated)
+            viewModel.clearState()
         }
 
         is RegisterMatchDataEntryStateUI.Loading -> {

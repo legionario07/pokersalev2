@@ -1,8 +1,10 @@
 package br.com.khodahafez.data.repository.firebase
 
+import br.com.khodahafez.domain.errors.NotFoundEntityException
 import br.com.khodahafez.domain.errors.NotFoundUserException
 import br.com.khodahafez.domain.errors.PasswordUserException
 import br.com.khodahafez.domain.errors.PokerSaleV2Error
+import br.com.khodahafez.domain.model.Balance
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.repository.remote.PlayerRepository
 import br.com.khodahafez.domain.state.ResultOf
@@ -86,6 +88,42 @@ class PlayerRepositoryImpl(
 
                 awaitClose {
                     query.removeEventListener(listener)
+                }
+            }.onFailure {
+                trySend((ResultOf.Failure(it)))
+            }
+        }
+    }
+
+    override fun getAll(): Flow<ResultOf<List<Player>>> {
+        return callbackFlow {
+            kotlin.runCatching {
+                val listener = object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                                    val listPlayer: MutableList<Player> = dataSnapshot.children.map {
+                                        it.getValue<Player>()!!
+                                    }.toMutableList()
+
+                            trySend(
+                                ResultOf.Success(listPlayer)
+                            )
+                        } else {
+                            trySend(
+                                ResultOf.Failure(
+                                    NotFoundEntityException()
+                                )
+                            )
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                }
+
+                databaseReference.addListenerForSingleValueEvent(listener)
+
+                awaitClose {
+                    databaseReference.removeEventListener(listener)
                 }
             }.onFailure {
                 trySend((ResultOf.Failure(it)))

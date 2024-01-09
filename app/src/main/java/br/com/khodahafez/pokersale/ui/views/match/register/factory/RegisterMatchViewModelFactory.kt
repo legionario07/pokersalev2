@@ -15,14 +15,19 @@ class RegisterMatchViewModelFactory : ViewModelProvider.Factory {
     @Override
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val dbReferences = FirebaseModule.provideFirebaseReference("/matches")
+        val dbReferencesPlayers = FirebaseModule.provideFirebaseReference("/users")
 
         val repository = RepositoryModule.provideMatchOfPokerRepository(dbReferences)
+        val repositoryPlayer = RepositoryModule.providePlayerRepository(dbReferencesPlayers)
 
         val saveUseCase = UseCaseModule.provideSaveMatchOfPokerUseCase(repository)
 
+        val getAllPlayerUseCase = UseCaseModule.provideGetAllPlayerUseCase(repositoryPlayer)
+
         return RegisterMatchViewModel(
             playerLogged = Session.player,
-            saveUseCase = saveUseCase
+            saveUseCase = saveUseCase,
+            getAllPlayerUseCase = getAllPlayerUseCase,
         ) as T
     }
 }

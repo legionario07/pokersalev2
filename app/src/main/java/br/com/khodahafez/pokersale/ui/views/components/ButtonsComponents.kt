@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 
 @Composable
-fun IconButton(
+fun IconButtonComponent(
     modifier: Modifier = Modifier,
     imageVector: ImageVector,
     isEnabled: Boolean = true,

@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun getStartRoute(): ScreenEnum {
-        return ScreenEnum.REGISTER_MATCH_DATA_USER
+        return ScreenEnum.REGISTER_MATCH_DATA_FOR_ENTRY
     }
 }
 

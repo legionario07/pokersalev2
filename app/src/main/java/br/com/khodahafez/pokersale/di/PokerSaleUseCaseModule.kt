@@ -10,6 +10,7 @@ import br.com.khodahafez.domain.usecase.balance.SaveBalanceUseCase
 import br.com.khodahafez.domain.usecase.bounty_type.SaveBountyTypeUseCase
 import br.com.khodahafez.domain.usecase.login.LoginUseCase
 import br.com.khodahafez.domain.usecase.match.register.SaveMatchUseCase
+import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
 import br.com.khodahafez.domain.usecase.player.PlayerSaveUseCase
 import br.com.khodahafez.domain.usecase.position_score.GetAllPositionScoreUseCase
 import br.com.khodahafez.domain.usecase.position_score.SavePositionScoreUseCase
@@ -89,6 +90,15 @@ object UseCaseModule {
         return SaveMatchUseCase(
             scope = Dispatchers.IO,
             repository = repository
+        )
+    }
+
+    fun provideGetAllPlayerUseCase(
+        repository: PlayerRepository,
+    ): GetAllPlayerUseCase {
+        return GetAllPlayerUseCase(
+            scope = Dispatchers.IO,
+            repository = repository,
         )
     }
 }

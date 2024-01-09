@@ -21,4 +21,7 @@
     <string name="poker_sale_match_is_special_match">Partida Especial?</string>
     <string name="poker_sale_match_register_button_label">Continuar</string>
     <string name="poker_sale_match_register_cancel_button_label">Cancelar Partida</string>
+    <string name="poker_sale_match_register_add_player">Incluir Jogador</string>
+    <string name="poker_sale_match_register_remove_player">Remover Jogador</string>
+    <string name="poker_sale_match_register_save_label">Salvar</string>
 </resources>

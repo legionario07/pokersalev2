@@ -18,4 +18,6 @@ interface PlayerRepository {
         login: String,
         password: String
     ): Flow<ResultOf<Player>>
+
+    fun getAll(): Flow<ResultOf<List<Player>>>
 }

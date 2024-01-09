@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.pokersale.ui.CreateScreen
 import br.com.khodahafez.pokersale.ui.views.bounty_type.BountyTypeScreen
 import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
@@ -57,12 +58,25 @@ internal fun navigationGraph(
             RegisterMatchScreen(
                 idMatchCreated = backStackEntry.arguments?.getString(
                     "idMatchCreated"
-                ).orEmpty()
+                ).orEmpty(),
+//                onClickInCardPlayer = {
+//                    navController.navigate(
+//                        ScreenEnum.REGISTER_MATCH_DATA_USER.route.plus()
+//                    )
+//                }
             )
         }
 
-        composable(route = ScreenEnum.REGISTER_MATCH_DATA_USER.route) {
-            RegisterMatchDataUserScreen()
+        composable(
+            route = ScreenEnum.REGISTER_MATCH_DATA_USER.route.plus(
+                ScreensConstants.REGISTER_MATCH_DATA_USER_ARGUMENT
+            )
+        ) { backStackEntry ->
+//            RegisterMatchDataUserScreen(
+//                player = backStackEntry.arguments?.getParcelable(
+//                    "player", Player::class.java
+//                )as Player
+//            )
         }
     }
 }

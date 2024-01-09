@@ -30,7 +30,8 @@ class RegisterMatchDataEntryViewModel(
     private val saveUseCase: SaveMatchUseCase,
 ) : ViewModel() {
 
-    private val _stateUI = MutableStateFlow<RegisterMatchDataEntryStateUI>(RegisterMatchDataEntryStateUI.InitialDataEntryState)
+    private val _stateUI =
+        MutableStateFlow<RegisterMatchDataEntryStateUI>(RegisterMatchDataEntryStateUI.InitialDataEntryState)
     val stateUI: StateFlow<RegisterMatchDataEntryStateUI> = _stateUI
 
     var ranking by mutableStateOf("")
@@ -44,11 +45,11 @@ class RegisterMatchDataEntryViewModel(
     fun save() {
 
         val messageValidations = validateData()
-        if(messageValidations != EMPTY_STRING)  {
+        if (messageValidations != EMPTY_STRING) {
             _stateUI.update {
                 RegisterMatchDataEntryStateUI.Error(messageValidations)
             }
-        }else {
+        } else {
 
             val matchOfPoker = MatchOfPoker(
                 registeredBy = playerLogged,
@@ -95,11 +96,15 @@ class RegisterMatchDataEntryViewModel(
     }
 
     private fun validateData(): String {
-        if(ranking.isEmpty() || ranking.isBlank()) {
-           return MESSAGE_ERROR_RANKING_EMPTY
+        if (ranking.isEmpty() || ranking.isBlank()) {
+            return MESSAGE_ERROR_RANKING_EMPTY
         }
 
         return EMPTY_STRING
+    }
+
+    fun clearState() {
+        _stateUI.update { RegisterMatchDataEntryStateUI.InitialDataEntryState }
     }
 }
 

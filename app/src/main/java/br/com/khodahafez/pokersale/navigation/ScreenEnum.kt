@@ -11,7 +11,8 @@ internal enum class ScreenEnum(
 
     REGISTER_MATCH_DATA_USER(
         route = ScreensConstants.REGISTER_MATCH_DATA_USER,
-        displayName = ScreensConstants.REGISTER_MATCH_DATA_USER_DISPLAY
+        displayName = ScreensConstants.REGISTER_MATCH_DATA_USER_DISPLAY,
+        argument = ScreensConstants.REGISTER_MATCH_DATA_USER_ARGUMENT,
     ),
     REGISTER_MATCH(
         route = ScreensConstants.REGISTER_MATCH,
@@ -68,6 +69,7 @@ internal object ScreensConstants {
     const val REGISTER_MATCH_DISPLAY = "Nova Partida"
     const val REGISTER_MATCH_ARGUMENT = "{idMatchCreated}"
 
-    const val REGISTER_MATCH_DATA_USER = "REGISTER_MATCH_DATA_USER"
+    const val REGISTER_MATCH_DATA_USER = "REGISTER_MATCH_DATA_USER/"
     const val REGISTER_MATCH_DATA_USER_DISPLAY = "Dados do Usuário"
+    const val REGISTER_MATCH_DATA_USER_ARGUMENT = "{player}"
 }
