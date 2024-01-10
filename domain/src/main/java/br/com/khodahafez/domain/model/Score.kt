@@ -9,5 +9,5 @@ data class Score(
     val positionInTheMatch: Int,
     var pointsForPosition: Int = 0,
     var difficultyScore: Int = 0,
-    val pointsForParticipation: Int = 3,
+    val pointsForParticipation: Int = 0,
 )
