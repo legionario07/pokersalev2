@@ -167,8 +167,6 @@ fun RegisterMatchDataUserContentScreen(
             }
         )
 
-        val context = LocalContext.current
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -266,7 +264,6 @@ fun RegisterMatchDataUserContentScreen(
             Text(stringResource(id = R.string.poker_sale_match_register_save_label))
         }
     }
-
 }
 
 @Composable

@@ -6,6 +6,7 @@ import br.com.khodahafez.domain.state.ResultOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlin.coroutines.CoroutineContext
 
 class SaveBalanceUseCase(
@@ -13,21 +14,10 @@ class SaveBalanceUseCase(
     private val repository: BalanceRepository,
 ) {
 
-    fun save(balance: Balance): Flow<Balance> {
-        return repository.save(balance).map {
-            when (it) {
-                is ResultOf.Success -> {
-                    it.response
-                }
-
-                is ResultOf.Failure -> {
-                    throw it.error
-                }
-
-                else -> {
-                    null!!
-                }
-            }
-        }.flowOn(scope)
+    fun save(balance: Balance): Flow<ResultOf<Balance>> {
+        return repository.save(balance)
+            .onStart {
+                emit(ResultOf.Loading(true))
+            }.flowOn(scope)
     }
 }

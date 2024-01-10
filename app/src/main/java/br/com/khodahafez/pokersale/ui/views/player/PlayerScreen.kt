@@ -1,4 +1,4 @@
-package br.com.khodahafez.pokersale.ui.views.login
+package br.com.khodahafez.pokersale.ui.views.player
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -24,19 +25,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.pokersale.R
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
 import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
+import br.com.khodahafez.pokersale.ui.views.login.LabeledCheckBox
+import br.com.khodahafez.pokersale.ui.views.login.PasswordField
 
 @Composable
-internal fun LoginScreen(
-    viewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory()),
-    onLoginSuccessful: (Player) -> Unit
-) {
+fun PlayerScreen(
+    viewModel: PlayerViewModel = viewModel(factory = PlayerViewModelFactory()),
 
-    val loginStateUI by viewModel.loginStateUI.collectAsState()
+    ) {
+
+    val loginStateUI by viewModel.playerStateUI.collectAsState()
     val context = LocalContext.current
 
     var loading by remember {
@@ -44,27 +47,31 @@ internal fun LoginScreen(
     }
 
     when (val result = loginStateUI) {
-        is LoginStateUI.InitialState -> {
+        is PlayerStateUI.InitialState -> {
             // Do Noting
         }
 
-        is LoginStateUI.LoginSuccessful -> {
-            onLoginSuccessful(result.player)
+        is PlayerStateUI.SaveSuccessful -> {
+            loading = false
+            context.showToast("Salvo com Sucesso")
         }
 
-        is LoginStateUI.Loading -> {
+        is PlayerStateUI.Loading -> {
             loading = true
         }
-        is LoginStateUI.Error -> {
+
+        is PlayerStateUI.Error -> {
             loading = false
             context.showToast(result.message)
         }
     }
 
-    LoginScreenContent { login, password ->
-        viewModel.login(
+    PlayerScreenContent { name, login, password, isAdmin ->
+        viewModel.save(
+            name = name,
             login = login,
-            password = password
+            password = password,
+            isAdmin = isAdmin
         )
     }
 
@@ -72,13 +79,14 @@ internal fun LoginScreen(
 }
 
 @Composable
-private fun LoginScreenContent(
-    onClickButton: (String, String) -> Unit
+private fun PlayerScreenContent(
+    onClick: (String, String, String, Boolean) -> Unit
 ) {
 
-    var login by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var isChecked by remember { mutableStateOf(false) }
+    var name by remember { mutableStateOf(EMPTY_STRING) }
+    var login by remember { mutableStateOf(EMPTY_STRING) }
+    var password by remember { mutableStateOf(EMPTY_STRING) }
+    var isAdmin by remember { mutableStateOf(false) }
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -87,14 +95,33 @@ private fun LoginScreenContent(
             .fillMaxSize()
             .padding(horizontal = 24.dp)
     ) {
+
         TextFieldComponent(
             modifier = Modifier.fillMaxWidth(),
-            icon = Icons.Default.Person,
+            icon = Icons.Default.Edit,
+            value = name,
+            label = "Nome",
+            placeholder = "Digite o nome",
+            onChange = {
+                name = it
+            }
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        TextFieldComponent(
+            modifier = Modifier.fillMaxWidth(),
+            icon = Icons.Default.Edit,
             value = login,
+            label = "Login",
+            placeholder = "Digite o login",
             onChange = {
                 login = it
             }
         )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         PasswordField(
             modifier = Modifier.fillMaxWidth(),
             value = password,
@@ -103,16 +130,16 @@ private fun LoginScreenContent(
             },
             submit = { },
         )
-        Spacer(modifier = Modifier.height(10.dp))
-//        LabeledCheckBox(
-//            label = stringResource(
-//                id = R.string.poker_sale_remember_label
-//            ),
-//            onCheckChanged = {
-//                isChecked = isChecked.not()
-//            },
-//            isChecked = isChecked
-//        )
+        Spacer(modifier = Modifier.height(24.dp))
+        LabeledCheckBox(
+            label = stringResource(
+                id = R.string.poker_sale_register_player_is_admin
+            ),
+            onCheckChanged = {
+                isAdmin = isAdmin.not()
+            },
+            isChecked = isAdmin
+        )
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -126,12 +153,14 @@ private fun LoginScreenContent(
                     all = 24.dp
                 ),
             onClick = {
-                onClickButton(
+                onClick(
+                    name,
                     login,
-                    password
+                    password,
+                    isAdmin
                 )
             },
-            enabled = login.isNotEmpty() && password.isNotEmpty(),
+            enabled = login.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty(),
             shape = RoundedCornerShape(5.dp),
         ) {
             Text(stringResource(id = R.string.poker_sale_button_label))

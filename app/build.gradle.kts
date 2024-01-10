@@ -1,5 +1,3 @@
-import Dependencies
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -71,6 +69,8 @@ dependencies {
     implementation(Dependencies.depComposeUiGraphics)
     implementation(Dependencies.depComposeUiToolingPreview)
     implementation(Dependencies.depComposeMaterial3)
+    implementation(Dependencies.depComposeFoundation)
+    implementation(Dependencies.depComposeMaterial)
     implementation("com.google.firebase:firebase-database-ktx:20.1.0")
     testImplementation(Dependencies.depJunit)
     androidTestImplementation(Dependencies.depJunitExt)

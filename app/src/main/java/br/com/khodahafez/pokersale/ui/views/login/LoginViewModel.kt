@@ -8,9 +8,11 @@ import br.com.khodahafez.domain.errors.PasswordUserException
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.usecase.login.LoginUseCase
 import br.com.khodahafez.domain.usecase.player.PlayerSaveUseCase
+import br.com.khodahafez.domain.utils.Session
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -25,50 +27,34 @@ class LoginViewModel(
         login: String,
         password: String
     ) {
+        _loginStateUI.update {
+            LoginStateUI.Loading
+        }
         viewModelScope.launch {
             loginUseCase.login(
                 login = login,
                 password = password
-            ).catch {
-                _loginStateUI.emit(
-                    when (it) {
+            ).catch { error ->
+                _loginStateUI.update {
+                    when (error) {
                         is PasswordUserException,
                         is NotFoundUserException -> {
-                            LoginStateUI.Error(it.message)
+                            LoginStateUI.Error(error.message)
                         }
 
                         else -> {
                             LoginStateUI.Error(GENERIC_ERROR)
                         }
                     }
-                )
-            }.collect {
-               _loginStateUI.emit(LoginStateUI.LoginSuccessful(it))
+                }
             }
-        }
-    }
-
-    fun saveForTesting() {
-        val player = Player(
-            name = "Paulinho",
-            login = "paulinho",
-            password = "pokersale123"
-        )
-
-        viewModelScope.launch {
-            playerSaveUseCase.save(player)
-                .catch {
-                    println(it.message)
-                }
-                .collect {
-                    println(it)
-                }
         }
     }
 }
 
 sealed class LoginStateUI {
     object InitialState : LoginStateUI()
+    object Loading : LoginStateUI()
     data class Error(val message: String?) : LoginStateUI()
     data class LoginSuccessful(val player: Player) : LoginStateUI()
 }

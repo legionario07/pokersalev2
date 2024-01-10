@@ -4,11 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import br.com.khodahafez.domain.model.Player
-import br.com.khodahafez.pokersale.ui.CreateScreen
+import br.com.khodahafez.pokersale.ui.views.balance.BalanceScreen
 import br.com.khodahafez.pokersale.ui.views.bounty_type.BountyTypeScreen
+import br.com.khodahafez.pokersale.ui.views.home.HomeScreen
 import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchScreen
+import br.com.khodahafez.pokersale.ui.views.player.PlayerScreen
 import br.com.khodahafez.pokersale.ui.views.position_score.PositionScoreScreen
 
 @Composable
@@ -29,9 +30,7 @@ internal fun navigationGraph(
         }
 
         composable(route = ScreenEnum.HOME.route) {
-            CreateScreen(
-                mutableListOf()
-            )
+            HomeScreen(navHostController = navController)
         }
 
         composable(route = ScreenEnum.POSITION_SCORE.route) {
@@ -83,6 +82,18 @@ internal fun navigationGraph(
 //                    "player", Player::class.java
 //                )as Player
 //            )
+        }
+
+        composable(
+            route = ScreenEnum.BALANCE.route
+        ) {
+            BalanceScreen()
+        }
+
+        composable(
+            route = ScreenEnum.REGISTER_PLAYER.route
+        ) {
+            PlayerScreen()
         }
     }
 }

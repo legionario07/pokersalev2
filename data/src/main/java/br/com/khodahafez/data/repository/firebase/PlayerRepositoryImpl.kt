@@ -104,7 +104,6 @@ class PlayerRepositoryImpl(
                                     val listPlayer: MutableList<Player> = dataSnapshot.children.map {
                                         it.getValue<Player>()!!
                                     }.toMutableList()
-
                             trySend(
                                 ResultOf.Success(listPlayer)
                             )
@@ -131,4 +130,3 @@ class PlayerRepositoryImpl(
         }
     }
 }
-

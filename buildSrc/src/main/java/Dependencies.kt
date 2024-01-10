@@ -11,6 +11,8 @@ object Dependencies {
     val depComposeUiTestJUnit = lib("androidx.compose.ui:ui-test-junit4")
     val depComposeUiTestManifest = lib("androidx.compose.ui:ui-test-manifest")
     val depComposeMaterial3 = lib("androidx.compose.material3:material3")
+    val depComposeFoundation = lib("androidx.compose.foundation:foundation")
+    val depComposeMaterial = lib("androidx.compose.material:material")
     val depJunit = lib("junit:junit", Versions.JUNIT)
     val depJunitExt = lib("androidx.test.ext:junit", Versions.JUNIT_EXT)
     val depMaterial = lib("com.google.android.material:material", Versions.MATERIAL)

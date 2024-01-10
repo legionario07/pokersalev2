@@ -3,6 +3,7 @@ package br.com.khodahafez.pokersale.ui.views.balance
 import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import br.com.khodahafez.domain.utils.Session
 import br.com.khodahafez.pokersale.di.FirebaseModule
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
@@ -19,12 +20,9 @@ class BalanceViewModelFactory : ViewModelProvider.Factory {
         val saveUseCase =
             UseCaseModule.provideSaveBalanceUseCase(repository)
 
-        val getAllUseCase =
-            UseCaseModule.provideGetAllBalanceUseCase(repository)
-
         return BalanceViewModel(
             saveUseCase = saveUseCase,
-            getAllUseCase = getAllUseCase
+            playerLogged = Session.player
         ) as T
     }
 }

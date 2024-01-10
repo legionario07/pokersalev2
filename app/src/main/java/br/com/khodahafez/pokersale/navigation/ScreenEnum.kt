@@ -9,6 +9,10 @@ internal enum class ScreenEnum(
     val argument: String = EMPTY_STRING
 ) {
 
+    REGISTER_PLAYER(
+        route = ScreensConstants.REGISTER_PLAYER,
+        displayName = ScreensConstants.REGISTER_PLAYER_DISPLAY,
+    ),
     REGISTER_MATCH_DATA_USER(
         route = ScreensConstants.REGISTER_MATCH_DATA_USER,
         displayName = ScreensConstants.REGISTER_MATCH_DATA_USER_DISPLAY,
@@ -72,4 +76,7 @@ internal object ScreensConstants {
     const val REGISTER_MATCH_DATA_USER = "REGISTER_MATCH_DATA_USER/"
     const val REGISTER_MATCH_DATA_USER_DISPLAY = "Dados do Usuário"
     const val REGISTER_MATCH_DATA_USER_ARGUMENT = "{player}"
+
+    const val REGISTER_PLAYER = "REGISTER_PLAYER"
+    const val REGISTER_PLAYER_DISPLAY = "Novo Jogador"
 }
