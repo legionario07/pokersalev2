@@ -5,9 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Expenses(
-    val id: String? = null,
+    var id: String? = null,
     val idPlayer: String? = null,
     val totalEntries: Double? = null,
     val cashPrize: Double? = null,
-    val idMatchOfPoker: MatchOfPoker? = null
+    val idMatchOfPoker: String? = null
 ): Parcelable

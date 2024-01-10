@@ -1,12 +1,13 @@
 package br.com.khodahafez.domain.model
 
 data class Score(
-    val id: String? = null,
-    val players: Player? = null,
-    val matchOfPokerType: MatchOfPokerType,
+    var id: String? = null,
+    val idPlayer: String,
+    val idMatchOfPlayer: String,
     val totalBounties: Int = 0,
-    val bountyType: BountyType,
+    var bountiesPoints: Int = 0,
     val positionInTheMatch: Int,
-    val participationScore: PositionScore,
-    val difficultyScore: Int
+    var pointsForPosition: Int = 0,
+    var difficultyScore: Int = 0,
+    val pointsForParticipation: Int = 3,
 )

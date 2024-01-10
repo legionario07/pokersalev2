@@ -12,8 +12,8 @@ object PokerSaleConstants {
     object MatchValues {
         const val BUY_IN = "30.00"
         const val RE_BUY = "30.00"
-        const val DOUBLE_RE_BUY = "50.00"
-        const val ADDON = "50.00"
+        const val DOUBLE_RE_BUY = "60.00"
+        const val ADDON = "30.00"
         const val TAX = "0.00"
 
         const val MESSAGE_ERROR_RANKING_EMPTY = "Digite um valor para o ranking"

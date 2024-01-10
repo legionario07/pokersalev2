@@ -1,7 +1,15 @@
 package br.com.khodahafez.domain.model
 
-data class BountyType(
-    var id: String? = null,
-    val type: String? = null,
-    val points: Int
-)
+enum class BountyType(val points: Int) {
+
+    NORMAL(2),
+    ESPECIAL(4);
+    companion object{
+        fun getBountyByMatchType(isSpecialMatch: Boolean): BountyType {
+            if(isSpecialMatch) {
+                return ESPECIAL
+            }
+            return NORMAL
+        }
+    }
+}

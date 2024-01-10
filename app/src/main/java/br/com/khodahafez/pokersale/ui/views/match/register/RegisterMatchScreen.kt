@@ -53,7 +53,7 @@ import br.com.khodahafez.pokersale.ui.views.match.register.factory.RegisterMatch
 fun RegisterMatchScreen(
     viewModel: RegisterMatchViewModel = viewModel(factory = RegisterMatchViewModelFactory()),
     idMatchCreated: String,
-//    onClickInCardPlayer: (Player) -> Unit,
+    onSaveMatchSuccessful: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -121,7 +121,7 @@ fun RegisterMatchScreen(
         }
 
         is RegisterMatchStateUI.SaveSuccessful -> {
-
+            onSaveMatchSuccessful()
         }
     }
 
@@ -132,7 +132,7 @@ fun RegisterMatchScreen(
     RegisterMatchContentScreen(
         isShowButtonSave = isShowButtonSave,
         onClickSave = {
-            println(playersWithExpanse)
+            viewModel.saveMatch(playersWithExpanse)
         },
         onClickRemove = {
             isShowDialogRemovePlayer.value = true

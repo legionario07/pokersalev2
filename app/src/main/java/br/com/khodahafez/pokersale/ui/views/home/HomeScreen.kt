@@ -84,7 +84,7 @@ fun HomeScreen(
     navHostController: NavHostController
 ) {
     val listItems = remember {
-        mutableListOf<TabItem>(
+        mutableListOf(
             TabItem(
                 title = "Home",
                 route = ScreenEnum.HOME,

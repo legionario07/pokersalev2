@@ -6,27 +6,18 @@ import br.com.khodahafez.domain.state.ResultOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlin.coroutines.CoroutineContext
 
 class SavePositionScoreUseCase(
     private val scope: CoroutineContext,
     private val positionScoreRepository: PositionScoreRepository,
 ) {
-
-    fun save(positionScore: PositionScore): Flow<PositionScore> {
-        return positionScoreRepository.save(positionScore).map {
-            when(it) {
-                is ResultOf.Success -> {
-                    it.response
-                }
-                is ResultOf.Failure -> {
-                    throw it.error
-                }
-
-                else -> {
-                    null!!
-                }
+    fun save(positionScore: PositionScore): Flow<ResultOf<PositionScore>> {
+        return positionScoreRepository.save(positionScore)
+            .onStart {
+                emit(ResultOf.Loading(true))
             }
-        }.flowOn(scope)
+            .flowOn(scope)
     }
 }

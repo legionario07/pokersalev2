@@ -4,15 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.khodahafez.domain.PokerSaleConstants
 import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
+import br.com.khodahafez.domain.model.Expenses
 import br.com.khodahafez.domain.model.MatchOfPoker
+import br.com.khodahafez.domain.model.MatchOfPokerType
 import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.model.Score
 import br.com.khodahafez.domain.state.ResultOf
+import br.com.khodahafez.domain.usecase.expenses.SaveExpensesUseCase
 import br.com.khodahafez.domain.usecase.match.register.GetMatchUseCase
 import br.com.khodahafez.domain.usecase.match.register.SaveMatchUseCase
 import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
+import br.com.khodahafez.domain.usecase.score.SaveScoreUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -20,7 +26,9 @@ class RegisterMatchViewModel(
     private val playerLogged: Player?,
     private val saveUseCase: SaveMatchUseCase,
     private val getMatchUseCase: GetMatchUseCase,
-    private val getAllPlayerUseCase: GetAllPlayerUseCase
+    private val getAllPlayerUseCase: GetAllPlayerUseCase,
+    private val saveExpensesUseCase: SaveExpensesUseCase,
+    private val saveScoreUseCase: SaveScoreUseCase,
 ) : ViewModel() {
 
     private val _stateUI = MutableStateFlow<RegisterMatchStateUI>(RegisterMatchStateUI.InitialState)
@@ -32,12 +40,126 @@ class RegisterMatchViewModel(
         getAllPlayers()
     }
 
+    fun saveMatch(listRegisterMatch: List<RegisterMatchScreenModel>) {
+        matchOfPoker?.registeredBy = playerLogged
+        matchOfPoker?.players?.addAll(listRegisterMatch.map {
+            it.player
+        })
+        matchOfPoker?.matchOfPokerType = MatchOfPokerType.FINISHED
+
+        matchOfPoker?.let { match ->
+            viewModelScope.launch {
+                saveUseCase.save(
+                    match
+                ).catch { error ->
+                    _stateUI.update {
+                        RegisterMatchStateUI.Error(error.message)
+                    }
+                }.collect { resultOf ->
+                    when (resultOf) {
+                        is ResultOf.Success -> {
+                            saveExpenses(listRegisterMatch)
+                        }
+
+                        is ResultOf.Failure -> {
+                            _stateUI.update {
+                                RegisterMatchStateUI.Error(resultOf.error.message)
+                            }
+                        }
+
+                        is ResultOf.Loading -> {
+                            _stateUI.update {
+                                RegisterMatchStateUI.Loading
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        viewModelScope.launch {
+            listRegisterMatch.forEach {
+                saveScoreUseCase.save(
+                    score = Score(
+                        idPlayer = it.player.id.orEmpty(),
+                        idMatchOfPlayer = matchOfPoker?.id.orEmpty(),
+                        totalBounties = it.bounties,
+                        positionInTheMatch = it.position
+                    ),
+                    matchOfPoker = matchOfPoker
+                ).catch { error ->
+                    _stateUI.update {
+                        RegisterMatchStateUI.Error(error.message)
+                    }
+                }.collect { resultOf ->
+                    when (resultOf) {
+                        is ResultOf.Success -> {
+                            _stateUI.update {
+                                RegisterMatchStateUI.SaveSuccessful(matchOfPoker?.id.orEmpty())
+                            }
+                        }
+
+                        is ResultOf.Failure -> {
+                            _stateUI.update {
+                                RegisterMatchStateUI.Error(resultOf.error.message)
+                            }
+                        }
+
+                        is ResultOf.Loading -> {
+                            // Do Nothing
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun saveExpenses(listRegisterMatch: List<RegisterMatchScreenModel>) =
+        viewModelScope.launch {
+            listRegisterMatch.forEach { registerMatchScreenModel ->
+                saveExpensesUseCase.save(
+                    Expenses(
+                        idPlayer = registerMatchScreenModel.player.id,
+                        totalEntries = registerMatchScreenModel.totalEntries,
+                        cashPrize = registerMatchScreenModel.prize,
+                        idMatchOfPoker = matchOfPoker?.id.orEmpty()
+                    )
+                ).catch { error ->
+                    _stateUI.update {
+                        RegisterMatchStateUI.Error(error.message)
+                    }
+                }.collect { resultOf ->
+                    // Do Nothing
+                }
+            }
+        }
+
+    private fun saveRanking(listRegisterMatch: List<RegisterMatchScreenModel>) =
+        viewModelScope.launch {
+            listRegisterMatch.forEach { registerMatchScreenModel ->
+                saveExpensesUseCase.save(
+                    Expenses(
+                        idPlayer = registerMatchScreenModel.player.id,
+                        totalEntries = registerMatchScreenModel.totalEntries,
+                        cashPrize = registerMatchScreenModel.prize,
+                        idMatchOfPoker = matchOfPoker?.id.orEmpty()
+                    ),
+                ).catch { error ->
+                    _stateUI.update {
+                        RegisterMatchStateUI.Error(error.message)
+                    }
+                }.collect { resultOf ->
+                    // Do Nothing
+                }
+            }
+        }
+
     fun getMatchById(idMatch: String) {
         viewModelScope.launch {
             getMatchUseCase.getById(idMatch)
-                .catch {
+                .catch { error ->
                     _stateUI.update {
-                        RegisterMatchStateUI.Error(PokerSaleConstants.ErrorMessage.GENERIC_ERROR)
+                        RegisterMatchStateUI.Error(error.message)
                     }
                 }
                 .collect { resultOf ->
@@ -54,12 +176,12 @@ class RegisterMatchViewModel(
         }
     }
 
-    fun getAllPlayers() {
+    private fun getAllPlayers() {
         viewModelScope.launch {
             getAllPlayerUseCase.getAll()
-                .catch {
+                .catch { error ->
                     _stateUI.update {
-                        RegisterMatchStateUI.Error(PokerSaleConstants.ErrorMessage.GENERIC_ERROR)
+                        RegisterMatchStateUI.Error(error.message)
                     }
                 }.collect { resultOf ->
                     when (resultOf) {

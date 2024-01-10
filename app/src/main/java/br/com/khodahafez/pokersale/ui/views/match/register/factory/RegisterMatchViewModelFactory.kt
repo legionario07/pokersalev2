@@ -16,19 +16,27 @@ class RegisterMatchViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val dbReferences = FirebaseModule.provideFirebaseReference("/matches")
         val dbReferencesPlayers = FirebaseModule.provideFirebaseReference("/users")
+        val dbReferencesExpenses = FirebaseModule.provideFirebaseReference("/expenses")
+        val dbReferencesScores = FirebaseModule.provideFirebaseReference("/scores")
 
         val repositoryMatch = RepositoryModule.provideMatchOfPokerRepository(dbReferences)
         val repositoryPlayer = RepositoryModule.providePlayerRepository(dbReferencesPlayers)
+        val repositoryExpenses = RepositoryModule.provideExpensesRepository(dbReferencesExpenses)
+        val repositoryScores = RepositoryModule.provideScoreRepository(dbReferencesScores)
 
         val saveUseCase = UseCaseModule.provideSaveMatchOfPokerUseCase(repositoryMatch)
         val getAllPlayerUseCase = UseCaseModule.provideGetAllPlayerUseCase(repositoryPlayer)
         val getMatchUseCase = UseCaseModule.provideGetMatchUseCase(repositoryMatch)
+        val saveExpensesUseCase = UseCaseModule.provideSaveExpensesUseCase(repositoryExpenses)
+        val saveScoreUseCase = UseCaseModule.provideSaveScoreUseCase(repositoryScores)
 
         return RegisterMatchViewModel(
             playerLogged = Session.player,
             saveUseCase = saveUseCase,
             getMatchUseCase = getMatchUseCase,
             getAllPlayerUseCase = getAllPlayerUseCase,
+            saveExpensesUseCase = saveExpensesUseCase,
+            saveScoreUseCase = saveScoreUseCase
         ) as T
     }
 }

@@ -2,12 +2,15 @@ package br.com.khodahafez.pokersale.di
 
 import br.com.khodahafez.domain.repository.remote.BalanceRepository
 import br.com.khodahafez.domain.repository.remote.BountyTypeRepository
+import br.com.khodahafez.domain.repository.remote.ExpensesRepository
 import br.com.khodahafez.domain.repository.remote.MatchRepository
 import br.com.khodahafez.domain.repository.remote.PlayerRepository
 import br.com.khodahafez.domain.repository.remote.PositionScoreRepository
+import br.com.khodahafez.domain.repository.remote.ScoreRepository
 import br.com.khodahafez.domain.usecase.balance.GetAllBalanceUseCase
 import br.com.khodahafez.domain.usecase.balance.SaveBalanceUseCase
 import br.com.khodahafez.domain.usecase.bounty_type.SaveBountyTypeUseCase
+import br.com.khodahafez.domain.usecase.expenses.SaveExpensesUseCase
 import br.com.khodahafez.domain.usecase.login.LoginUseCase
 import br.com.khodahafez.domain.usecase.match.register.GetMatchUseCase
 import br.com.khodahafez.domain.usecase.match.register.SaveMatchUseCase
@@ -15,6 +18,7 @@ import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
 import br.com.khodahafez.domain.usecase.player.PlayerSaveUseCase
 import br.com.khodahafez.domain.usecase.position_score.GetAllPositionScoreUseCase
 import br.com.khodahafez.domain.usecase.position_score.SavePositionScoreUseCase
+import br.com.khodahafez.domain.usecase.score.SaveScoreUseCase
 import br.com.khodahafez.domain.utils.EncryptUtils
 import kotlinx.coroutines.Dispatchers
 
@@ -107,6 +111,24 @@ object UseCaseModule {
         repository: MatchRepository
     ): GetMatchUseCase {
         return GetMatchUseCase(
+            scope = Dispatchers.IO,
+            repository = repository
+        )
+    }
+
+    fun provideSaveExpensesUseCase(
+        repository: ExpensesRepository
+    ): SaveExpensesUseCase {
+        return SaveExpensesUseCase(
+            scope = Dispatchers.IO,
+            repository = repository
+        )
+    }
+
+    fun provideSaveScoreUseCase(
+        repository: ScoreRepository
+    ): SaveScoreUseCase {
+        return SaveScoreUseCase(
             scope = Dispatchers.IO,
             repository = repository
         )

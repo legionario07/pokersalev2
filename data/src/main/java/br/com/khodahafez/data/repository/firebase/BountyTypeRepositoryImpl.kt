@@ -1,7 +1,7 @@
 package br.com.khodahafez.data.repository.firebase
 
 import br.com.khodahafez.domain.errors.NotFoundEntityException
-import br.com.khodahafez.domain.model.BountyType
+import br.com.khodahafez.domain.model.BountyValues
 import br.com.khodahafez.domain.repository.remote.BountyTypeRepository
 import br.com.khodahafez.domain.state.ResultOf
 import com.google.firebase.database.DataSnapshot
@@ -17,39 +17,39 @@ import kotlinx.coroutines.flow.flow
 class BountyTypeRepositoryImpl(
     private val databaseReference: DatabaseReference
 ) : BountyTypeRepository {
-    override fun save(bountyType: BountyType): Flow<ResultOf<BountyType>> {
+    override fun save(bountyValues: BountyValues): Flow<ResultOf<BountyValues>> {
         return flow {
             kotlin.runCatching {
 
-                bountyType.id = databaseReference.push().key
+                bountyValues.id = databaseReference.push().key
 
-                databaseReference.child(bountyType.id!!).setValue(bountyType)
-                emit(ResultOf.Success(bountyType))
+                databaseReference.child(bountyValues.id!!).setValue(bountyValues)
+                emit(ResultOf.Success(bountyValues))
             }.onFailure {
                 emit(ResultOf.Failure(it))
             }
         }
     }
 
-    override fun update(bountyType: BountyType): Flow<ResultOf<BountyType>> {
+    override fun update(bountyValues: BountyValues): Flow<ResultOf<BountyValues>> {
         return flow {
             kotlin.runCatching {
-                databaseReference.child(bountyType.id!!).setValue(bountyType)
-                emit(ResultOf.Success(bountyType))
+                databaseReference.child(bountyValues.id!!).setValue(bountyValues)
+                emit(ResultOf.Success(bountyValues))
             }.onFailure {
                 emit(ResultOf.Failure(it))
             }
         }
     }
 
-    override fun getById(id: String): Flow<ResultOf<BountyType>> {
+    override fun getById(id: String): Flow<ResultOf<BountyValues>> {
         return callbackFlow {
             kotlin.runCatching {
                 val query = databaseReference.orderByChild("id").equalTo(id)
                 val listener = object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            trySend(ResultOf.Success(dataSnapshot.children.first().getValue<BountyType>()!!))
+                            trySend(ResultOf.Success(dataSnapshot.children.first().getValue<BountyValues>()!!))
                         } else {
                             trySend(
                                 ResultOf.Failure(
@@ -73,13 +73,13 @@ class BountyTypeRepositoryImpl(
         }
     }
 
-    override fun getAll(): Flow<ResultOf<List<BountyType>>> {
+    override fun getAll(): Flow<ResultOf<List<BountyValues>>> {
         return callbackFlow {
             kotlin.runCatching {
                 val listener = object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            trySend(ResultOf.Success(dataSnapshot.children as List<BountyType>))
+                            trySend(ResultOf.Success(dataSnapshot.children as List<BountyValues>))
                         } else {
                             trySend(
                                 ResultOf.Failure(

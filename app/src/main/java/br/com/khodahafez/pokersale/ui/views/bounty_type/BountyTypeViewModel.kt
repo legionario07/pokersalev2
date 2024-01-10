@@ -2,7 +2,7 @@ package br.com.khodahafez.pokersale.ui.views.bounty_type
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.khodahafez.domain.model.BountyType
+import br.com.khodahafez.domain.model.BountyValues
 import br.com.khodahafez.domain.usecase.bounty_type.SaveBountyTypeUseCase
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ class BountyTypeViewModel(
 
         viewModelScope.launch {
             saveUseCase.save(
-                BountyType(
+                BountyValues(
                     type = type,
                     points = points
                 )

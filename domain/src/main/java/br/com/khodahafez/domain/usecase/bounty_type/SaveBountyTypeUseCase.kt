@@ -1,6 +1,6 @@
 package br.com.khodahafez.domain.usecase.bounty_type
 
-import br.com.khodahafez.domain.model.BountyType
+import br.com.khodahafez.domain.model.BountyValues
 import br.com.khodahafez.domain.repository.remote.BountyTypeRepository
 import br.com.khodahafez.domain.state.ResultOf
 import kotlinx.coroutines.flow.Flow
@@ -13,8 +13,8 @@ class SaveBountyTypeUseCase(
     private val repository: BountyTypeRepository,
 ) {
 
-    fun save(bountyType: BountyType): Flow<BountyType> {
-        return repository.save(bountyType).map {
+    fun save(bountyValues: BountyValues): Flow<BountyValues> {
+        return repository.save(bountyValues).map {
             when (it) {
                 is ResultOf.Success -> {
                     it.response

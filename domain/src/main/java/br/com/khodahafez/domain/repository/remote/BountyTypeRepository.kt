@@ -1,22 +1,22 @@
 package br.com.khodahafez.domain.repository.remote
 
-import br.com.khodahafez.domain.model.BountyType
+import br.com.khodahafez.domain.model.BountyValues
 import br.com.khodahafez.domain.state.ResultOf
 import kotlinx.coroutines.flow.Flow
 
 interface BountyTypeRepository {
 
     fun save(
-        bountyType: BountyType
-    ): Flow<ResultOf<BountyType>>
+        bountyValues: BountyValues
+    ): Flow<ResultOf<BountyValues>>
 
     fun update(
-        bountyType: BountyType
-    ): Flow<ResultOf<BountyType>>
+        bountyValues: BountyValues
+    ): Flow<ResultOf<BountyValues>>
 
     fun getById(
         id: String,
-    ): Flow<ResultOf<BountyType>>
+    ): Flow<ResultOf<BountyValues>>
 
-    fun getAll(): Flow<ResultOf<List<BountyType>>>
+    fun getAll(): Flow<ResultOf<List<BountyValues>>>
 }
