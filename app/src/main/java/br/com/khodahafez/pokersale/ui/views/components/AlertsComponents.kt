@@ -195,7 +195,7 @@ fun FillDataUserDialog(
 
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Surface(
-            modifier = Modifier.fillMaxHeight(0.7f),
+            modifier = Modifier.fillMaxHeight(0.8f),
             shape = RoundedCornerShape(10.dp)
         ) {
             RegisterMatchDataUserContentScreen(

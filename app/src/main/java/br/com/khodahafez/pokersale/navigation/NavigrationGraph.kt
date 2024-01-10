@@ -8,8 +8,6 @@ import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.pokersale.ui.CreateScreen
 import br.com.khodahafez.pokersale.ui.views.bounty_type.BountyTypeScreen
 import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
-import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchDataEntryScreen
-import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchDataUserScreen
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchScreen
 import br.com.khodahafez.pokersale.ui.views.position_score.PositionScoreScreen
 
