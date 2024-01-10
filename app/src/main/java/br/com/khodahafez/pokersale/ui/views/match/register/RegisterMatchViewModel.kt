@@ -94,9 +94,7 @@ class RegisterMatchViewModel(
                 }.collect { resultOf ->
                     when (resultOf) {
                         is ResultOf.Success -> {
-                            _stateUI.update {
-                                RegisterMatchStateUI.SaveSuccessful(matchOfPoker?.id.orEmpty())
-                            }
+                            // Do Nothing
                         }
 
                         is ResultOf.Failure -> {
@@ -129,27 +127,24 @@ class RegisterMatchViewModel(
                         RegisterMatchStateUI.Error(error.message)
                     }
                 }.collect { resultOf ->
-                    // Do Nothing
-                }
-            }
-        }
 
-    private fun saveRanking(listRegisterMatch: List<RegisterMatchScreenModel>) =
-        viewModelScope.launch {
-            listRegisterMatch.forEach { registerMatchScreenModel ->
-                saveExpensesUseCase.save(
-                    Expenses(
-                        idPlayer = registerMatchScreenModel.player.id,
-                        totalEntries = registerMatchScreenModel.totalEntries,
-                        cashPrize = registerMatchScreenModel.prize,
-                        idMatchOfPoker = matchOfPoker?.id.orEmpty()
-                    ),
-                ).catch { error ->
-                    _stateUI.update {
-                        RegisterMatchStateUI.Error(error.message)
+                    when (resultOf) {
+                        is ResultOf.Success -> {
+                            _stateUI.update {
+                                RegisterMatchStateUI.SaveSuccessful(matchOfPoker?.id.orEmpty())
+                            }
+                        }
+
+                        is ResultOf.Failure -> {
+                            _stateUI.update {
+                                RegisterMatchStateUI.Error(resultOf.error.message)
+                            }
+                        }
+
+                        is ResultOf.Loading -> {
+                            // Do Nothing
+                        }
                     }
-                }.collect { resultOf ->
-                    // Do Nothing
                 }
             }
         }
@@ -204,6 +199,12 @@ class RegisterMatchViewModel(
                         }
                     }
                 }
+        }
+    }
+
+    fun clearStateUI() {
+        _stateUI.update {
+            RegisterMatchStateUI.InitialState
         }
     }
 

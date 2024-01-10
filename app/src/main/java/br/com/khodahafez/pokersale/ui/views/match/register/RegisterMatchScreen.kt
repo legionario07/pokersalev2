@@ -122,6 +122,7 @@ fun RegisterMatchScreen(
 
         is RegisterMatchStateUI.SaveSuccessful -> {
             onSaveMatchSuccessful()
+            viewModel.clearStateUI()
         }
     }
 
