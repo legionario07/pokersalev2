@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.onConsumedWindowInsetsChanged
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -181,7 +182,11 @@ fun RegisterMatchDataUserContentScreen(
 
         Row(
             modifier = Modifier.fillMaxWidth()
-                .padding(all = 24.dp),
+                .padding(
+                    start = 24.dp,
+                    top = 4.dp,
+                    bottom = 4.dp
+                ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -227,6 +232,24 @@ fun RegisterMatchDataUserContentScreen(
                 }
             }
         }
+
+        TextFieldComponent(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 24.dp,
+                    end = 24.dp,
+                    top = 4.dp
+                ),
+            icon = Icons.Filled.MonetizationOn,
+            value = "0.0",
+            label = stringResource(id = R.string.poker_sale_match_prize),
+            keyboardType = KeyboardType.Number,
+            onChange = {
+                println(it)
+            }
+        )
+
 
     }
     Column(modifier = Modifier.fillMaxWidth()) {

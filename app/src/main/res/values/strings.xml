@@ -16,6 +16,7 @@
     <string name="poker_sale_match_double_re_buy">Rebuy Duplo</string>
     <string name="poker_sale_match_addon">Addon</string>
     <string name="poker_sale_match_tax">Taxa</string>
+    <string name="poker_sale_match_prize">Premiação</string>
     <string name="poker_sale_match_bounties">Bounties</string>
     <string name="poker_sale_match_ranking_number">Número do Ranking</string>
     <string name="poker_sale_match_ranking_number_label">Ranking</string>
