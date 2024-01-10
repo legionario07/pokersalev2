@@ -28,4 +28,5 @@
     <string name="poker_sale_match_register_save_label">Salvar</string>
     <string name="poker_sale_match_register_label">Cadastrar Partida</string>
     <string name="poker_sale_disclaimer">"Clique nos botões abaixo para incluir ou remover jogador, depois insira os dados de gastos para cada.</string>
+    <string name="poker_sale_position">Colocação</string>
 </resources>

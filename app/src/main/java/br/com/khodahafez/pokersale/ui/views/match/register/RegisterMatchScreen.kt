@@ -158,7 +158,6 @@ fun RegisterMatchScreen(
         SingleSelectDialog(
             optionsList = playersWithExpanse,
             onSubmitButtonClick = { playerRemoved ->
-//                playersSelected.remove(playerRemoved)
                 playersWithExpanse.removeIf {
                     it.player == playerRemoved
                 }
@@ -172,7 +171,9 @@ fun RegisterMatchScreen(
 
     if (isShowDialogExpense.value) {
         FillDataUserDialog(
-            player = playerClicked.value,
+            playerWithExpense = playersWithExpanse.first {
+                it.player.id == playerClicked.value.id
+            },
             onDismissRequest = {
                 isShowDialogExpense.value = false
             }
@@ -185,7 +186,14 @@ fun RegisterMatchScreen(
                     player = playerClicked.value,
                     totalEntries = viewModel.calculateExpense(
                         registerMatchDataUserScreenModel
-                    )
+                    ),
+                    buy = registerMatchDataUserScreenModel.buyInCounter,
+                    reBuy = registerMatchDataUserScreenModel.reBuyCounter,
+                    doubleReBuy = registerMatchDataUserScreenModel.doubleReBuyCounter,
+                    addon = registerMatchDataUserScreenModel.addonCounter,
+                    prize = registerMatchDataUserScreenModel.prize,
+                    bounties = registerMatchDataUserScreenModel.bountyCounter,
+                    position = registerMatchDataUserScreenModel.position
                 )
             )
         }
@@ -351,5 +359,13 @@ private fun PlayersListContent(
 
 data class RegisterMatchScreenModel(
     val player: Player,
+    val buy: Int = 1,
+    val reBuy: Int = 0,
+    val doubleReBuy: Int = 0,
+    val addon: Int = 0,
+    val tax: Int = 0,
+    val bounties: Int = 0,
     val totalEntries: Double = 0.0,
+    val prize: Double = 0.0,
+    val position: Int = 9
 )

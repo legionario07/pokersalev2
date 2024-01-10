@@ -9,14 +9,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.onConsumedWindowInsetsChanged
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Beenhere
 import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Remove
@@ -28,8 +25,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -44,40 +39,43 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import br.com.khodahafez.domain.model.Expenses
-import br.com.khodahafez.domain.model.MatchOfPoker
-import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.pokersale.R
 import br.com.khodahafez.pokersale.ui.views.components.IconButtonComponent
 import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
-import br.com.khodahafez.pokersale.ui.views.match.register.factory.RegisterMatchDataUserViewModelFactory
 
 
 @Composable
 fun RegisterMatchDataUserContentScreen(
-    player: Player,
+    registerMatchScreenModel: RegisterMatchScreenModel,
     onClickSave: (RegisterMatchDataUserScreenModel) -> Unit,
 ) {
 
     val reBuyCounter = remember {
-        mutableStateOf(0)
+        mutableStateOf(registerMatchScreenModel.reBuy)
     }
 
     val doubleReBuyCounter = remember {
-        mutableStateOf(0)
+        mutableStateOf(registerMatchScreenModel.doubleReBuy)
     }
 
     val addonCounter = remember {
-        mutableStateOf(0)
+        mutableStateOf(registerMatchScreenModel.addon)
     }
 
     val taxCounter = remember {
-        mutableStateOf(0)
+        mutableStateOf(registerMatchScreenModel.tax)
     }
 
     val bountyCounter = remember {
-        mutableStateOf(0)
+        mutableStateOf(registerMatchScreenModel.bounties)
+    }
+
+    val prize = remember {
+        mutableStateOf(registerMatchScreenModel.prize)
+    }
+
+    val position = remember {
+        mutableStateOf(registerMatchScreenModel.position)
     }
 
     var expanded by remember {
@@ -85,18 +83,9 @@ fun RegisterMatchDataUserContentScreen(
     }
 
     val listItems = mutableListOf(
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9
+        1, 2, 3, 4, 5, 6, 7, 8, 9
     )
 
-    val disabledItem = 1
     Column(
         modifier = Modifier.padding(
             top = 32.dp,
@@ -114,7 +103,7 @@ fun RegisterMatchDataUserContentScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                text = player.name,
+                text = registerMatchScreenModel.player.name,
                 fontSize = 24.sp,
             )
         }
@@ -181,7 +170,8 @@ fun RegisterMatchDataUserContentScreen(
         val context = LocalContext.current
 
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(
                     start = 24.dp,
                     top = 4.dp,
@@ -193,19 +183,20 @@ fun RegisterMatchDataUserContentScreen(
 
             Text(
                 modifier = Modifier.padding(end = 16.dp),
-                text = "Posição",
-                textAlign = TextAlign.Center ,
+                text = stringResource(id = R.string.poker_sale_position),
+                textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
             )
 
             Box(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .wrapContentSize(Alignment.Center)
             ) {
                 IconButton(onClick = { expanded = !expanded }) {
                     Icon(
                         imageVector = Icons.Default.MoreVert,
-                        contentDescription = "More"
+                        contentDescription = null
                     )
                 }
 
@@ -215,18 +206,16 @@ fun RegisterMatchDataUserContentScreen(
                         expanded = false
                     }
                 ) {
-                    // adding items
                     listItems.forEachIndexed { itemIndex, itemValue ->
                         DropdownMenuItem(
                             onClick = {
-                                Toast.makeText(context, itemValue.toString(), Toast.LENGTH_SHORT)
-                                    .show()
+                                position.value = itemValue
                                 expanded = false
                             },
                             text = {
                                 Text(text = itemValue.toString())
                             },
-                            enabled = (itemIndex != disabledItem),
+                            enabled = (itemValue != position.value),
                         )
                     }
                 }
@@ -242,20 +231,17 @@ fun RegisterMatchDataUserContentScreen(
                     top = 4.dp
                 ),
             icon = Icons.Filled.MonetizationOn,
-            value = "0.0",
+            value = prize.value.toString(),
             label = stringResource(id = R.string.poker_sale_match_prize),
             keyboardType = KeyboardType.Number,
             onChange = {
-                println(it)
+                prize.value = it.toDouble()
             }
         )
-
-
     }
+
     Column(modifier = Modifier.fillMaxWidth()) {
-
         Spacer(modifier = Modifier.weight(1f))
-
         Button(
             modifier = Modifier
                 .fillMaxWidth()
@@ -268,7 +254,10 @@ fun RegisterMatchDataUserContentScreen(
                         reBuyCounter = reBuyCounter.value,
                         doubleReBuyCounter = doubleReBuyCounter.value,
                         addonCounter = addonCounter.value,
-                        taxCounter = taxCounter.value
+                        taxCounter = taxCounter.value,
+                        prize = prize.value,
+                        bountyCounter = bountyCounter.value,
+                        position = position.value
                     )
                 )
             },
@@ -342,4 +331,7 @@ data class RegisterMatchDataUserScreenModel(
     val doubleReBuyCounter: Int,
     val addonCounter: Int,
     val taxCounter: Int,
+    val prize: Double,
+    val bountyCounter: Int,
+    val position: Int
 )
