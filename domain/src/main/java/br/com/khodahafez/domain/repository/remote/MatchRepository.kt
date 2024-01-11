@@ -10,6 +10,11 @@ interface MatchRepository {
         matchOfPoker: MatchOfPoker
     ): Flow<ResultOf<MatchOfPoker>>
 
+    fun update(
+        matchOfPoker: MatchOfPoker
+    ): Flow<ResultOf<MatchOfPoker>>
+
+
     fun getByPlayer(
         player: Player,
     ): Flow<ResultOf<List<MatchOfPoker>>>

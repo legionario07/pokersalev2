@@ -135,7 +135,7 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
-                    bottom = 42.dp
+                    bottom = 64.dp
                 )
         ) {
             Card(

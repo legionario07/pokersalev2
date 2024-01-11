@@ -23,4 +23,20 @@ data class MatchOfPoker(
     var doubleReBuyValue: Double = DOUBLE_RE_BUY.toDouble(),
     var addonValue: Double = ADDON.toDouble(),
     var taxValue: Double = TAX.toDouble()
-) : Parcelable
+) : Parcelable {
+    fun toMap(): HashMap<String, Any?> {
+        return hashMapOf(
+            "date" to date,
+            "isSpecialMatch" to isSpecialMatch,
+            "players" to players,
+            "ranking" to ranking,
+            "matchOfPokerType" to matchOfPokerType,
+            "registeredBy" to registeredBy,
+            "buyInValue" to buyInValue,
+            "reBuyValue" to reBuyValue,
+            "doubleReBuyValue" to doubleReBuyValue,
+            "addonValue" to addonValue,
+            "taxValue" to taxValue,
+        )
+    }
+}

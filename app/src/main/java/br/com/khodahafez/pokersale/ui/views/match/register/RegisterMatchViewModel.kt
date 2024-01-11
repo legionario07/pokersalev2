@@ -2,8 +2,6 @@ package br.com.khodahafez.pokersale.ui.views.match.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.khodahafez.domain.PokerSaleConstants
-import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.domain.model.Expenses
 import br.com.khodahafez.domain.model.MatchOfPoker
 import br.com.khodahafez.domain.model.MatchOfPokerType
@@ -12,19 +10,18 @@ import br.com.khodahafez.domain.model.Score
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.expenses.SaveExpensesUseCase
 import br.com.khodahafez.domain.usecase.match.register.GetMatchUseCase
-import br.com.khodahafez.domain.usecase.match.register.SaveMatchUseCase
+import br.com.khodahafez.domain.usecase.match.register.UpdateMatchUseCase
 import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
 import br.com.khodahafez.domain.usecase.score.SaveScoreUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RegisterMatchViewModel(
     private val playerLogged: Player?,
-    private val saveUseCase: SaveMatchUseCase,
+    private val updateMatchUseCase: UpdateMatchUseCase,
     private val getMatchUseCase: GetMatchUseCase,
     private val getAllPlayerUseCase: GetAllPlayerUseCase,
     private val saveExpensesUseCase: SaveExpensesUseCase,
@@ -49,7 +46,7 @@ class RegisterMatchViewModel(
 
         matchOfPoker?.let { match ->
             viewModelScope.launch {
-                saveUseCase.save(
+                updateMatchUseCase.update(
                     match
                 ).catch { error ->
                     _stateUI.update {

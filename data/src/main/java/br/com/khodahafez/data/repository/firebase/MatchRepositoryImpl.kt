@@ -32,6 +32,18 @@ class MatchRepositoryImpl(
         }
     }
 
+    override fun update(matchOfPoker: MatchOfPoker): Flow<ResultOf<MatchOfPoker>> {
+        return flow {
+            kotlin.runCatching {
+
+                databaseReference.child(matchOfPoker.id!!).updateChildren(matchOfPoker.toMap())
+                emit(ResultOf.Success(matchOfPoker))
+            }.onFailure {
+                emit(ResultOf.Failure(it))
+            }
+        }
+    }
+
     override fun getByPlayer(player: Player): Flow<ResultOf<List<MatchOfPoker>>> {
         return callbackFlow {
             kotlin.runCatching {

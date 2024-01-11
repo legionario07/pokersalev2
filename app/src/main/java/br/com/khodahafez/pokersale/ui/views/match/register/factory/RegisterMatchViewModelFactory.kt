@@ -24,7 +24,7 @@ class RegisterMatchViewModelFactory : ViewModelProvider.Factory {
         val repositoryExpenses = RepositoryModule.provideExpensesRepository(dbReferencesExpenses)
         val repositoryScores = RepositoryModule.provideScoreRepository(dbReferencesScores)
 
-        val saveUseCase = UseCaseModule.provideSaveMatchOfPokerUseCase(repositoryMatch)
+        val updateMatchUseCase = UseCaseModule.provideUpdateMatchUseCase(repositoryMatch)
         val getAllPlayerUseCase = UseCaseModule.provideGetAllPlayerUseCase(repositoryPlayer)
         val getMatchUseCase = UseCaseModule.provideGetMatchUseCase(repositoryMatch)
         val saveExpensesUseCase = UseCaseModule.provideSaveExpensesUseCase(repositoryExpenses)
@@ -32,11 +32,11 @@ class RegisterMatchViewModelFactory : ViewModelProvider.Factory {
 
         return RegisterMatchViewModel(
             playerLogged = Session.player,
-            saveUseCase = saveUseCase,
             getMatchUseCase = getMatchUseCase,
             getAllPlayerUseCase = getAllPlayerUseCase,
             saveExpensesUseCase = saveExpensesUseCase,
-            saveScoreUseCase = saveScoreUseCase
+            saveScoreUseCase = saveScoreUseCase,
+            updateMatchUseCase = updateMatchUseCase
         ) as T
     }
 }
