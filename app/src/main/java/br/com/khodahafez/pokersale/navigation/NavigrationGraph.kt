@@ -8,6 +8,7 @@ import br.com.khodahafez.pokersale.ui.views.balance.BalanceScreen
 import br.com.khodahafez.pokersale.ui.views.bounty_type.BountyTypeScreen
 import br.com.khodahafez.pokersale.ui.views.home.HomeScreen
 import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
+import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchDataEntryScreen
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchScreen
 import br.com.khodahafez.pokersale.ui.views.player.PlayerScreen
 import br.com.khodahafez.pokersale.ui.views.position_score.PositionScoreScreen
@@ -42,22 +43,13 @@ internal fun navigationGraph(
         }
 
         composable(route = ScreenEnum.REGISTER_MATCH_DATA_FOR_ENTRY.route) {
-            RegisterMatchScreen(
-                idMatchCreated = "-Nni6R4NaoiA3ciZ849w",
-                onSaveMatchSuccessful = {}
-//                onClickInCardPlayer = {
-//                    navController.navigate(
-//                        ScreenEnum.REGISTER_MATCH_DATA_USER.route.plus()
-//                    )
-//                }
+            RegisterMatchDataEntryScreen(
+                onContinueFlow = { idCreatedMatch ->
+                    navController.navigate(
+                        ScreenEnum.REGISTER_MATCH.route.plus(idCreatedMatch)
+                    )
+                }
             )
-//            RegisterMatchDataEntryScreen(
-//                onContinueFlow = { idCreatedMatch ->
-//                    navController.navigate(
-//                        ScreenEnum.REGISTER_MATCH.route.plus(idCreatedMatch)
-//                    )
-//                }
-//            )
         }
 
         composable(route = ScreenEnum.REGISTER_MATCH.route.plus(ScreensConstants.REGISTER_MATCH_ARGUMENT)) { backStackEntry ->
@@ -75,21 +67,11 @@ internal fun navigationGraph(
         }
 
         composable(
-            route = ScreenEnum.REGISTER_MATCH_DATA_USER.route.plus(
-                ScreensConstants.REGISTER_MATCH_DATA_USER_ARGUMENT
-            )
-        ) { backStackEntry ->
-//            RegisterMatchDataUserScreen(
-//                player = backStackEntry.arguments?.getParcelable(
-//                    "player", Player::class.java
-//                )as Player
-//            )
-        }
-
-        composable(
             route = ScreenEnum.BALANCE.route
         ) {
-            BalanceScreen()
+            BalanceScreen(
+                onSuccessFinish = {navController.popBackStack()}
+            )
         }
 
         composable(

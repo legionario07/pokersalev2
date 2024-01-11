@@ -43,6 +43,7 @@ import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
 @Composable
 fun BalanceScreen(
     viewModel: BalanceViewModel = viewModel(factory = BalanceViewModelFactory()),
+    onSuccessFinish: () -> Unit
 ) {
     val stateUI by viewModel.stateUI.collectAsState()
     val context = LocalContext.current
@@ -57,8 +58,8 @@ fun BalanceScreen(
         }
 
         is BalanceStateUI.SaveSuccessfulBalanceStateUI -> {
+            onSuccessFinish()
             loading = false
-            println("TERMINADO")
             viewModel.clearState()
         }
 

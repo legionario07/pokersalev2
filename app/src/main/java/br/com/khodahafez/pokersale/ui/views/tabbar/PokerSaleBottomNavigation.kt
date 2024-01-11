@@ -1,5 +1,6 @@
 package br.com.khodahafez.pokersale.ui.views.tabbar
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
@@ -7,7 +8,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import br.com.khodahafez.pokersale.R
@@ -24,7 +27,8 @@ internal fun PokerSaleBottomNavigation(
         items.forEach { screen ->
             BottomNavigationItem(
                 icon = { Icon(screen.icon, contentDescription = "") },
-                label = { Text(stringResource(id = R.string.poker_sale_login_hint)) },
+                label = { screen.title },
+                selectedContentColor = MaterialTheme.colorScheme.secondary,
                 selected = currentRoute == screen.route.route,
                 alwaysShowLabel = false,
                 onClick = {
@@ -40,5 +44,5 @@ internal fun PokerSaleBottomNavigation(
 @Composable
 private fun currentRoute(navController: NavHostController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.arguments?.getString("KEY_ROUTE")
+    return navBackStackEntry?.destination?.route
 }

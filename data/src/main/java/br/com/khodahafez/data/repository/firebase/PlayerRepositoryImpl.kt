@@ -98,6 +98,7 @@ class PlayerRepositoryImpl(
     override fun getAll(): Flow<ResultOf<List<Player>>> {
         return callbackFlow {
             kotlin.runCatching {
+                val query = databaseReference.orderByChild("nome")
                 val listener = object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
@@ -119,10 +120,10 @@ class PlayerRepositoryImpl(
                     override fun onCancelled(databaseError: DatabaseError) {}
                 }
 
-                databaseReference.addListenerForSingleValueEvent(listener)
+                query.addListenerForSingleValueEvent(listener)
 
                 awaitClose {
-                    databaseReference.removeEventListener(listener)
+                    query.removeEventListener(listener)
                 }
             }.onFailure {
                 trySend((ResultOf.Failure(it)))

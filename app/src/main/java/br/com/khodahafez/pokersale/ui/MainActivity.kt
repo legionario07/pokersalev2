@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             setupInitNavHostController()
-            PokerSaleV2DomainTheme {
+            PokerSaleV2DomainTheme(darkTheme = false) {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     Column(
                         modifier = Modifier
@@ -88,10 +88,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
-val horizontalGradientBrush = Brush.horizontalGradient(
-    colors = listOf(
-        Red,
-        Color.Magenta
-    )
-)

@@ -50,6 +50,7 @@ internal fun LoginScreen(
 
         is LoginStateUI.LoginSuccessful -> {
             onLoginSuccessful(result.player)
+            viewModel.clearStateUI()
         }
 
         is LoginStateUI.Loading -> {

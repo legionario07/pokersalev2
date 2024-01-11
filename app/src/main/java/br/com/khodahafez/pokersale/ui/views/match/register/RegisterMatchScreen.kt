@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -130,21 +131,33 @@ fun RegisterMatchScreen(
         DisclaimerScreen()
     }
 
-    RegisterMatchContentScreen(
-        isShowButtonSave = isShowButtonSave,
-        onClickSave = {
-            viewModel.saveMatch(playersWithExpanse)
-        },
-        onClickRemove = {
-            isShowDialogRemovePlayer.value = true
-        }
+    Column(
+        modifier = Modifier.fillMaxSize()
     ) {
-        isShowDialogAddPlayer.value = true
+
+        PlayersListContent(players = playersWithExpanse) { player ->
+            playerClicked.value = player
+            isShowDialogExpense.value = true
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        RegisterMatchContentScreen(
+            isShowButtonSave = isShowButtonSave,
+            onClickSave = {
+                viewModel.saveMatch(playersWithExpanse)
+            },
+            onClickRemove = {
+                isShowDialogRemovePlayer.value = true
+            }
+        ) {
+            isShowDialogAddPlayer.value = true
+        }
     }
 
     if (isShowDialogAddPlayer.value) {
         SingleSelectDialog(
-            optionsList = players.minus(playersWithExpanse),
+            optionsList = players.toList().minusByFor(playersWithExpanse.toList()) {
+                it.player.id
+            },
             onSubmitButtonClick = { playerSelected ->
                 playersWithExpanse.add(RegisterMatchScreenModel(playerSelected))
                 isShowDialogAddPlayer.value = false
@@ -200,10 +213,6 @@ fun RegisterMatchScreen(
         }
     }
 
-    PlayersListContent(players = playersWithExpanse) { player ->
-        playerClicked.value = player
-        isShowDialogExpense.value = true
-    }
 }
 
 @Composable
@@ -316,12 +325,14 @@ private fun PlayersListContent(
         elevation = CardDefaults.cardElevation(4.dp),
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier.fillMaxHeight(0.8f)
+        ) {
             items(players) { registerMatchScreenModel ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(70.dp)
+                        .height(65.dp)
                         .padding(6.dp)
                         .clickable(onClick = { onClickCard(registerMatchScreenModel.player) }),
                     shape = RoundedCornerShape(6.dp),
@@ -368,5 +379,8 @@ data class RegisterMatchScreenModel(
     val bounties: Int = 0,
     val totalEntries: Double = 0.0,
     val prize: Double = 0.0,
-    val position: Int = 9
+    val position: Int = 10
 )
+
+fun <T, R> Collection<T>.minusByFor(elements: Collection<T>, selector: (T) -> R?) =
+    filter { t -> elements.none { selector(it) == selector(t) } }

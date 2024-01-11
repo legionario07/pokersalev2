@@ -18,6 +18,7 @@ import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
 import br.com.khodahafez.domain.usecase.player.PlayerSaveUseCase
 import br.com.khodahafez.domain.usecase.position_score.GetAllPositionScoreUseCase
 import br.com.khodahafez.domain.usecase.position_score.SavePositionScoreUseCase
+import br.com.khodahafez.domain.usecase.score.GetScoreUseCase
 import br.com.khodahafez.domain.usecase.score.SaveScoreUseCase
 import br.com.khodahafez.domain.utils.EncryptUtils
 import kotlinx.coroutines.Dispatchers
@@ -129,6 +130,15 @@ object UseCaseModule {
         repository: ScoreRepository
     ): SaveScoreUseCase {
         return SaveScoreUseCase(
+            scope = Dispatchers.IO,
+            repository = repository
+        )
+    }
+
+    fun provideGetScoreUseCase(
+        repository: ScoreRepository
+    ): GetScoreUseCase {
+        return GetScoreUseCase(
             scope = Dispatchers.IO,
             repository = repository
         )

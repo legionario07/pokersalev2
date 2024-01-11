@@ -32,7 +32,7 @@ class LoginViewModel(
         }
         viewModelScope.launch {
             loginUseCase.login(
-                login = login,
+                login = login.trim(),
                 password = password
             ).catch { error ->
                 _loginStateUI.update {
@@ -47,7 +47,18 @@ class LoginViewModel(
                         }
                     }
                 }
+            }.collect{player ->
+                Session.player = player
+                _loginStateUI.update {
+                    LoginStateUI.LoginSuccessful(player)
+                }
             }
+        }
+    }
+
+    fun clearStateUI() {
+        _loginStateUI.update {
+            LoginStateUI.InitialState
         }
     }
 }

@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MonetizationOn
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -30,66 +29,35 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.utils.Session
 import br.com.khodahafez.pokersale.navigation.ScreenEnum
 import br.com.khodahafez.pokersale.ui.model.PlayerHelper
+import br.com.khodahafez.pokersale.ui.utils.showToast
+import br.com.khodahafez.pokersale.ui.views.balance.BalanceStateUI
 import br.com.khodahafez.pokersale.ui.views.tabbar.PokerSaleBottomNavigation
 import br.com.khodahafez.pokersale.ui.views.tabbar.TabItem
 
-private val players = mutableListOf(
-    PlayerHelper(
-        Player(
-            id = "1I12S23SS2",
-            name = "Paulo Dias"
-        ),
-        pointsTotal = 100,
-        bounties = 10
-    ),
-    PlayerHelper(
-        Player(
-            id = "1I1223SS2",
-            name = "Teste Jogador"
-        ),
-        pointsTotal = 12,
-        bounties = 11
-    ),
-    PlayerHelper(
-        Player(
-            id = "1I1223SS2",
-            name = "Teste Jogador 2"
-        ),
-        pointsTotal = 122,
-        bounties = 1
-    ),
-    PlayerHelper(
-        Player(
-            id = "1I1223SS21",
-            name = "Teste Jogador 3"
-        ),
-        pointsTotal = 142,
-        bounties = 2
-    )
-)
-
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory()),
     navHostController: NavHostController
 ) {
     val listItems = remember {
-        mutableListOf(
-            TabItem(
-                title = "Home",
-                route = ScreenEnum.HOME,
-                icon = Icons.Default.Home,
-            ),
+        mutableListOf<TabItem>(
         )
     }
 
@@ -97,6 +65,11 @@ fun HomeScreen(
         if (Session.player?.isAdmin == true) {
             listItems.addAll(
                 listOf(
+                    TabItem(
+                        title = "Home",
+                        route = ScreenEnum.HOME,
+                        icon = Icons.Default.Home,
+                    ),
                     TabItem(
                         title = "Jogador",
                         route = ScreenEnum.REGISTER_PLAYER,
@@ -117,12 +90,45 @@ fun HomeScreen(
         }
     }
 
+    val stateUI by viewModel.homeStateUI.collectAsState()
+    val context = LocalContext.current
+    val playersHelpers = remember {
+        mutableListOf<PlayerHelper>()
+    }
+
+    var loading by remember {
+        mutableStateOf(false)
+    }
+
+    when (val result = stateUI) {
+        is HomeStateUI.InitialState -> {
+            // Do Noting
+        }
+
+        is HomeStateUI.GetAllSuccessful -> {
+            loading = false
+            playersHelpers.addAll(result.listPlayerHelper)
+        }
+
+        is HomeStateUI.Loading -> {
+            loading = true
+        }
+
+        is HomeStateUI.Error -> {
+            loading = false
+            context.showToast(result.message)
+        }
+    }
+
+
     Scaffold(
         bottomBar = {
-            PokerSaleBottomNavigation(
-                navController = navHostController,
-                items = listItems
-            )
+            if (Session.player?.isAdmin == true) {
+                PokerSaleBottomNavigation(
+                    navController = navHostController,
+                    items = listItems
+                )
+            }
         },
     ) { _ ->
         Surface(
@@ -147,7 +153,7 @@ fun HomeScreen(
                 border = BorderStroke(width = 1.dp, color = Color.LightGray)
             ) {
                 LazyColumn {
-                    items(players) { it ->
+                    items(playersHelpers) { it ->
                         Card(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -170,7 +176,7 @@ fun HomeScreen(
                                     verticalArrangement = Arrangement.Center
                                 ) {
                                     Text(
-                                        text = players.indexOf(it).inc().toString(),
+                                        text = playersHelpers.indexOf(it).inc().toString(),
                                         style = MaterialTheme.typography.titleMedium
                                     )
                                 }
