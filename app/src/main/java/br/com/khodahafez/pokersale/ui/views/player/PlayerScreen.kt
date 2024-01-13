@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.pokersale.R
+import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
 import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
@@ -36,8 +37,7 @@ import br.com.khodahafez.pokersale.ui.views.login.PasswordField
 @Composable
 fun PlayerScreen(
     viewModel: PlayerViewModel = viewModel(factory = PlayerViewModelFactory()),
-
-    ) {
+) {
 
     val loginStateUI by viewModel.playerStateUI.collectAsState()
     val context = LocalContext.current
@@ -53,7 +53,9 @@ fun PlayerScreen(
 
         is PlayerStateUI.SaveSuccessful -> {
             loading = false
-            context.showToast("Salvo com Sucesso")
+            context.showToast(
+                stringResource(id = R.string.poker_sale_register_player_save_successful)
+            )
         }
 
         is PlayerStateUI.Loading -> {
@@ -93,34 +95,34 @@ private fun PlayerScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp)
+            .padding(horizontal = mediumDimens.size24)
     ) {
 
         TextFieldComponent(
             modifier = Modifier.fillMaxWidth(),
             icon = Icons.Default.Edit,
             value = name,
-            label = "Nome",
-            placeholder = "Digite o nome",
+            label = stringResource(id = R.string.poker_sale_register_player_name),
+            placeholder = stringResource(id = R.string.poker_sale_register_player_enter_name),
             onChange = {
                 name = it
             }
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(mediumDimens.size24))
 
         TextFieldComponent(
             modifier = Modifier.fillMaxWidth(),
             icon = Icons.Default.Edit,
             value = login,
-            label = "Login",
-            placeholder = "Digite o login",
+            label = stringResource(id = R.string.poker_sale_register_player_login),
+            placeholder = stringResource(R.string.poker_sale_register_player_enter_login),
             onChange = {
                 login = it
             }
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(mediumDimens.size24))
 
         PasswordField(
             modifier = Modifier.fillMaxWidth(),
@@ -130,7 +132,7 @@ private fun PlayerScreenContent(
             },
             submit = { },
         )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(mediumDimens.size24))
         LabeledCheckBox(
             label = stringResource(
                 id = R.string.poker_sale_register_player_is_admin
@@ -150,7 +152,7 @@ private fun PlayerScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    all = 24.dp
+                    all = mediumDimens.size24
                 ),
             onClick = {
                 onClick(
@@ -161,7 +163,7 @@ private fun PlayerScreenContent(
                 )
             },
             enabled = login.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty(),
-            shape = RoundedCornerShape(5.dp),
+            shape = RoundedCornerShape(mediumDimens.size05),
         ) {
             Text(stringResource(id = R.string.poker_sale_button_label))
         }

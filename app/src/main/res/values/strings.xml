@@ -39,4 +39,10 @@
 
     <!--Player-->
     <string name="poker_sale_register_player_is_admin">Criar como Administrador?</string>
+    <string name="poker_sale_register_player_enter_name">Digite o Nome</string>
+    <string name="poker_sale_register_player_enter_login">Digite o Login</string>
+    <string name="poker_sale_register_player_name">Nome</string>
+    <string name="poker_sale_register_player_login">Login</string>
+    <string name="poker_sale_register_player_save_successful">Salvo com Sucesso!</string>
+
 </resources>

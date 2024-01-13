@@ -31,7 +31,7 @@ internal fun navigationGraph(
         }
 
         composable(route = ScreenEnum.HOME.route) {
-            HomeScreen(navHostController = navController)
+            HomeScreen()
         }
 
         composable(route = ScreenEnum.POSITION_SCORE.route) {

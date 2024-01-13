@@ -1,5 +1,4 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
-
 package br.com.khodahafez.pokersale.ui.views.home
 
 import androidx.compose.foundation.BorderStroke
@@ -46,6 +45,7 @@ import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.utils.Session
 import br.com.khodahafez.pokersale.navigation.ScreenEnum
 import br.com.khodahafez.pokersale.ui.model.PlayerHelper
+import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.balance.BalanceStateUI
 import br.com.khodahafez.pokersale.ui.views.tabbar.PokerSaleBottomNavigation
@@ -54,42 +54,7 @@ import br.com.khodahafez.pokersale.ui.views.tabbar.TabItem
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel(factory = HomeViewModelFactory()),
-    navHostController: NavHostController
 ) {
-    val listItems = remember {
-        mutableListOf<TabItem>(
-        )
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        if (Session.player?.isAdmin == true) {
-            listItems.addAll(
-                listOf(
-                    TabItem(
-                        title = "Home",
-                        route = ScreenEnum.HOME,
-                        icon = Icons.Default.Home,
-                    ),
-                    TabItem(
-                        title = "Jogador",
-                        route = ScreenEnum.REGISTER_PLAYER,
-                        icon = Icons.Default.PersonAdd,
-                    ),
-                    TabItem(
-                        title = "Caixa",
-                        route = ScreenEnum.BALANCE,
-                        icon = Icons.Default.MonetizationOn,
-                    ),
-                    TabItem(
-                        title = "Partida",
-                        route = ScreenEnum.REGISTER_MATCH_DATA_FOR_ENTRY,
-                        icon = Icons.Default.Add,
-                    ),
-                )
-            )
-        }
-    }
-
     val stateUI by viewModel.homeStateUI.collectAsState()
     val context = LocalContext.current
     val playersHelpers = remember {
@@ -120,104 +85,89 @@ fun HomeScreen(
         }
     }
 
-
-    Scaffold(
-        bottomBar = {
-            if (Session.player?.isAdmin == true) {
-                PokerSaleBottomNavigation(
-                    navController = navHostController,
-                    items = listItems
-                )
-            }
-        },
-    ) { _ ->
-        Surface(
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Card(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(
-                    bottom = 64.dp
-                )
+                .padding(mediumDimens.size08),
+            shape = RoundedCornerShape(mediumDimens.size10),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                contentColor = MaterialTheme.colorScheme.background,
+                disabledContentColor = MaterialTheme.colorScheme.background,
+                disabledContainerColor = MaterialTheme.colorScheme.background,
+            ),
+            elevation = CardDefaults.cardElevation(mediumDimens.size04),
+            border = BorderStroke(width = mediumDimens.size01, color = Color.LightGray)
         ) {
-            Card(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(9.dp),
-                shape = RoundedCornerShape(10.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    contentColor = MaterialTheme.colorScheme.background,
-                    disabledContentColor = MaterialTheme.colorScheme.background,
-                    disabledContainerColor = MaterialTheme.colorScheme.background,
-                ),
-                elevation = CardDefaults.cardElevation(4.dp),
-                border = BorderStroke(width = 1.dp, color = Color.LightGray)
-            ) {
-                LazyColumn {
-                    items(playersHelpers) { it ->
-                        Card(
+            LazyColumn {
+                items(playersHelpers) { it ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(mediumDimens.size70)
+                            .padding(mediumDimens.size06),
+                        shape = RoundedCornerShape(mediumDimens.size06),
+                        elevation = CardDefaults.cardElevation(mediumDimens.size04)
+                    ) {
+
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(70.dp)
-                                .padding(6.dp),
-                            shape = RoundedCornerShape(6.dp),
-                            elevation = CardDefaults.cardElevation(4.dp)
+                                .fillMaxHeight()
                         ) {
-
-                            Row(
+                            Column(
+                                modifier = Modifier
+                                    .wrapContentWidth()
+                                    .fillMaxHeight()
+                                    .padding(start = mediumDimens.size30),
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = playersHelpers.indexOf(it).inc().toString(),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                            }
+                            Column(
+                                modifier = Modifier
+                                    .wrapContentWidth()
+                                    .fillMaxHeight()
+                                    .padding(start = mediumDimens.size30),
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = it.player.name,
+                                    modifier = Modifier
+                                        .padding(bottom = mediumDimens.size02)
+                                        .align(Alignment.Start),
+                                    fontWeight = FontWeight.Bold,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.primary,
+                                )
+                                Text(
+                                    text = "${it.bounties} bounties",
+                                    Modifier.align(Alignment.Start),
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
+                            }
+                            Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .fillMaxHeight()
+                                    .padding(end = mediumDimens.size30),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.End
                             ) {
-                                Column(
-                                    modifier = Modifier
-                                        .wrapContentWidth()
-                                        .fillMaxHeight()
-                                        .padding(start = 30.dp),
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Text(
-                                        text = playersHelpers.indexOf(it).inc().toString(),
-                                        style = MaterialTheme.typography.titleMedium
-                                    )
-                                }
-                                Column(
-                                    modifier = Modifier
-                                        .wrapContentWidth()
-                                        .fillMaxHeight()
-                                        .padding(start = 30.dp),
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Text(
-                                        text = it.player.name,
-                                        modifier = Modifier
-                                            .padding(bottom = 2.dp)
-                                            .align(Alignment.Start),
-                                        fontWeight = FontWeight.Bold,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        color = MaterialTheme.colorScheme.primary,
-                                    )
-                                    Text(
-                                        text = "${it.bounties} bounties",
-                                        Modifier.align(Alignment.Start),
-                                        style = MaterialTheme.typography.labelLarge,
-                                        color = MaterialTheme.colorScheme.secondary
-                                    )
-                                }
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .fillMaxHeight()
-                                        .padding(end = 30.dp),
-                                    verticalArrangement = Arrangement.Center,
-                                    horizontalAlignment = Alignment.End
-                                ) {
-                                    Text(
-                                        text = "${it.pointsTotal} pontos",
-                                        fontWeight = FontWeight.Bold,
-                                        style = MaterialTheme.typography.titleMedium,
-                                        color = MaterialTheme.colorScheme.primary
-                                    )
-                                }
+                                Text(
+                                    text = "${it.pointsTotal} pontos",
+                                    fontWeight = FontWeight.Bold,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
                             }
                         }
                     }

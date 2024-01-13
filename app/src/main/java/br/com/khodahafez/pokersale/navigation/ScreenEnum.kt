@@ -3,20 +3,24 @@ package br.com.khodahafez.pokersale.navigation
 import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.pokersale.navigation.ScreensConstants.REGISTER_MATCH_ARGUMENT
 
-internal enum class ScreenEnum(
+enum class ScreenEnum(
     val route: String,
     val displayName: String,
-    val argument: String = EMPTY_STRING
+    val argument: String = EMPTY_STRING,
+    val isShowBottomBar: Boolean = false,
+    val isTopBar: Boolean = false
 ) {
 
     REGISTER_PLAYER(
         route = ScreensConstants.REGISTER_PLAYER,
         displayName = ScreensConstants.REGISTER_PLAYER_DISPLAY,
+        isShowBottomBar = true
     ),
     REGISTER_MATCH_DATA_USER(
         route = ScreensConstants.REGISTER_MATCH_DATA_USER,
         displayName = ScreensConstants.REGISTER_MATCH_DATA_USER_DISPLAY,
         argument = ScreensConstants.REGISTER_MATCH_DATA_USER_ARGUMENT,
+        isTopBar = true
     ),
     REGISTER_MATCH(
         route = ScreensConstants.REGISTER_MATCH,
@@ -25,11 +29,14 @@ internal enum class ScreenEnum(
     ),
     REGISTER_MATCH_DATA_FOR_ENTRY(
         route = ScreensConstants.REGISTER_MATCH_DATA_ENTRY,
-        displayName = ScreensConstants.REGISTER_MATCH_DATA_ENTRY_DISPLAY
+        displayName = ScreensConstants.REGISTER_MATCH_DATA_ENTRY_DISPLAY,
+        isTopBar = true
     ),
     BALANCE(
         route = ScreensConstants.BALANCE,
-        displayName = ScreensConstants.BALANCE_DISPLAY
+        displayName = ScreensConstants.BALANCE_DISPLAY,
+        isShowBottomBar = true,
+        isTopBar = true
     ),
     BOUNTY_TYPE(
         route = ScreensConstants.POSITION_SCORE,
@@ -45,8 +52,17 @@ internal enum class ScreenEnum(
     ),
     HOME(
         route = ScreensConstants.HOME,
-        displayName = ScreensConstants.HOME_DISPLAY
+        displayName = ScreensConstants.HOME_DISPLAY,
+        isShowBottomBar = true
     );
+
+    companion object{
+        fun getScreenEnumByRoute(route: String?): ScreenEnum {
+            return values().firstOrNull {
+                it.route == route
+            } ?: HOME
+        }
+    }
 }
 
 internal object ScreensConstants {
