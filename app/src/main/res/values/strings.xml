@@ -37,6 +37,10 @@
     <string name="poker_sale_balance_update_balance">Atualizar Caixa</string>
     <string name="poker_sale_balance_enter_the_reason">Digite o motivo</string>
 
+    <!-- My Balance -->
+    <string name="poker_sale_my_balance_entries">Gastos:</string>
+    <string name="poker_sale_my_balance_prizes">Ganhos:</string>
+
     <!--Player-->
     <string name="poker_sale_register_player_is_admin">Criar como Administrador?</string>
     <string name="poker_sale_register_player_enter_name">Digite o Nome</string>
