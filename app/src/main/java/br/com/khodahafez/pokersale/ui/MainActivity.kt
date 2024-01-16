@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MonetizationOn
+import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,6 +42,7 @@ import br.com.khodahafez.pokersale.ui.views.tabbar.PokerSaleBottomNavigation
 import br.com.khodahafez.pokersale.ui.views.tabbar.TabItem
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
@@ -63,10 +65,10 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     topBar = {
-                        if (currentRoute.isTopBar) {
+                        if (currentRoute.isTopBar && Session.player != null) {
                             CenterAlignedTopAppBar(
                                 colors = TopAppBarDefaults.smallTopAppBarColors(
-                                    containerColor = MaterialTheme.colorScheme.background,
+                                    containerColor = Color(0xFF333399),
                                     titleContentColor = Color.White,
                                 ),
                                 title = {
@@ -80,6 +82,7 @@ class MainActivity : ComponentActivity() {
                                 navigationIcon = {
                                     IconButton(onClick = { navController.navigateUp() }) {
                                         Icon(
+                                            tint = Color.White,
                                             imageVector = Icons.Filled.ArrowBack,
                                             contentDescription = EMPTY_STRING
                                         )
@@ -90,7 +93,7 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     bottomBar = {
-                        if (currentRoute.isShowBottomBar) {
+                        if (currentRoute.isShowBottomBar && Session.player != null) {
                             PokerSaleBottomNavigation(
                                 navController = navController,
                                 items = listItems
@@ -130,11 +133,18 @@ class MainActivity : ComponentActivity() {
         isLoginScreen: Boolean,
     ) {
 
-        if (isLoginScreen.not()) {
+        if (isLoginScreen.not() && Session.player != null) {
             listItems.add(
                 TabItem(
                     route = ScreenEnum.HOME,
                     icon = Icons.Default.Home,
+                )
+            )
+
+            listItems.add(
+                TabItem(
+                    route = ScreenEnum.MY_BALANCE,
+                    icon = Icons.Default.Money,
                 )
             )
 

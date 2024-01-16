@@ -14,7 +14,8 @@ enum class ScreenEnum(
     MY_BALANCE(
         route = ScreensConstants.MY_BALANCE,
         displayName = ScreensConstants.MY_BALANCE_DISPLAY,
-        isShowBottomBar = true
+        isShowBottomBar = true,
+        isTopBar = true
     ),
     RANKING_BALANCE(
         route = ScreensConstants.RANKING_BALANCE,

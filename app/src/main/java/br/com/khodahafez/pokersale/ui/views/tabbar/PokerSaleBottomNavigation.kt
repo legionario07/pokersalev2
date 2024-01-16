@@ -5,8 +5,10 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.pokersale.ui.views.components.currentRoute
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 
@@ -23,9 +25,15 @@ internal fun PokerSaleBottomNavigation(
         val currentRoute = currentRoute(navController)
         items.iterator().forEach { screen ->
             BottomNavigationItem(
-                icon = { Icon(screen.icon, contentDescription = "") },
-                selectedContentColor = MaterialTheme.colorScheme.secondary,
-                unselectedContentColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f) ,
+                icon = {
+                    Icon(
+                        imageVector = screen.icon,
+                        contentDescription = EMPTY_STRING,
+                        tint = Color.White
+                    )
+                },
+                selectedContentColor = Color.White,
+                unselectedContentColor = Color.White,
                 selected = currentRoute.route == screen.route.route,
                 alwaysShowLabel = false,
                 onClick = {
