@@ -11,6 +11,16 @@ enum class ScreenEnum(
     val isTopBar: Boolean = false
 ) {
 
+    MY_BALANCE(
+        route = ScreensConstants.MY_BALANCE,
+        displayName = ScreensConstants.MY_BALANCE_DISPLAY,
+        isShowBottomBar = true
+    ),
+    RANKING_BALANCE(
+        route = ScreensConstants.RANKING_BALANCE,
+        displayName = ScreensConstants.RANKING_BALANCE_DISPLAY,
+        isShowBottomBar = true
+    ),
     REGISTER_PLAYER(
         route = ScreensConstants.REGISTER_PLAYER,
         displayName = ScreensConstants.REGISTER_PLAYER_DISPLAY,
@@ -56,7 +66,7 @@ enum class ScreenEnum(
         isShowBottomBar = true
     );
 
-    companion object{
+    companion object {
         fun getScreenEnumByRoute(route: String?): ScreenEnum {
             return values().firstOrNull {
                 it.route == route
@@ -76,9 +86,6 @@ internal object ScreensConstants {
     const val POSITION_SCORE = "Position_Score"
     const val POSITION_SCORE_DISPLAY = "Pontos por Posição"
 
-    const val BOUNTY_TYPE_SCORE = "Bounty_Type"
-    const val BOUNTY_TYPE_DISPLAY = "Tipos de Bounty"
-
     const val BALANCE = "Balance"
     const val BALANCE_DISPLAY = "Caixa"
 
@@ -95,4 +102,10 @@ internal object ScreensConstants {
 
     const val REGISTER_PLAYER = "REGISTER_PLAYER"
     const val REGISTER_PLAYER_DISPLAY = "Novo Jogador"
+
+    const val RANKING_BALANCE = "RANKING_BALANCE"
+    const val RANKING_BALANCE_DISPLAY = "Ranking Gastos/Lucro"
+
+    const val MY_BALANCE = "MY_BALANCE"
+    const val MY_BALANCE_DISPLAY = "Meus Ganhos e Perdas"
 }

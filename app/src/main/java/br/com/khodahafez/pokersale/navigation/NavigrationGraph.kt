@@ -5,6 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.khodahafez.pokersale.ui.views.balance.BalanceScreen
+import br.com.khodahafez.pokersale.ui.views.balance.my_balance.MyBalanceScreen
+import br.com.khodahafez.pokersale.ui.views.balance.ranking_balance.RankingBalanceScreen
 import br.com.khodahafez.pokersale.ui.views.bounty_type.BountyTypeScreen
 import br.com.khodahafez.pokersale.ui.views.home.HomeScreen
 import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
@@ -78,6 +80,18 @@ internal fun navigationGraph(
             route = ScreenEnum.REGISTER_PLAYER.route
         ) {
             PlayerScreen()
+        }
+
+        composable(
+            route = ScreenEnum.MY_BALANCE.route
+        ) {
+            MyBalanceScreen()
+        }
+
+        composable(
+            route = ScreenEnum.RANKING_BALANCE.route
+        ) {
+            RankingBalanceScreen()
         }
     }
 }
