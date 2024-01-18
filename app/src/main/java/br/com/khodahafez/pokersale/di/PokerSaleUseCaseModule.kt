@@ -10,6 +10,7 @@ import br.com.khodahafez.domain.repository.remote.ScoreRepository
 import br.com.khodahafez.domain.usecase.balance.GetAllBalanceUseCase
 import br.com.khodahafez.domain.usecase.balance.SaveBalanceUseCase
 import br.com.khodahafez.domain.usecase.bounty_type.SaveBountyTypeUseCase
+import br.com.khodahafez.domain.usecase.expenses.GetAllExpensesUseCase
 import br.com.khodahafez.domain.usecase.expenses.GetExpenseByPlayerUseCase
 import br.com.khodahafez.domain.usecase.expenses.SaveExpensesUseCase
 import br.com.khodahafez.domain.usecase.login.LoginUseCase
@@ -87,6 +88,15 @@ object UseCaseModule {
         repository: BalanceRepository,
     ): GetAllBalanceUseCase {
         return GetAllBalanceUseCase(
+            scope = Dispatchers.IO,
+            repository = repository,
+        )
+    }
+
+    fun provideGetAllExpensesUseCase(
+        repository: ExpensesRepository,
+    ): GetAllExpensesUseCase {
+        return GetAllExpensesUseCase(
             scope = Dispatchers.IO,
             repository = repository,
         )

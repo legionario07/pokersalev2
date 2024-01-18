@@ -7,7 +7,7 @@ import br.com.khodahafez.domain.model.Expenses
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.expenses.GetExpenseByPlayerUseCase
-import br.com.khodahafez.pokersale.ui.model.ExpenseUiHelper
+import br.com.khodahafez.domain.model.screen.ExpenseUiHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
