@@ -1,17 +1,22 @@
 package br.com.khodahafez.pokersale.ui.views.balance.ranking_balance
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -27,11 +32,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.khodahafez.domain.extensions.toMonetary
+import br.com.khodahafez.domain.model.screen.RankingBalanceUiHelper
 import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
-import br.com.khodahafez.pokersale.ui.views.balance.BalanceStateUI
-import br.com.khodahafez.pokersale.ui.views.balance.BalanceViewModel
-import br.com.khodahafez.pokersale.ui.views.balance.BalanceViewModelFactory
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
 
 @Composable
@@ -53,7 +57,7 @@ fun RankingBalanceScreen(
 
         is RankingBalanceStateUI.GetAllBalances -> {
             loading = false
-//            MyBalanceContentScreen(result.expenseUiHelper)
+            RankingBalanceContentScreen(result.expenses)
         }
 
         is RankingBalanceStateUI.Loading -> {
@@ -70,13 +74,30 @@ fun RankingBalanceScreen(
 }
 
 @Composable
-private fun RankingBalanceContentScreen() {
+private fun RankingBalanceContentScreen(balancesUIHelper: List<RankingBalanceUiHelper>) {
 
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        LazyColumn {
+            items(items = balancesUIHelper, key = {item ->
+                item.player?.id!!
+            }) {item ->
+                CardContent(
+                    balancesUIHelper.indexOf(item).inc(),
+                    item
+                )
+            }
+        }
+    }
 }
 
 @Composable
-@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
-private fun CardContent() {
+private fun CardContent(
+    index: Int,
+    rankingBalanceUiHelper: RankingBalanceUiHelper
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -103,8 +124,7 @@ private fun CardContent() {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-//                    text = playersHelpers.indexOf(it).inc().toString(),
-                    text = "1",
+                    text =  index.toString(),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -116,23 +136,21 @@ private fun CardContent() {
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-//                    text = it.player.name,
-                    text = "João",
+                    text = rankingBalanceUiHelper.player?.name.orEmpty(),
                     modifier = Modifier
                         .padding(bottom = mediumDimens.size02)
                         .align(Alignment.Start),
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary,
                 )
                 Text(
                     modifier = Modifier
                         .padding(bottom = mediumDimens.size02)
                         .align(Alignment.Start),
-                    text = "Saldo: R$ -500,00",
-//                    text = "${it.pointsTotal} gastos",
+                    text = "Saldo: ${rankingBalanceUiHelper.profit.toMonetary()}",
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.error
                 )
             }
@@ -146,18 +164,16 @@ private fun CardContent() {
             ) {
 
                 Text(
-//                    text = "${it.bounties} ganhos",
-                    text = "R$ 1000,00 ganhos",
+                    text = "${rankingBalanceUiHelper.totalPrizes.toMonetary()} ganhos",
                     Modifier.align(Alignment.End),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelSmall,
                     color = Color(0xFF869933)
                 )
 
                 Text(
-//                    text = "${it.bounties} ganhos",
-                    text = "R$ 1500,00 gastos",
+                    text = "${rankingBalanceUiHelper.totalEntries.toMonetary()} gastos",
                     Modifier.align(Alignment.End),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.error
                 )
             }

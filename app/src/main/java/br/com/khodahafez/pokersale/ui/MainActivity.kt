@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.AutoGraph
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material.icons.filled.Money
@@ -87,6 +88,15 @@ class MainActivity : ComponentActivity() {
                                             contentDescription = EMPTY_STRING
                                         )
                                     }
+                                },
+                                actions = {
+                                          IconButton(onClick = { navController.navigate(ScreenEnum.RANKING_BALANCE.route) }) {
+                                              Icon(
+                                                  tint = Color.White,
+                                                  imageVector = Icons.Filled.AutoGraph,
+                                                  contentDescription = EMPTY_STRING
+                                              )
+                                          }
                                 },
                                 scrollBehavior = scrollBehavior
                             )

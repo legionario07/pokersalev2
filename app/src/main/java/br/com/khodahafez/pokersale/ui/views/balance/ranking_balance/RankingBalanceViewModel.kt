@@ -5,10 +5,16 @@ import androidx.lifecycle.viewModelScope
 import br.com.khodahafez.data.mapper.ExpensesMapper
 import br.com.khodahafez.domain.mapper.PokerSaleMapper
 import br.com.khodahafez.domain.model.Expenses
+import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.model.Score
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.expenses.GetAllExpensesUseCase
 import br.com.khodahafez.domain.model.screen.ExpenseUiHelper
 import br.com.khodahafez.domain.model.screen.RankingBalanceUiHelper
+import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
+import br.com.khodahafez.pokersale.ui.model.PlayerHelper
+import br.com.khodahafez.pokersale.ui.views.balance.BalanceStateUI
+import br.com.khodahafez.pokersale.ui.views.home.HomeStateUI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -17,12 +23,15 @@ import kotlinx.coroutines.launch
 
 class RankingBalanceViewModel(
     private val getAllExpensesUseCase: GetAllExpensesUseCase,
-    private val mapper: PokerSaleMapper<Expenses, ExpenseUiHelper>
+    private val getAllPlayerUseCase: GetAllPlayerUseCase
 ) : ViewModel() {
 
     private val _stateUI =
         MutableStateFlow<RankingBalanceStateUI>(RankingBalanceStateUI.Initial)
     val stateUI: StateFlow<RankingBalanceStateUI> = _stateUI
+
+    private val expenses: MutableList<Expenses> = mutableListOf()
+    private val players: MutableList<Player> = mutableListOf()
 
     init {
         getAllExpenses()
@@ -38,9 +47,44 @@ class RankingBalanceViewModel(
                 }.collect { resultOf ->
                     when (resultOf) {
                         is ResultOf.Success -> {
-                            // TODO implementar
+                            expenses.addAll(resultOf.response)
+                            getAllPlayers()
+                        }
+
+                        is ResultOf.Failure -> {
+                            _stateUI.update {
+                                RankingBalanceStateUI.Error(resultOf.error.message)
+                            }
+                        }
+
+                        else -> {
+                            _stateUI.update {
+                                RankingBalanceStateUI.Loading
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun getAllPlayers() {
+        viewModelScope.launch {
+            getAllPlayerUseCase.getAll()
+                .catch { error ->
+                    _stateUI.update {
+                        RankingBalanceStateUI.Error(error.message)
+                    }
+                }.collect { resultOf ->
+                    when (resultOf) {
+                        is ResultOf.Success -> {
                             _stateUI.update {
                                 RankingBalanceStateUI.GetAllBalances(mutableListOf())
+                            }
+                            players.addAll(resultOf.response)
+                            _stateUI.update {
+                                RankingBalanceStateUI.GetAllBalances(
+                                    getTransformToRankingBalanceHelperUI()
+                                )
                             }
                         }
 
@@ -58,6 +102,31 @@ class RankingBalanceViewModel(
                     }
                 }
         }
+    }
+
+    private fun getTransformToRankingBalanceHelperUI(): List<RankingBalanceUiHelper> {
+        return players.map { player ->
+            player to expenses.filter { expense ->
+                player.id == expense.idPlayer
+            }
+        }.filter {
+            it.second.isNotEmpty()
+        }.map {
+            var totalEntries = 0.0
+            var totalPrize = 0.0
+            it.second.forEach { expense ->
+                totalEntries += expense.totalEntries ?: 0.0
+                totalPrize += expense.cashPrize ?: 0.0
+            }
+            RankingBalanceUiHelper(
+                player = it.first,
+                totalEntries = totalEntries,
+                totalPrizes = totalPrize,
+                profit = totalPrize - totalEntries
+            )
+        }.sortedBy {
+            it.profit
+        }.reversed()
     }
 
     fun clearState() {

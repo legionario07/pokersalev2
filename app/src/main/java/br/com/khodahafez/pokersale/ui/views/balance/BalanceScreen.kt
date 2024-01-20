@@ -172,7 +172,7 @@ private fun BalanceContentScreen(
                             expanded = false
                         },
                         text = {
-                            Text(text = itemValue.toString())
+                            Text(text = itemValue.operationType)
                         },
                         enabled = (itemValue != bankType),
                     )

@@ -14,13 +14,18 @@ class RankingBalanceViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
         val dbReferences = FirebaseModule.provideFirebaseReference("/expenses")
+        val dbReferencesPlayers = FirebaseModule.provideFirebaseReference("/users")
+
         val repository = RepositoryModule.provideExpensesRepository(dbReferences)
+        val playerRepository = RepositoryModule.providePlayerRepository(dbReferencesPlayers)
 
         val useCase =
             UseCaseModule.provideGetAllExpensesUseCase(repository)
+        val getPlayerUseCase = UseCaseModule.provideGetAllPlayerUseCase(playerRepository)
 
         return RankingBalanceViewModel(
             getAllExpensesUseCase = useCase,
+            getAllPlayerUseCase = getPlayerUseCase
         ) as T
     }
 }
