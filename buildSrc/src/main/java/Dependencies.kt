@@ -10,7 +10,7 @@ object Dependencies {
     val depComposeUiToolingPreview = lib("androidx.compose.ui:ui-tooling-preview")
     val depComposeUiTestJUnit = lib("androidx.compose.ui:ui-test-junit4")
     val depComposeUiTestManifest = lib("androidx.compose.ui:ui-test-manifest")
-    val depComposeMaterial3 = lib("androidx.compose.material3:material3")
+    val depComposeMaterial3 = lib("androidx.compose.material3:material3", Versions.COMPOSE_MATERIAL_3)
     val depComposeFoundation = lib("androidx.compose.foundation:foundation")
     val depComposeMaterial = lib("androidx.compose.material:material")
     val depJunit = lib("junit:junit", Versions.JUNIT)

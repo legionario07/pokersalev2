@@ -112,9 +112,7 @@ class HomeViewModel(
                 pointsTotal = totalPoints,
                 bounties = totalBounties
             )
-        }.sortedBy {
-            it.pointsTotal
-        }.reversed()
+        }.sortedWith(compareByDescending<PlayerHelper> { it.pointsTotal }.thenBy { it.player.name })
     }
 }
 

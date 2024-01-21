@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
-class BalanceViewModel(
+class NewBalanceEntryViewModel(
     private val saveUseCase: SaveBalanceUseCase,
     private val playerLogged: Player?
 ) : ViewModel() {

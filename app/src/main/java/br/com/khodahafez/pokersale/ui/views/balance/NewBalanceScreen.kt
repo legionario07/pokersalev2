@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material.icons.filled.Note
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -41,8 +40,8 @@ import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
 import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
 
 @Composable
-fun BalanceScreen(
-    viewModel: BalanceViewModel = viewModel(factory = BalanceViewModelFactory()),
+fun NewBalanceScreen(
+    viewModel: NewBalanceEntryViewModel = viewModel(factory = NewBalanceViewModelFactory()),
     onSuccessFinish: () -> Unit
 ) {
     val stateUI by viewModel.stateUI.collectAsState()
@@ -53,23 +52,20 @@ fun BalanceScreen(
     }
 
     when (val result = stateUI) {
-        is BalanceStateUI.Initial -> {
-            // Do Noting
+        is BalanceStateUI.Error -> {
+            loading = false
+            context.showToast(result.message)
         }
-
+        is BalanceStateUI.Initial -> {
+            // Do Nothing
+        }
+        is BalanceStateUI.Loading -> {
+            loading = true
+        }
         is BalanceStateUI.SaveSuccessfulBalanceStateUI -> {
             onSuccessFinish()
             loading = false
             viewModel.clearState()
-        }
-
-        is BalanceStateUI.Loading -> {
-            loading = true
-        }
-
-        is BalanceStateUI.Error -> {
-            loading = false
-            context.showToast(result.message)
         }
     }
 

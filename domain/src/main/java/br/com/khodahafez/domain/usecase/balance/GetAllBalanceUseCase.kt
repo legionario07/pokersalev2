@@ -5,28 +5,18 @@ import br.com.khodahafez.domain.repository.remote.BalanceRepository
 import br.com.khodahafez.domain.state.ResultOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlin.coroutines.CoroutineContext
 
 class GetAllBalanceUseCase(
     private val scope: CoroutineContext,
     private val repository: BalanceRepository,
 ) {
-    fun getAll(): Flow<List<Balance>> {
-        return repository.getAll().map {
-            when (it) {
-                is ResultOf.Success -> {
-                    it.response
-                }
-
-                is ResultOf.Failure -> {
-                    throw it.error
-                }
-
-                else -> {
-                    null!!
-                }
+    fun getAll(): Flow<ResultOf<List<Balance>>> {
+        return repository.getAll()
+            .onStart {
+                emit(ResultOf.Loading(true))
             }
-        }.flowOn(scope)
+            .flowOn(scope)
     }
 }

@@ -4,7 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import br.com.khodahafez.pokersale.ui.views.balance.BalanceScreen
+import br.com.khodahafez.pokersale.ui.views.balance.BalanceAllScreen
+import br.com.khodahafez.pokersale.ui.views.balance.NewBalanceScreen
 import br.com.khodahafez.pokersale.ui.views.balance.my_balance.MyBalanceScreen
 import br.com.khodahafez.pokersale.ui.views.balance.ranking_balance.RankingBalanceScreen
 import br.com.khodahafez.pokersale.ui.views.bounty_type.BountyTypeScreen
@@ -60,7 +61,7 @@ internal fun navigationGraph(
                     "idMatchCreated"
                 ).orEmpty(),
                 onSaveMatchSuccessful = {
-                    navController.navigate(ScreenEnum.BALANCE.route){
+                    navController.navigate(ScreenEnum.NEW_BALANCE_POKER_SALE.route) {
                         launchSingleTop = true
                         popUpTo(ScreenEnum.HOME.route)
                     }
@@ -69,10 +70,10 @@ internal fun navigationGraph(
         }
 
         composable(
-            route = ScreenEnum.BALANCE.route
+            route = ScreenEnum.NEW_BALANCE_POKER_SALE.route
         ) {
-            BalanceScreen(
-                onSuccessFinish = {navController.popBackStack()}
+            NewBalanceScreen(
+                onSuccessFinish = { navController.popBackStack() }
             )
         }
 
@@ -92,6 +93,14 @@ internal fun navigationGraph(
             route = ScreenEnum.RANKING_BALANCE.route
         ) {
             RankingBalanceScreen()
+        }
+
+        composable(
+            route = ScreenEnum.BALANCE_POKER_SALE.route
+        ) {
+            BalanceAllScreen(
+
+            )
         }
     }
 }

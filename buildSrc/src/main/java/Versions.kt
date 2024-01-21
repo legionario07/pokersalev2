@@ -3,6 +3,7 @@ object Versions {
     const val COMPOSE_NAVIGATION = "2.5.3"
     const val COMPOSE_ICONS = "1.4.3"
     const val COMPOSE_BOM = "2023.01.00"
+    const val COMPOSE_MATERIAL_3 = "1.1.1"
     const val JUNIT = "4.13.2"
     const val JUNIT_EXT = "1.1.5"
     const val EXPRESSO_CORE = "3.5.1"

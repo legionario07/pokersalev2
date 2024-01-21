@@ -8,14 +8,13 @@ enum class ScreenEnum(
     val displayName: String,
     val argument: String = EMPTY_STRING,
     val isShowBottomBar: Boolean = false,
-    val isTopBar: Boolean = false
+    val isTopBar: Boolean = true
 ) {
 
     MY_BALANCE(
         route = ScreensConstants.MY_BALANCE,
         displayName = ScreensConstants.MY_BALANCE_DISPLAY,
         isShowBottomBar = true,
-        isTopBar = true
     ),
     RANKING_BALANCE(
         route = ScreensConstants.RANKING_BALANCE,
@@ -43,9 +42,15 @@ enum class ScreenEnum(
         displayName = ScreensConstants.REGISTER_MATCH_DATA_ENTRY_DISPLAY,
         isTopBar = true
     ),
-    BALANCE(
-        route = ScreensConstants.BALANCE,
-        displayName = ScreensConstants.BALANCE_DISPLAY,
+    NEW_BALANCE_POKER_SALE(
+        route = ScreensConstants.NEW_BALANCE_POKER,
+        displayName = ScreensConstants.NEW_BALANCE_POKER_DISPLAY,
+        isShowBottomBar = true,
+        isTopBar = true
+    ),
+    BALANCE_POKER_SALE(
+        route = ScreensConstants.BALANCE_ALL,
+        displayName = ScreensConstants.BALANCE_ALL_DISPLAY,
         isShowBottomBar = true,
         isTopBar = true
     ),
@@ -59,7 +64,9 @@ enum class ScreenEnum(
     ),
     LOGIN(
         route = ScreensConstants.LOGIN,
-        displayName = ScreensConstants.LOGIN_DISPLAY
+        displayName = ScreensConstants.LOGIN_DISPLAY,
+        isShowBottomBar = false,
+        isTopBar = false
     ),
     HOME(
         route = ScreensConstants.HOME,
@@ -87,8 +94,11 @@ internal object ScreensConstants {
     const val POSITION_SCORE = "Position_Score"
     const val POSITION_SCORE_DISPLAY = "Pontos por Posição"
 
-    const val BALANCE = "Balance"
-    const val BALANCE_DISPLAY = "Caixa"
+    const val NEW_BALANCE_POKER = "NEW_BALANCE_POKER"
+    const val NEW_BALANCE_POKER_DISPLAY = "Movimentação"
+
+    const val BALANCE_ALL = "BALANCE_ALL"
+    const val BALANCE_ALL_DISPLAY = "Caixa"
 
     const val REGISTER_MATCH_DATA_ENTRY = "Match_Register_Data_Entry"
     const val REGISTER_MATCH_DATA_ENTRY_DISPLAY = "Nova Partida"
@@ -108,5 +118,5 @@ internal object ScreensConstants {
     const val RANKING_BALANCE_DISPLAY = "Ranking Gastos/Lucro"
 
     const val MY_BALANCE = "MY_BALANCE"
-    const val MY_BALANCE_DISPLAY = "Meus Ganhos e Perdas"
+    const val MY_BALANCE_DISPLAY = "Meu Saldo"
 }

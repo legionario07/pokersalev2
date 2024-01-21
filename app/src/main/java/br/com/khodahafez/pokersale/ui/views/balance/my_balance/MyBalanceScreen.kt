@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -64,11 +65,28 @@ fun MyBalanceScreen(
 
         is MyBalanceStateUI.Error -> {
             loading = false
-            context.showToast(result.message)
+            MyBalanceEmpty()
         }
     }
 
     CircularLoading(isLoading = loading)
+}
+
+@Composable
+private fun MyBalanceEmpty() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Text(
+            text = "Sem dados para exibir",
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.labelLarge,
+        )
+    }
 }
 
 @Composable

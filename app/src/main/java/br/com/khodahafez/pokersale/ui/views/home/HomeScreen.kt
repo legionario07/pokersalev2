@@ -71,8 +71,8 @@ fun HomeScreen(
         }
 
         is HomeStateUI.GetAllSuccessful -> {
-            loading = false
             playersHelpers.addAll(result.listPlayerHelper)
+            loading = false
         }
 
         is HomeStateUI.Loading -> {

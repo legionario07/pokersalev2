@@ -4,9 +4,9 @@ import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 
 data class Balance(
     var id: String? = null,
-    var namePlayer: String,
-    var value: Double,
-    var date: String,
-    var operationType: BankType,
+    var namePlayer: String = EMPTY_STRING,
+    var value: Double = 0.0,
+    var date: String? = null,
+    var operationType: BankType? = null,
     var reason: String = EMPTY_STRING
 )

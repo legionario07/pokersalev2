@@ -8,7 +8,7 @@ import br.com.khodahafez.pokersale.di.FirebaseModule
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
 
-class BalanceViewModelFactory : ViewModelProvider.Factory {
+class NewBalanceViewModelFactory : ViewModelProvider.Factory {
 
     @NonNull
     @Override
@@ -20,7 +20,7 @@ class BalanceViewModelFactory : ViewModelProvider.Factory {
         val saveUseCase =
             UseCaseModule.provideSaveBalanceUseCase(repository)
 
-        return BalanceViewModel(
+        return NewBalanceEntryViewModel(
             saveUseCase = saveUseCase,
             playerLogged = Session.player
         ) as T
