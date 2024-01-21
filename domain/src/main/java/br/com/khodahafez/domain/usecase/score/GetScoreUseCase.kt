@@ -1,6 +1,6 @@
 package br.com.khodahafez.domain.usecase.score
 
-import br.com.khodahafez.domain.model.Score
+import br.com.khodahafez.domain.model.dto.ScoreDto
 import br.com.khodahafez.domain.repository.remote.ScoreRepository
 import br.com.khodahafez.domain.state.ResultOf
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,7 @@ class GetScoreUseCase(
     private val scope: CoroutineContext,
     private val repository: ScoreRepository,
 ) {
-    fun getAll(): Flow<ResultOf<List<Score>>> {
+    fun getAll(): Flow<ResultOf<List<ScoreDto>>> {
 
         return repository.getAll()
             .onStart {

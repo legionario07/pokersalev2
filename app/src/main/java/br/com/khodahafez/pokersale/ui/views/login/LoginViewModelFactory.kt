@@ -8,11 +8,13 @@ import br.com.khodahafez.data.repository.firebase.FirebaseDatabaseConstants
 import br.com.khodahafez.data.repository.firebase.PlayerRepositoryImpl
 import br.com.khodahafez.data.repository.firebase.PokerSaleV2FirebaseDataSourceImpl
 import br.com.khodahafez.pokersale.di.FirebaseModule
+import br.com.khodahafez.pokersale.di.MapperProvide
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+
 class LoginViewModelFactory : ViewModelProvider.Factory {
 
     @NonNull
@@ -22,8 +24,16 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
 
         val playerRepository = RepositoryModule.providePlayerRepository(dbReferences)
 
-        val loginUseCase = UseCaseModule.provideLoginUseCase(playerRepository)
-        val playerUseCase = UseCaseModule.providePlayerSaveUseCase(playerRepository)
+        val mapper = MapperProvide.providePlayerMapper()
+
+        val loginUseCase = UseCaseModule.provideLoginUseCase(
+            playerRepository,
+            mapper
+        )
+        val playerUseCase = UseCaseModule.providePlayerSaveUseCase(
+            playerRepository,
+            mapper
+        )
 
         return LoginViewModel(
             loginUseCase = loginUseCase,

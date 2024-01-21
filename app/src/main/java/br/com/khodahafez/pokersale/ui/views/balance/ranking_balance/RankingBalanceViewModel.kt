@@ -2,19 +2,12 @@ package br.com.khodahafez.pokersale.ui.views.balance.ranking_balance
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.khodahafez.data.mapper.ExpensesMapper
-import br.com.khodahafez.domain.mapper.PokerSaleMapper
-import br.com.khodahafez.domain.model.Expenses
 import br.com.khodahafez.domain.model.Player
-import br.com.khodahafez.domain.model.Score
+import br.com.khodahafez.domain.model.dto.ExpensesDto
+import br.com.khodahafez.domain.model.screen.RankingBalanceUiHelper
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.expenses.GetAllExpensesUseCase
-import br.com.khodahafez.domain.model.screen.ExpenseUiHelper
-import br.com.khodahafez.domain.model.screen.RankingBalanceUiHelper
 import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
-import br.com.khodahafez.pokersale.ui.model.PlayerHelper
-import br.com.khodahafez.pokersale.ui.views.balance.BalanceStateUI
-import br.com.khodahafez.pokersale.ui.views.home.HomeStateUI
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -30,7 +23,7 @@ class RankingBalanceViewModel(
         MutableStateFlow<RankingBalanceStateUI>(RankingBalanceStateUI.Initial)
     val stateUI: StateFlow<RankingBalanceStateUI> = _stateUI
 
-    private val expenses: MutableList<Expenses> = mutableListOf()
+    private val expenses: MutableList<ExpensesDto> = mutableListOf()
     private val players: MutableList<Player> = mutableListOf()
 
     init {

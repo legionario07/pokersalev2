@@ -1,7 +1,6 @@
 package br.com.khodahafez.domain.usecase.expenses
 
-import br.com.khodahafez.domain.model.Expenses
-import br.com.khodahafez.domain.model.MatchOfPokerType
+import br.com.khodahafez.domain.model.dto.ExpensesDto
 import br.com.khodahafez.domain.repository.remote.ExpensesRepository
 import br.com.khodahafez.domain.state.ResultOf
 import kotlinx.coroutines.flow.Flow
@@ -14,9 +13,9 @@ class SaveExpensesUseCase(
     private val repository: ExpensesRepository,
 ) {
     fun save(
-        expenses: Expenses,
-    ): Flow<ResultOf<Expenses>> {
-        return repository.save(expenses)
+        expensesDto: ExpensesDto,
+    ): Flow<ResultOf<ExpensesDto>> {
+        return repository.save(expensesDto)
             .onStart {
                 emit(ResultOf.Loading(true))
             }.flowOn(scope)

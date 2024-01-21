@@ -1,7 +1,7 @@
 package br.com.khodahafez.data.repository.firebase
 
 import br.com.khodahafez.domain.errors.NotFoundEntityException
-import br.com.khodahafez.domain.model.Expenses
+import br.com.khodahafez.domain.model.dto.ExpensesDto
 import br.com.khodahafez.domain.repository.remote.ExpensesRepository
 import br.com.khodahafez.domain.state.ResultOf
 import com.google.firebase.database.DataSnapshot
@@ -17,29 +17,29 @@ import kotlinx.coroutines.flow.flow
 class ExpensesRepositoryImpl(
     private val databaseReference: DatabaseReference
 ) : ExpensesRepository {
-    override fun save(expenses: Expenses): Flow<ResultOf<Expenses>> {
+    override fun save(expensesDto: ExpensesDto): Flow<ResultOf<ExpensesDto>> {
         return flow {
             kotlin.runCatching {
 
-                expenses.id = databaseReference.push().key
+                expensesDto.id = databaseReference.push().key
 
-                databaseReference.child(expenses.id!!).setValue(expenses)
-                emit(ResultOf.Success(expenses))
+                databaseReference.child(expensesDto.id!!).setValue(expensesDto)
+                emit(ResultOf.Success(expensesDto))
             }.onFailure {
                 emit(ResultOf.Failure(it))
             }
         }
     }
 
-    override fun getByIdPlayer(idPlayer: String): Flow<ResultOf<List<Expenses>>> {
+    override fun getByIdPlayer(idPlayer: String): Flow<ResultOf<List<ExpensesDto>>> {
         return callbackFlow {
             kotlin.runCatching {
                 val query = databaseReference.orderByChild("idPlayer").equalTo(idPlayer)
                 val listener = object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            val list: MutableList<Expenses> = dataSnapshot.children.map {
-                                it.getValue<Expenses>()!!
+                            val list: MutableList<ExpensesDto> = dataSnapshot.children.map {
+                                it.getValue<ExpensesDto>()!!
                             }.toMutableList()
                             trySend(
                                 ResultOf.Success(list)
@@ -67,14 +67,14 @@ class ExpensesRepositoryImpl(
         }
     }
 
-    override fun getAll(): Flow<ResultOf<List<Expenses>>> {
+    override fun getAll(): Flow<ResultOf<List<ExpensesDto>>> {
         return callbackFlow {
             kotlin.runCatching {
                 val listener = object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            val list: MutableList<Expenses> = dataSnapshot.children.map {
-                                it.getValue<Expenses>()!!
+                            val list: MutableList<ExpensesDto> = dataSnapshot.children.map {
+                                it.getValue<ExpensesDto>()!!
                             }.toMutableList()
                             trySend(
                                 ResultOf.Success(list)

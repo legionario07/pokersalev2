@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.khodahafez.domain.PokerSaleConstants
 import br.com.khodahafez.domain.extensions.converterToStringDate
-import br.com.khodahafez.domain.model.Balance
 import br.com.khodahafez.domain.model.BankType
 import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.model.dto.BalanceDto
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.balance.SaveBalanceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +32,7 @@ class NewBalanceEntryViewModel(
     ) {
         viewModelScope.launch {
             saveUseCase.save(
-                Balance(
+                BalanceDto(
                     namePlayer = playerLogged?.name.orEmpty(),
                     operationType = bankType,
                     value = value.toDouble(),

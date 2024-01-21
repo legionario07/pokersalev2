@@ -1,5 +1,7 @@
 package br.com.khodahafez.pokersale.di
 
+import br.com.khodahafez.domain.mapper.PlayerMapper
+import br.com.khodahafez.domain.repository.PlayerRepositoryDataSource
 import br.com.khodahafez.domain.repository.remote.BalanceRepository
 import br.com.khodahafez.domain.repository.remote.BountyTypeRepository
 import br.com.khodahafez.domain.repository.remote.ExpensesRepository
@@ -30,21 +32,25 @@ import kotlinx.coroutines.Dispatchers
 object UseCaseModule {
     fun provideLoginUseCase(
         playerRepository: PlayerRepository,
+        mapper: PlayerMapper
     ): LoginUseCase {
         return LoginUseCase(
             scope = Dispatchers.IO,
             playerRepository = playerRepository,
-            encryptUtil = EncryptUtils
+            encryptUtil = EncryptUtils,
+            mapper = mapper
         )
     }
 
     fun providePlayerSaveUseCase(
         playerRepository: PlayerRepository,
+        mapper: PlayerMapper
     ): PlayerSaveUseCase {
         return PlayerSaveUseCase(
             scope = Dispatchers.IO,
             playerRepository = playerRepository,
-            encryptUtil = EncryptUtils
+            encryptUtil = EncryptUtils,
+            mapper = mapper
         )
     }
 
@@ -112,11 +118,11 @@ object UseCaseModule {
     }
 
     fun provideGetAllPlayerUseCase(
-        repository: PlayerRepository,
+        repositoryDataSource: PlayerRepositoryDataSource,
     ): GetAllPlayerUseCase {
         return GetAllPlayerUseCase(
             scope = Dispatchers.IO,
-            repository = repository,
+            repositoryDataSource = repositoryDataSource,
         )
     }
 

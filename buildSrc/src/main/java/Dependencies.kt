@@ -28,6 +28,10 @@ object Dependencies {
 
     val depHiltAndroid = lib("com.google.dagger:hilt-android", Versions.HILT_ANDROID)
     val depHiltAndroidKapt = lib("com.google.dagger:hilt-compiler", Versions.HILT_ANDROID)
+
+    val depRoomRuntime = lib("androidx.room:room-runtime", Versions.ROOM_DATABASE)
+    val depRoomCompile = lib("androidx.room:room-compiler", Versions.ROOM_DATABASE)
+    val depRoomKtx = lib("androidx.room:room-ktx", Versions.ROOM_DATABASE)
 }
 
 fun lib(path: String, version: String = "", suffix: String = ""): String {

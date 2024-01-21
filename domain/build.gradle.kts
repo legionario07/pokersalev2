@@ -1,7 +1,9 @@
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
+    id("kotlin-kapt")
 }
 
 android {
@@ -39,4 +41,10 @@ dependencies {
     testImplementation(Dependencies.depJunit)
     androidTestImplementation(Dependencies.depJunitExt)
     androidTestImplementation(Dependencies.depExpressoCore)
+
+    implementation(Dependencies.depRoomRuntime)
+    implementation(Dependencies.depRoomKtx)
+    annotationProcessor(Dependencies.depRoomCompile)
+
+    kapt(Dependencies.depRoomCompile)
 }

@@ -30,11 +30,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.extensions.toMonetary
-import br.com.khodahafez.domain.model.Balance
+import br.com.khodahafez.domain.model.dto.BalanceDto
 import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
@@ -56,7 +55,7 @@ fun BalanceAllScreen(
         }
 
         is BalancePokerStateUI.GetAllBalances -> {
-            BalanceAllContentScreen(profit = result.profit, balances = result.listBalances)
+            BalanceAllContentScreen(profit = result.profit, balanceDtos = result.listBalanceDtos)
             loading = false
         }
 
@@ -75,7 +74,7 @@ fun BalanceAllScreen(
 
 @ExperimentalFoundationApi
 @Composable
-private fun BalanceAllContentScreen(profit: Double, balances: List<Balance>) {
+private fun BalanceAllContentScreen(profit: Double, balanceDtos: List<BalanceDto>) {
 
     Surface(
         modifier = Modifier
@@ -100,7 +99,7 @@ private fun BalanceAllContentScreen(profit: Double, balances: List<Balance>) {
                     )
                 }
             }
-            items(balances, key = {
+            items(balanceDtos, key = {
                 it.id.orEmpty()
             }) { balance ->
                 Card(

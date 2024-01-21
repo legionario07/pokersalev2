@@ -43,7 +43,6 @@ fun MyBalanceScreen(
 ) {
 
     val stateUI by viewModel.stateUI.collectAsState()
-    val context = LocalContext.current
 
     var loading by remember {
         mutableStateOf(false)

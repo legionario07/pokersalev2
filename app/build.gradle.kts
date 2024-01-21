@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
     id("kotlin-parcelize")
+    id("kotlin-kapt")
 }
 
 android {
@@ -87,4 +88,10 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation(Dependencies.depFirebaseDatabaseKtx)
 
+    // Room Database
+    implementation(Dependencies.depRoomRuntime)
+    implementation(Dependencies.depRoomKtx)
+    annotationProcessor(Dependencies.depRoomKtx)
+
+    kapt(Dependencies.depRoomCompile)
 }

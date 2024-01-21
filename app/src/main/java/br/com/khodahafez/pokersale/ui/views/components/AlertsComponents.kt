@@ -64,7 +64,11 @@ fun SingleSelectDialog(
 }
 
 @Composable
-fun RadioButtonItem(player: Player, selectedValue: RegisterMatchScreenModel?, onClickListener: (Player) -> Unit) {
+fun RadioButtonItem(
+    player: Player,
+    selectedValue: RegisterMatchScreenModel?,
+    onClickListener: (Player) -> Unit
+) {
     Row(Modifier
         .fillMaxWidth()
         .selectable(

@@ -3,7 +3,7 @@ package br.com.khodahafez.domain.usecase.score
 import br.com.khodahafez.domain.model.BountyType
 import br.com.khodahafez.domain.model.MatchOfPoker
 import br.com.khodahafez.domain.model.PositionScoreType
-import br.com.khodahafez.domain.model.Score
+import br.com.khodahafez.domain.model.dto.ScoreDto
 import br.com.khodahafez.domain.repository.remote.ScoreRepository
 import br.com.khodahafez.domain.state.ResultOf
 import kotlinx.coroutines.flow.Flow
@@ -16,17 +16,17 @@ class SaveScoreUseCase(
     private val repository: ScoreRepository,
 ) {
     fun save(
-        score: Score,
+        scoreDto: ScoreDto,
         matchOfPoker: MatchOfPoker?
-    ): Flow<ResultOf<Score>> {
+    ): Flow<ResultOf<ScoreDto>> {
 
-        score.bountiesPoints =
-            BountyType.getBountyByMatchType(matchOfPoker?.isSpecialMatch == true).points * score.totalBounties
-        score.difficultyScore = matchOfPoker?.players?.size ?: 0
-        score.pointsForPosition =
-            PositionScoreType.getPointsForPosition(score.positionInTheMatch).points
+        scoreDto.bountiesPoints =
+            BountyType.getBountyByMatchType(matchOfPoker?.isSpecialMatch == true).points * scoreDto.totalBounties
+        scoreDto.difficultyScore = matchOfPoker?.players?.size ?: 0
+        scoreDto.pointsForPosition =
+            PositionScoreType.getPointsForPosition(scoreDto.positionInTheMatch).points
 
-        return repository.save(score)
+        return repository.save(scoreDto)
             .onStart {
                 emit(ResultOf.Loading(true))
             }.flowOn(scope)

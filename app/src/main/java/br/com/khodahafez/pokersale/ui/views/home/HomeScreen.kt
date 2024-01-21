@@ -14,20 +14,13 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.MonetizationOn
-import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,18 +31,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import br.com.khodahafez.domain.model.Player
-import br.com.khodahafez.domain.utils.Session
-import br.com.khodahafez.pokersale.navigation.ScreenEnum
 import br.com.khodahafez.pokersale.ui.model.PlayerHelper
 import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
-import br.com.khodahafez.pokersale.ui.views.balance.BalanceStateUI
-import br.com.khodahafez.pokersale.ui.views.tabbar.PokerSaleBottomNavigation
-import br.com.khodahafez.pokersale.ui.views.tabbar.TabItem
 
 @Composable
 fun HomeScreen(

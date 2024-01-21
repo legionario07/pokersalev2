@@ -44,6 +44,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.PokerSaleConstants.Domain.MIN_PLAYERS_FOR_MATCH
 import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.model.dto.PlayerDto
 import br.com.khodahafez.pokersale.R
 import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast

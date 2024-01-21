@@ -1,7 +1,7 @@
 package br.com.khodahafez.domain.usecase.expenses
 
-import br.com.khodahafez.domain.model.Expenses
 import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.model.dto.ExpensesDto
 import br.com.khodahafez.domain.repository.remote.ExpensesRepository
 import br.com.khodahafez.domain.state.ResultOf
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +15,7 @@ class GetExpenseByPlayerUseCase(
 ) {
     fun getExpensesByPlayer(
         player: Player?,
-    ): Flow<ResultOf<List<Expenses>>> {
+    ): Flow<ResultOf<List<ExpensesDto>>> {
         return repository.getByIdPlayer(idPlayer = player?.id.orEmpty())
             .onStart {
                 emit(ResultOf.Loading(true))

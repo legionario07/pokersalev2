@@ -45,4 +45,6 @@ dependencies {
     androidTestImplementation(Dependencies.depExpressoCore)
     implementation(Dependencies.depLifecycleRuntimeKtx)
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+    implementation(Dependencies.depRoomRuntime)
+    implementation(Dependencies.depRoomKtx)
 }

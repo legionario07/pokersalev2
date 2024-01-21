@@ -47,7 +47,7 @@ class LoginViewModel(
                         }
                     }
                 }
-            }.collect{player ->
+            }.collect { player ->
                 Session.player = player
                 _loginStateUI.update {
                     LoginStateUI.LoginSuccessful(player)

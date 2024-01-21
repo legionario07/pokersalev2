@@ -2,7 +2,7 @@ package br.com.khodahafez.data.repository.firebase
 
 import br.com.khodahafez.domain.errors.NotFoundEntityException
 import br.com.khodahafez.domain.model.MatchOfPoker
-import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.model.dto.PlayerDto
 import br.com.khodahafez.domain.repository.remote.MatchRepository
 import br.com.khodahafez.domain.state.ResultOf
 import com.google.firebase.database.DataSnapshot
@@ -44,7 +44,7 @@ class MatchRepositoryImpl(
         }
     }
 
-    override fun getByPlayer(player: Player): Flow<ResultOf<List<MatchOfPoker>>> {
+    override fun getByPlayer(playerDto: PlayerDto): Flow<ResultOf<List<MatchOfPoker>>> {
         return callbackFlow {
             kotlin.runCatching {
                 val listener = object : ValueEventListener {
@@ -52,7 +52,7 @@ class MatchRepositoryImpl(
                         if (dataSnapshot.exists()) {
                             val listItems = dataSnapshot.children.filter { item ->
                                 item.getValue<MatchOfPoker>()?.players?.filter { itemPlayer ->
-                                    itemPlayer.id == player.id
+                                    itemPlayer.id == playerDto.id
                                 }?.isNotEmpty() ?: false
                             }
                             trySend(ResultOf.Success(listItems as List<MatchOfPoker>))

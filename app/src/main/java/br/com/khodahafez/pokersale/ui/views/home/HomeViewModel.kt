@@ -3,7 +3,7 @@ package br.com.khodahafez.pokersale.ui.views.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.khodahafez.domain.model.Player
-import br.com.khodahafez.domain.model.Score
+import br.com.khodahafez.domain.model.dto.ScoreDto
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
 import br.com.khodahafez.domain.usecase.score.GetScoreUseCase
@@ -22,7 +22,7 @@ class HomeViewModel(
     private val _homeStateUI = MutableStateFlow<HomeStateUI>(HomeStateUI.InitialState)
     val homeStateUI: StateFlow<HomeStateUI> = _homeStateUI
 
-    private val scores: MutableList<Score> = mutableListOf()
+    private val scoreDtos: MutableList<ScoreDto> = mutableListOf()
     private val players: MutableList<Player> = mutableListOf()
 
     init {
@@ -39,7 +39,7 @@ class HomeViewModel(
                 }.collect { resultOf ->
                     when (resultOf) {
                         is ResultOf.Success -> {
-                            scores.addAll(resultOf.response)
+                            scoreDtos.addAll(resultOf.response)
                             getAllPlayers()
                         }
 
@@ -95,7 +95,7 @@ class HomeViewModel(
 
     private fun getTransformToPlayerHelper(): List<PlayerHelper> {
         return players.map { player ->
-            player to scores.filter { score ->
+            player to scoreDtos.filter { score ->
                 player.id == score.idPlayer
             }
         }.filter {
@@ -112,7 +112,8 @@ class HomeViewModel(
                 pointsTotal = totalPoints,
                 bounties = totalBounties
             )
-        }.sortedWith(compareByDescending<PlayerHelper> { it.pointsTotal }.thenBy { it.player.name })
+        }
+            .sortedWith(compareByDescending<PlayerHelper> { it.pointsTotal }.thenBy { it.player.name })
     }
 }
 

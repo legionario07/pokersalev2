@@ -3,11 +3,11 @@ package br.com.khodahafez.pokersale.ui.views.balance.my_balance
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.khodahafez.domain.PokerSaleConstants
-import br.com.khodahafez.domain.model.Expenses
 import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.model.dto.ExpensesDto
+import br.com.khodahafez.domain.model.screen.ExpenseUiHelper
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.expenses.GetExpenseByPlayerUseCase
-import br.com.khodahafez.domain.model.screen.ExpenseUiHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -61,7 +61,7 @@ class MyBalanceViewModel(
         }
     }
 
-    private fun getExpenseUi(list: List<Expenses>): ExpenseUiHelper {
+    private fun getExpenseUi(list: List<ExpensesDto>): ExpenseUiHelper {
         var totalPrize = 0.0
         var totalEntries = 0.0
         list.forEach {

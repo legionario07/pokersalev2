@@ -8,6 +8,7 @@ import br.com.khodahafez.data.repository.firebase.FirebaseDatabaseConstants
 import br.com.khodahafez.data.repository.firebase.PlayerRepositoryImpl
 import br.com.khodahafez.data.repository.firebase.PokerSaleV2FirebaseDataSourceImpl
 import br.com.khodahafez.pokersale.di.FirebaseModule
+import br.com.khodahafez.pokersale.di.MapperProvide
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
 import com.google.firebase.database.FirebaseDatabase
@@ -21,8 +22,12 @@ class PlayerViewModelFactory : ViewModelProvider.Factory {
         val dbReferences = FirebaseModule.provideFirebaseReference("/users")
 
         val playerRepository = RepositoryModule.providePlayerRepository(dbReferences)
+        val mapper = MapperProvide.providePlayerMapper()
 
-        val playerUseCase = UseCaseModule.providePlayerSaveUseCase(playerRepository)
+        val playerUseCase = UseCaseModule.providePlayerSaveUseCase(
+            playerRepository,
+            mapper
+        )
 
         return PlayerViewModel(
             playerSaveUseCase = playerUseCase

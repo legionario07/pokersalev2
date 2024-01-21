@@ -30,18 +30,18 @@
     <string name="poker_sale_disclaimer">"Clique nos botões abaixo para incluir ou remover jogador, depois insira os dados de gastos para cada.</string>
     <string name="poker_sale_position">Colocação</string>
 
-    <!--Balance-->
+    <!--BalanceDto-->
     <string name="poker_sale_balance_type_operation">Tipo de Operação</string>
     <string name="poker_sale_balance_reason">Motivo</string>
     <string name="poker_sale_balance_value">Valor</string>
     <string name="poker_sale_balance_update_balance">Atualizar Caixa</string>
     <string name="poker_sale_balance_enter_the_reason">Digite o motivo</string>
 
-    <!-- My Balance -->
+    <!-- My BalanceDto -->
     <string name="poker_sale_my_balance_entries">Gastos:</string>
     <string name="poker_sale_my_balance_prizes">Ganhos:</string>
 
-    <!--Player-->
+    <!--PlayerDto-->
     <string name="poker_sale_register_player_is_admin">Criar como Administrador?</string>
     <string name="poker_sale_register_player_enter_name">Digite o Nome</string>
     <string name="poker_sale_register_player_enter_login">Digite o Login</string>
@@ -49,7 +49,7 @@
     <string name="poker_sale_register_player_login">Login</string>
     <string name="poker_sale_register_player_save_successful">Salvo com Sucesso!</string>
 
-    <!-- Expenses -->
+    <!-- ExpensesDto -->
     <string name="poker_sale_expense_no_data">Sem dados para exibir</string>
 
 </resources>
