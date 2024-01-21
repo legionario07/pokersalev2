@@ -35,6 +35,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.domain.model.BankType
 import br.com.khodahafez.pokersale.R
+import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
 import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
@@ -135,7 +136,7 @@ private fun BalanceContentScreen(
                 .wrapContentSize(Alignment.Center)
                 .align(Alignment.CenterHorizontally)
                 .padding(
-                    all = 24.dp
+                    all = mediumDimens.size24
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -154,7 +155,7 @@ private fun BalanceContentScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        all = 24.dp
+                        all = mediumDimens.size24
                     ),
                 expanded = expanded,
                 onDismissRequest = {
@@ -185,7 +186,7 @@ private fun BalanceContentScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    all = 24.dp
+                    all = mediumDimens.size24
                 ),
             onClick = {
                 onClickButton(
@@ -193,7 +194,7 @@ private fun BalanceContentScreen(
                 )
             },
             enabled = value != "0.0" && reason.isNotEmpty(),
-            shape = RoundedCornerShape(5.dp),
+            shape = RoundedCornerShape(mediumDimens.size05),
         ) {
             Text(stringResource(id = R.string.poker_sale_balance_update_balance))
         }

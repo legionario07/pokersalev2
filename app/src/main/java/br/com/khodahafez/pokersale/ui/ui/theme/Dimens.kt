@@ -12,9 +12,14 @@ data class Dimens(
     val size08: Dp,
     val size10: Dp,
     val size12: Dp,
+    val size16: Dp,
     val size24: Dp,
     val size30: Dp,
+    val size32: Dp,
+    val size42: Dp,
+    val size65: Dp,
     val size70: Dp,
+    val size80: Dp,
 )
 
 val mediumDimens = Dimens(
@@ -26,7 +31,12 @@ val mediumDimens = Dimens(
     size08 = 8.dp,
     size10 = 10.dp,
     size12 = 12.dp,
+    size16 = 16.dp,
     size24 = 24.dp,
     size30 = 30.dp,
+    size32 = 32.dp,
+    size42 = 42.dp,
+    size65 = 65.dp,
     size70 = 70.dp,
+    size80 = 80.dp,
 )

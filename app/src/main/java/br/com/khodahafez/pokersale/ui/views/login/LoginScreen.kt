@@ -24,8 +24,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.pokersale.R
+import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
 import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
@@ -77,8 +79,8 @@ private fun LoginScreenContent(
     onClickButton: (String, String) -> Unit
 ) {
 
-    var login by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var login by remember { mutableStateOf(EMPTY_STRING) }
+    var password by remember { mutableStateOf(EMPTY_STRING) }
     var isChecked by remember { mutableStateOf(false) }
 
     Column(
@@ -86,7 +88,7 @@ private fun LoginScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp)
+            .padding(horizontal = mediumDimens.size24)
     ) {
         TextFieldComponent(
             modifier = Modifier.fillMaxWidth(),
@@ -104,7 +106,7 @@ private fun LoginScreenContent(
             },
             submit = { },
         )
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(mediumDimens.size10))
 //        LabeledCheckBox(
 //            label = stringResource(
 //                id = R.string.poker_sale_remember_label
@@ -124,7 +126,7 @@ private fun LoginScreenContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    all = 24.dp
+                    all = mediumDimens.size24
                 ),
             onClick = {
                 onClickButton(
@@ -133,7 +135,7 @@ private fun LoginScreenContent(
                 )
             },
             enabled = login.isNotEmpty() && password.isNotEmpty(),
-            shape = RoundedCornerShape(5.dp),
+            shape = RoundedCornerShape(mediumDimens.size05),
         ) {
             Text(stringResource(id = R.string.poker_sale_button_label))
         }

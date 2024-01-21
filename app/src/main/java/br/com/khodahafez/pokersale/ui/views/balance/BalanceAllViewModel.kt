@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.khodahafez.domain.PokerSaleConstants
 import br.com.khodahafez.domain.model.Balance
+import br.com.khodahafez.domain.model.BankType
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.balance.GetAllBalanceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +37,8 @@ class BalanceAllViewModel(
                         is ResultOf.Success -> {
                             _stateUI.update {
                                 BalancePokerStateUI.GetAllBalances(
-                                    resultOf.response
+                                    profit = getProfit(resultOf.response),
+                                    listBalances = resultOf.response
                                 )
                             }
                         }
@@ -56,6 +58,20 @@ class BalanceAllViewModel(
                 }
         }
     }
+
+    private fun getProfit(listBalances: List<Balance>): Double {
+        var profit = 0.0
+
+        listBalances.forEach {
+            if (it.operationType == BankType.CASH_IN) {
+                profit += it.value
+            } else {
+                profit -= it.value
+            }
+        }
+
+        return profit
+    }
 }
 
 
@@ -63,5 +79,6 @@ sealed class BalancePokerStateUI {
     object Initial : BalancePokerStateUI()
     object Loading : BalancePokerStateUI()
     data class Error(val message: String?) : BalancePokerStateUI()
-    data class GetAllBalances(val listBalances: List<Balance>) : BalancePokerStateUI()
+    data class GetAllBalances(val profit: Double, val listBalances: List<Balance>) :
+        BalancePokerStateUI()
 }

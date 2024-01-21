@@ -81,7 +81,7 @@ private fun MyBalanceEmpty() {
     ) {
 
         Text(
-            text = "Sem dados para exibir",
+            text = stringResource(id = R.string.poker_sale_expense_no_data), 
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
             style = MaterialTheme.typography.labelLarge,

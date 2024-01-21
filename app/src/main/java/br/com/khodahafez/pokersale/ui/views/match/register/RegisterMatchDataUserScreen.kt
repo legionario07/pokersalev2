@@ -1,6 +1,5 @@
 package br.com.khodahafez.pokersale.ui.views.match.register
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -32,7 +31,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -40,9 +38,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.khodahafez.pokersale.R
+import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.views.components.IconButtonComponent
 import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
-
 
 @Composable
 fun RegisterMatchDataUserContentScreen(
@@ -88,8 +86,8 @@ fun RegisterMatchDataUserContentScreen(
 
     Column(
         modifier = Modifier.padding(
-            top = 32.dp,
-            bottom = 16.dp
+            top = mediumDimens.size32,
+            bottom = mediumDimens.size16
         ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -108,7 +106,7 @@ fun RegisterMatchDataUserContentScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(mediumDimens.size12))
 
         RowEntryValue(
             label = stringResource(id = R.string.poker_sale_match_simple_re_buy),
@@ -171,16 +169,16 @@ fun RegisterMatchDataUserContentScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    start = 24.dp,
-                    top = 4.dp,
-                    bottom = 4.dp
+                    start = mediumDimens.size24,
+                    top = mediumDimens.size04,
+                    bottom = mediumDimens.size04
                 ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
 
             Text(
-                modifier = Modifier.padding(end = 16.dp),
+                modifier = Modifier.padding(end = mediumDimens.size16),
                 text = stringResource(id = R.string.poker_sale_position),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
@@ -224,9 +222,9 @@ fun RegisterMatchDataUserContentScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    start = 24.dp,
-                    end = 24.dp,
-                    top = 4.dp
+                    start = mediumDimens.size24,
+                    end = mediumDimens.size24,
+                    top = mediumDimens.size04
                 ),
             icon = Icons.Filled.MonetizationOn,
             value = prize.value.toString(),
@@ -244,7 +242,7 @@ fun RegisterMatchDataUserContentScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    all = 24.dp
+                    all = mediumDimens.size24
                 ),
             onClick = {
                 onClickSave(
@@ -259,7 +257,7 @@ fun RegisterMatchDataUserContentScreen(
                     )
                 )
             },
-            shape = RoundedCornerShape(5.dp),
+            shape = RoundedCornerShape(mediumDimens.size05),
         ) {
             Text(stringResource(id = R.string.poker_sale_match_register_save_label))
         }
@@ -289,7 +287,7 @@ private fun RowEntryValue(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            modifier = Modifier.padding(end = 16.dp),
+            modifier = Modifier.padding(end = mediumDimens.size16),
             text = label,
             fontWeight = FontWeight.Bold
         )
@@ -300,11 +298,11 @@ private fun RowEntryValue(
         )
         IconButtonComponent(
             modifier = Modifier.padding(
-                start = 16.dp
+                start = mediumDimens.size16
             ),
             isEnabled = isEnabled,
             imageVector = Icons.Default.Remove,
-            size = 24.dp
+            size = mediumDimens.size24
         ) {
             onClickRemove(
                 value
@@ -313,7 +311,7 @@ private fun RowEntryValue(
         IconButtonComponent(
             imageVector = Icons.Default.Add,
             isEnabled = isEnabled,
-            size = 24.dp
+            size = mediumDimens.size24
         ) {
             onClickAdd(
                 value

@@ -49,4 +49,7 @@
     <string name="poker_sale_register_player_login">Login</string>
     <string name="poker_sale_register_player_save_successful">Salvo com Sucesso!</string>
 
+    <!-- Expenses -->
+    <string name="poker_sale_expense_no_data">Sem dados para exibir</string>
+
 </resources>

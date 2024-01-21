@@ -1,6 +1,5 @@
 package br.com.khodahafez.pokersale.ui.views.balance.ranking_balance
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,8 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.extensions.toMonetary
 import br.com.khodahafez.domain.model.screen.RankingBalanceUiHelper
@@ -114,7 +111,7 @@ private fun CardContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(),
-            horizontalArrangement = Arrangement.spacedBy(24.dp)
+            horizontalArrangement = Arrangement.spacedBy(mediumDimens.size24)
         ) {
             Column(
                 modifier = Modifier

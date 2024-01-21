@@ -45,6 +45,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.PokerSaleConstants.Domain.MIN_PLAYERS_FOR_MATCH
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.pokersale.R
+import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.FillDataUserDialog
 import br.com.khodahafez.pokersale.ui.views.components.SingleSelectDialog
@@ -139,7 +140,7 @@ fun RegisterMatchScreen(
             playerClicked.value = player
             isShowDialogExpense.value = true
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(mediumDimens.size16))
         RegisterMatchContentScreen(
             isShowButtonSave = isShowButtonSave,
             onClickSave = {
@@ -221,9 +222,9 @@ private fun DisclaimerScreen() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                top = 42.dp,
-                start = 24.dp,
-                end = 24.dp
+                top = mediumDimens.size42,
+                start = mediumDimens.size24,
+                end = mediumDimens.size24
             ),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -247,7 +248,7 @@ fun RegisterMatchContentScreen(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                all = 24.dp
+                all = mediumDimens.size24
             ),
         verticalArrangement = Arrangement.Bottom
     ) {
@@ -256,7 +257,7 @@ fun RegisterMatchContentScreen(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(mediumDimens.size12)
         ) {
 
             Button(
@@ -268,7 +269,7 @@ fun RegisterMatchContentScreen(
                 colors = buttonColors(
                     containerColor = MaterialTheme.colorScheme.secondary
                 ),
-                shape = RoundedCornerShape(5.dp),
+                shape = RoundedCornerShape(mediumDimens.size05),
             ) {
                 Text(stringResource(id = R.string.poker_sale_match_register_remove_player))
             }
@@ -282,7 +283,7 @@ fun RegisterMatchContentScreen(
                 colors = buttonColors(
                     containerColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ),
-                shape = RoundedCornerShape(5.dp),
+                shape = RoundedCornerShape(mediumDimens.size05),
             ) {
                 Text(stringResource(id = R.string.poker_sale_match_register_add_player))
             }
@@ -295,7 +296,7 @@ fun RegisterMatchContentScreen(
                 onClick = {
                     onClickSave()
                 },
-                shape = RoundedCornerShape(5.dp),
+                shape = RoundedCornerShape(mediumDimens.size05),
             ) {
                 Text(stringResource(id = R.string.poker_sale_match_register_label))
             }
@@ -313,16 +314,16 @@ private fun PlayersListContent(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                all = 24.dp
+                all = mediumDimens.size24
             ),
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(mediumDimens.size10),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.background,
             disabledContentColor = MaterialTheme.colorScheme.background,
             disabledContainerColor = MaterialTheme.colorScheme.background,
         ),
-        elevation = CardDefaults.cardElevation(4.dp),
+        elevation = CardDefaults.cardElevation(mediumDimens.size04),
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
         LazyColumn(
@@ -332,11 +333,11 @@ private fun PlayersListContent(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(65.dp)
-                        .padding(6.dp)
+                        .height(mediumDimens.size65)
+                        .padding(mediumDimens.size06)
                         .clickable(onClick = { onClickCard(registerMatchScreenModel.player) }),
-                    shape = RoundedCornerShape(6.dp),
-                    elevation = CardDefaults.cardElevation(4.dp)
+                    shape = RoundedCornerShape(mediumDimens.size06),
+                    elevation = CardDefaults.cardElevation(mediumDimens.size04)
                 ) {
 
                     Row(
@@ -350,7 +351,7 @@ private fun PlayersListContent(
                             modifier = Modifier
                                 .wrapContentWidth()
                                 .fillMaxHeight()
-                                .padding(start = 30.dp),
+                                .padding(start = mediumDimens.size30),
                             verticalArrangement = Arrangement.Center
                         ) {
                             Text(

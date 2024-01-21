@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -55,7 +56,7 @@ fun BalanceAllScreen(
         }
 
         is BalancePokerStateUI.GetAllBalances -> {
-            BalanceAllContentScreen(199.0, balances = result.listBalances)
+            BalanceAllContentScreen(profit = result.profit, balances = result.listBalances)
             loading = false
         }
 
@@ -78,7 +79,7 @@ private fun BalanceAllContentScreen(profit: Double, balances: List<Balance>) {
 
     Surface(
         modifier = Modifier
-            .fillMaxSize()
+            .wrapContentHeight()
     ) {
         LazyColumn {
             stickyHeader {
@@ -86,8 +87,8 @@ private fun BalanceAllContentScreen(profit: Double, balances: List<Balance>) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
-                            top = 24.dp,
-                            bottom = 16.dp
+                            top = mediumDimens.size24,
+                            bottom = mediumDimens.size16
                         ),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -105,7 +106,7 @@ private fun BalanceAllContentScreen(profit: Double, balances: List<Balance>) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(80.dp)
+                        .height(mediumDimens.size80)
                         .padding(mediumDimens.size06),
                     shape = RoundedCornerShape(mediumDimens.size06),
                     elevation = CardDefaults.cardElevation(mediumDimens.size04)
