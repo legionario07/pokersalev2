@@ -1,10 +1,10 @@
 package br.com.khodahafez.data.repository
 
-import br.com.khodahafez.domain.mapper.PlayerMapper
-import br.com.khodahafez.domain.model.Player
-import br.com.khodahafez.domain.repository.PlayerRepositoryDataSource
-import br.com.khodahafez.domain.repository.local.PlayerDao
-import br.com.khodahafez.domain.repository.remote.PlayerRepository
+import br.com.khodahafez.domain.mapper.ScoreMapper
+import br.com.khodahafez.domain.model.Score
+import br.com.khodahafez.domain.repository.ScoreRepositoryDataSource
+import br.com.khodahafez.domain.repository.local.ScoreDao
+import br.com.khodahafez.domain.repository.remote.ScoreRepository
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.utils.Session
 import kotlinx.coroutines.flow.Flow
@@ -12,17 +12,18 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
-class PlayerRepositoryDataSourceImpl(
-    private val playerRepository: PlayerRepository,
-    private val playerDao: PlayerDao,
+class ScoreRepositoryDataSourceImpl(
+    private val scoreRepository: ScoreRepository,
+    private val scoreDao: ScoreDao,
     private val session: Session,
-    private val mapper: PlayerMapper
-) : PlayerRepositoryDataSource {
+    private val mapper: ScoreMapper
+) : ScoreRepositoryDataSource {
 
-    override fun getAll(): Flow<ResultOf<List<Player>>> {
+    override fun getAll(): Flow<ResultOf<List<Score>>> {
         return flow {
             if (session.shouldGetPlayersInRemoteDatabase) {
-                playerRepository.getAll().map { resultOf ->
+
+                scoreRepository.getAll().map { resultOf ->
                     when (resultOf) {
                         is ResultOf.Success -> {
                             setValueForSearchingNextInLocal(session)
@@ -47,7 +48,7 @@ class PlayerRepositoryDataSourceImpl(
             } else {
                 emit(
                     ResultOf.Success(
-                        playerDao.getAll().map {
+                        scoreDao.getAll().map {
                             mapper.toDomain(it)
                         }
                     )
@@ -57,10 +58,10 @@ class PlayerRepositoryDataSourceImpl(
     }
 
     private fun setValueForSearchingNextInLocal(session: Session) {
-        session.shouldGetPlayersInRemoteDatabase = false
+        session.shouldGetScoreInRemoteDatabase = false
     }
 
-    private fun saveInDataBaseLocal(domain: Player) {
-        playerDao.insertAll(mapper.toEntityDb(domain))
+    private fun saveInDataBaseLocal(domain: Score) {
+        scoreDao.insertAll(mapper.toEntityDb(domain))
     }
 }

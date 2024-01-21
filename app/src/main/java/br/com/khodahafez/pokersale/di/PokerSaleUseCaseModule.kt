@@ -1,7 +1,9 @@
 package br.com.khodahafez.pokersale.di
 
 import br.com.khodahafez.domain.mapper.PlayerMapper
+import br.com.khodahafez.domain.mapper.ScoreMapper
 import br.com.khodahafez.domain.repository.PlayerRepositoryDataSource
+import br.com.khodahafez.domain.repository.ScoreRepositoryDataSource
 import br.com.khodahafez.domain.repository.remote.BalanceRepository
 import br.com.khodahafez.domain.repository.remote.BountyTypeRepository
 import br.com.khodahafez.domain.repository.remote.ExpensesRepository
@@ -23,7 +25,7 @@ import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
 import br.com.khodahafez.domain.usecase.player.PlayerSaveUseCase
 import br.com.khodahafez.domain.usecase.position_score.GetAllPositionScoreUseCase
 import br.com.khodahafez.domain.usecase.position_score.SavePositionScoreUseCase
-import br.com.khodahafez.domain.usecase.score.GetScoreUseCase
+import br.com.khodahafez.domain.usecase.score.GetAllScoreUseCase
 import br.com.khodahafez.domain.usecase.score.SaveScoreUseCase
 import br.com.khodahafez.domain.utils.EncryptUtils
 import kotlinx.coroutines.Dispatchers
@@ -145,20 +147,22 @@ object UseCaseModule {
     }
 
     fun provideSaveScoreUseCase(
-        repository: ScoreRepository
+        repository: ScoreRepository,
+        mapper: ScoreMapper
     ): SaveScoreUseCase {
         return SaveScoreUseCase(
             scope = Dispatchers.IO,
-            repository = repository
+            repository = repository,
+            mapper = mapper
         )
     }
 
-    fun provideGetScoreUseCase(
-        repository: ScoreRepository
-    ): GetScoreUseCase {
-        return GetScoreUseCase(
+    fun provideGetAllScoreUseCase(
+        repositoryDataSource: ScoreRepositoryDataSource
+    ): GetAllScoreUseCase {
+        return GetAllScoreUseCase(
             scope = Dispatchers.IO,
-            repository = repository
+            repositoryDataSource = repositoryDataSource
         )
     }
 

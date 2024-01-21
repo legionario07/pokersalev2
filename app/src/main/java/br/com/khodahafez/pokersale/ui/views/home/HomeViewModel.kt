@@ -3,10 +3,10 @@ package br.com.khodahafez.pokersale.ui.views.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.khodahafez.domain.model.Player
-import br.com.khodahafez.domain.model.dto.ScoreDto
+import br.com.khodahafez.domain.model.Score
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
-import br.com.khodahafez.domain.usecase.score.GetScoreUseCase
+import br.com.khodahafez.domain.usecase.score.GetAllScoreUseCase
 import br.com.khodahafez.pokersale.ui.model.PlayerHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,14 +15,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val getScoreUseCase: GetScoreUseCase,
+    private val getAllScoreUseCase: GetAllScoreUseCase,
     private val getAllPlayerUseCase: GetAllPlayerUseCase
 ) : ViewModel() {
 
     private val _homeStateUI = MutableStateFlow<HomeStateUI>(HomeStateUI.InitialState)
     val homeStateUI: StateFlow<HomeStateUI> = _homeStateUI
 
-    private val scoreDtos: MutableList<ScoreDto> = mutableListOf()
+    private val scores: MutableList<Score> = mutableListOf()
     private val players: MutableList<Player> = mutableListOf()
 
     init {
@@ -31,7 +31,7 @@ class HomeViewModel(
 
     private fun getAllScore() {
         viewModelScope.launch {
-            getScoreUseCase.getAll()
+            getAllScoreUseCase.getAll()
                 .catch { error ->
                     _homeStateUI.update {
                         HomeStateUI.Error(error.message)
@@ -39,7 +39,7 @@ class HomeViewModel(
                 }.collect { resultOf ->
                     when (resultOf) {
                         is ResultOf.Success -> {
-                            scoreDtos.addAll(resultOf.response)
+                            scores.addAll(resultOf.response)
                             getAllPlayers()
                         }
 
@@ -95,7 +95,7 @@ class HomeViewModel(
 
     private fun getTransformToPlayerHelper(): List<PlayerHelper> {
         return players.map { player ->
-            player to scoreDtos.filter { score ->
+            player to scores.filter { score ->
                 player.id == score.idPlayer
             }
         }.filter {

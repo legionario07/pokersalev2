@@ -29,6 +29,7 @@ class RegisterMatchViewModelFactory : ViewModelProvider.Factory {
         val repositoryScores = RepositoryModule.provideScoreRepository(dbReferencesScores)
 
         val mapper = MapperProvide.providePlayerMapper()
+        val scoreMapper = MapperProvide.provideScoreMapper()
 
         val repositoryDataSource = RepositoryDataSourceProvide.providePlayerRepositoryDataSource(
             mapper = mapper,
@@ -44,7 +45,10 @@ class RegisterMatchViewModelFactory : ViewModelProvider.Factory {
         val updateMatchUseCase = UseCaseModule.provideUpdateMatchUseCase(repositoryMatch)
         val getMatchUseCase = UseCaseModule.provideGetMatchUseCase(repositoryMatch)
         val saveExpensesUseCase = UseCaseModule.provideSaveExpensesUseCase(repositoryExpenses)
-        val saveScoreUseCase = UseCaseModule.provideSaveScoreUseCase(repositoryScores)
+        val saveScoreUseCase = UseCaseModule.provideSaveScoreUseCase(
+            repositoryScores,
+            scoreMapper
+        )
 
         return RegisterMatchViewModel(
             playerLogged = Session.player,

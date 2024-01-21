@@ -20,10 +20,12 @@ class HomeViewModelFactory : ViewModelProvider.Factory {
         val dbReferencesPlayers = FirebaseModule.provideFirebaseReference("/users")
 
         val playerRepository = RepositoryModule.providePlayerRepository(dbReferencesPlayers)
-        val playerDao = database?.playerDao()
         val scoreRepository = RepositoryModule.provideScoreRepository(dbReferencesScore)
+        val playerDao = database?.playerDao()
+        val scoreDao = database?.scoreDao()
 
         val mapper = MapperProvide.providePlayerMapper()
+        val scoreMapper = MapperProvide.provideScoreMapper()
 
         val repositoryDataSource = RepositoryDataSourceProvide.providePlayerRepositoryDataSource(
             mapper = mapper,
@@ -32,13 +34,24 @@ class HomeViewModelFactory : ViewModelProvider.Factory {
             session = Session
         )
 
+
+        val repositoryScoreDataSource =
+            RepositoryDataSourceProvide.provideScoreRepositoryDataSource(
+                mapper = scoreMapper,
+                scoreRepository = scoreRepository,
+                scoreDao = scoreDao!!,
+                session = Session
+            )
+
         val getPlayerUseCase = UseCaseModule.provideGetAllPlayerUseCase(
             repositoryDataSource = repositoryDataSource
         )
-        val getScoreUseCase = UseCaseModule.provideGetScoreUseCase(scoreRepository)
+        val getScoreUseCase = UseCaseModule.provideGetAllScoreUseCase(
+            repositoryDataSource = repositoryScoreDataSource
+        )
 
         return HomeViewModel(
-            getScoreUseCase = getScoreUseCase,
+            getAllScoreUseCase = getScoreUseCase,
             getAllPlayerUseCase = getPlayerUseCase
         ) as T
     }

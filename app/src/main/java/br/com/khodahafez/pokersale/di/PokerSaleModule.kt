@@ -1,6 +1,7 @@
 package br.com.khodahafez.pokersale.di
 
 import br.com.khodahafez.data.mapper.PlayerMapperImpl
+import br.com.khodahafez.data.mapper.ScoreMapperImpl
 import br.com.khodahafez.data.repository.firebase.FirebaseDatabaseConstants.REFERENCIES.DATABASE_POKER_SALE
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -16,4 +17,5 @@ object FirebaseModule {
 
 object MapperProvide {
     fun providePlayerMapper() = PlayerMapperImpl()
+    fun provideScoreMapper() = ScoreMapperImpl()
 }

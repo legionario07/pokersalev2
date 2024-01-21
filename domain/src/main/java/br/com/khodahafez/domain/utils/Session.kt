@@ -4,5 +4,6 @@ import br.com.khodahafez.domain.model.Player
 
 object Session {
     var player: Player? = null
-    var shouldGetInRemoteDatabase = true
+    var shouldGetPlayersInRemoteDatabase = true
+    var shouldGetScoreInRemoteDatabase = true
 }

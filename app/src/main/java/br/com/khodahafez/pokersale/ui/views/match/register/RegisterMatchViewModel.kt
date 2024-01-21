@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import br.com.khodahafez.domain.model.MatchOfPoker
 import br.com.khodahafez.domain.model.MatchOfPokerType
 import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.model.Score
 import br.com.khodahafez.domain.model.dto.ExpensesDto
-import br.com.khodahafez.domain.model.dto.ScoreDto
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.expenses.SaveExpensesUseCase
 import br.com.khodahafez.domain.usecase.match.register.GetMatchUseCase
@@ -77,7 +77,7 @@ class RegisterMatchViewModel(
         viewModelScope.launch {
             listRegisterMatch.forEach {
                 saveScoreUseCase.save(
-                    scoreDto = ScoreDto(
+                    score = Score(
                         idPlayer = it.player.id.orEmpty(),
                         idMatchOfPlayer = matchOfPoker?.id.orEmpty(),
                         totalBounties = it.bounties,
