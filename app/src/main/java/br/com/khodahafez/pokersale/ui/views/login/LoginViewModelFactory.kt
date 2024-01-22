@@ -1,19 +1,12 @@
 package br.com.khodahafez.pokersale.ui.views.login
 
 import androidx.annotation.NonNull
-import androidx.annotation.RestrictTo
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import br.com.khodahafez.data.repository.firebase.FirebaseDatabaseConstants
-import br.com.khodahafez.data.repository.firebase.PlayerRepositoryImpl
-import br.com.khodahafez.data.repository.firebase.PokerSaleV2FirebaseDataSourceImpl
 import br.com.khodahafez.pokersale.di.FirebaseModule
 import br.com.khodahafez.pokersale.di.MapperProvide
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 
 class LoginViewModelFactory : ViewModelProvider.Factory {
 
@@ -37,7 +30,7 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
 
         return LoginViewModel(
             loginUseCase = loginUseCase,
-            playerSaveUseCase = playerUseCase
+            savePlayerUseCase = playerUseCase
         ) as T
     }
 }

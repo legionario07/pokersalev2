@@ -22,12 +22,13 @@ import br.com.khodahafez.domain.usecase.match.register.GetMatchUseCase
 import br.com.khodahafez.domain.usecase.match.register.SaveMatchUseCase
 import br.com.khodahafez.domain.usecase.match.register.UpdateMatchUseCase
 import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
-import br.com.khodahafez.domain.usecase.player.PlayerSaveUseCase
+import br.com.khodahafez.domain.usecase.player.SavePlayerUseCase
 import br.com.khodahafez.domain.usecase.position_score.GetAllPositionScoreUseCase
 import br.com.khodahafez.domain.usecase.position_score.SavePositionScoreUseCase
 import br.com.khodahafez.domain.usecase.score.GetAllScoreUseCase
 import br.com.khodahafez.domain.usecase.score.SaveScoreUseCase
 import br.com.khodahafez.domain.utils.EncryptUtils
+import br.com.khodahafez.domain.utils.Session
 import kotlinx.coroutines.Dispatchers
 
 
@@ -46,13 +47,14 @@ object UseCaseModule {
 
     fun providePlayerSaveUseCase(
         playerRepository: PlayerRepository,
-        mapper: PlayerMapper
-    ): PlayerSaveUseCase {
-        return PlayerSaveUseCase(
+        mapper: PlayerMapper,
+    ): SavePlayerUseCase {
+        return SavePlayerUseCase(
             scope = Dispatchers.IO,
             playerRepository = playerRepository,
             encryptUtil = EncryptUtils,
-            mapper = mapper
+            mapper = mapper,
+            session = Session
         )
     }
 
@@ -153,7 +155,8 @@ object UseCaseModule {
         return SaveScoreUseCase(
             scope = Dispatchers.IO,
             repository = repository,
-            mapper = mapper
+            mapper = mapper,
+            session = Session
         )
     }
 

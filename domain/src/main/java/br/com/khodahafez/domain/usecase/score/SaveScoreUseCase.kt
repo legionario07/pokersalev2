@@ -7,6 +7,7 @@ import br.com.khodahafez.domain.model.PositionScoreType
 import br.com.khodahafez.domain.model.Score
 import br.com.khodahafez.domain.repository.remote.ScoreRepository
 import br.com.khodahafez.domain.state.ResultOf
+import br.com.khodahafez.domain.utils.Session
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -16,7 +17,8 @@ import kotlin.coroutines.CoroutineContext
 class SaveScoreUseCase(
     private val scope: CoroutineContext,
     private val repository: ScoreRepository,
-    private val mapper: ScoreMapper
+    private val mapper: ScoreMapper,
+    private val session: Session
 ) {
     fun save(
         score: Score,
@@ -34,6 +36,7 @@ class SaveScoreUseCase(
         ).map { resultOf ->
             when (resultOf) {
                 is ResultOf.Success -> {
+                    updateSessionForGetNextScoresInRemote()
                     ResultOf.Success(mapper.toDomain(resultOf.response))
                 }
 
@@ -49,5 +52,9 @@ class SaveScoreUseCase(
             .onStart {
                 emit(ResultOf.Loading(true))
             }.flowOn(scope)
+    }
+
+    private fun updateSessionForGetNextScoresInRemote() {
+        session.shouldGetScoreInRemoteDatabase = true
     }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.khodahafez.domain.extensions.converterToStringDate
 import br.com.khodahafez.domain.model.Player
-import br.com.khodahafez.domain.usecase.player.PlayerSaveUseCase
+import br.com.khodahafez.domain.usecase.player.SavePlayerUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 
 class PlayerViewModel(
-    private val playerSaveUseCase: PlayerSaveUseCase
+    private val savePlayerUseCase: SavePlayerUseCase
 ) : ViewModel() {
 
     private val _playerStateUI = MutableStateFlow<PlayerStateUI>(PlayerStateUI.InitialState)
@@ -29,7 +29,7 @@ class PlayerViewModel(
             PlayerStateUI.Loading
         }
         viewModelScope.launch {
-            playerSaveUseCase.save(
+            savePlayerUseCase.save(
                 Player(
                     name = name,
                     login = login,

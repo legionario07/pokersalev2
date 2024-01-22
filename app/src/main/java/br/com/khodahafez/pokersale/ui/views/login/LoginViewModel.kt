@@ -7,7 +7,7 @@ import br.com.khodahafez.domain.errors.NotFoundUserException
 import br.com.khodahafez.domain.errors.PasswordUserException
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.usecase.login.LoginUseCase
-import br.com.khodahafez.domain.usecase.player.PlayerSaveUseCase
+import br.com.khodahafez.domain.usecase.player.SavePlayerUseCase
 import br.com.khodahafez.domain.utils.Session
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(
     private val loginUseCase: LoginUseCase,
-    private val playerSaveUseCase: PlayerSaveUseCase
+    private val savePlayerUseCase: SavePlayerUseCase
 ) : ViewModel() {
 
     private val _loginStateUI = MutableStateFlow<LoginStateUI>(LoginStateUI.InitialState)
