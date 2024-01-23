@@ -115,7 +115,7 @@ class HomeViewModel(
         }
             .sortedWith(
                 compareByDescending<PlayerHelper> { it.pointsTotal }
-                    .thenBy { it.bounties }
+                    .thenByDescending { it.bounties }
                     .thenBy { it.player.name }
             )
     }
