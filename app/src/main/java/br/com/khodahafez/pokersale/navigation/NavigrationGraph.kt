@@ -80,7 +80,9 @@ internal fun navigationGraph(
         composable(
             route = ScreenEnum.REGISTER_PLAYER.route
         ) {
-            PlayerScreen()
+            PlayerScreen(
+                onSaveSuccessful = { navController.popBackStack() }
+            )
         }
 
         composable(
@@ -104,4 +106,5 @@ internal fun navigationGraph(
         }
     }
 }
+
 

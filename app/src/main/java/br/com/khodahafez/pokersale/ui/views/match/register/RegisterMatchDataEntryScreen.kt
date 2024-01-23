@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material.icons.filled.Numbers
@@ -23,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.pokersale.R
+import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
 import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
@@ -77,18 +80,19 @@ fun RegisterMatchScreenContent(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                top = 32.dp,
-                start = 24.dp,
-                end = 24.dp,
-                bottom = 24.dp
+                top = mediumDimens.size32,
+                start = mediumDimens.size24,
+                end = mediumDimens.size24,
+                bottom = mediumDimens.size24
             )
+            .verticalScroll(rememberScrollState())
     ) {
 
         TextFieldComponent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    bottom = 24.dp
+                    bottom =  mediumDimens.size24
                 ),
             icon = Icons.Filled.MonetizationOn,
             value = viewModel.buyIn,
@@ -190,7 +194,7 @@ fun RegisterMatchScreenContent(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                all = 24.dp
+                all = mediumDimens.size24
             )
     ) {
 
@@ -208,19 +212,19 @@ fun RegisterMatchScreenContent(
             Text(stringResource(id = R.string.poker_sale_match_register_button_label))
         }
 
-        Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 12.dp
-                ),
-            onClick = {
-                // TODO
-            },
-            enabled = true, // TODO
-            shape = RoundedCornerShape(5.dp),
-        ) {
-            Text(stringResource(id = R.string.poker_sale_match_register_cancel_button_label))
-        }
+//        Button(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(
+//                    top =  mediumDimens.size12
+//                ),
+//            onClick = {
+//                // TODO
+//            },
+//            enabled = true, // TODO
+//            shape = RoundedCornerShape(5.dp),
+//        ) {
+//            Text(stringResource(id = R.string.poker_sale_match_register_cancel_button_label))
+//        }
     }
 }

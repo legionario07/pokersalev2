@@ -48,6 +48,7 @@
     <string name="poker_sale_register_player_name">Nome</string>
     <string name="poker_sale_register_player_login">Login</string>
     <string name="poker_sale_register_player_save_successful">Salvo com Sucesso!</string>
+    <string name="poker_sale_register_player_btn_save">Salvar</string>
 
     <!-- ExpensesDto -->
     <string name="poker_sale_expense_no_data">Sem dados para exibir</string>

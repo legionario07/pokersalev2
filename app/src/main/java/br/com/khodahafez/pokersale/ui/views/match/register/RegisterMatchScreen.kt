@@ -311,60 +311,44 @@ private fun PlayersListContent(
     onClickCard: (Player) -> Unit
 ) {
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                all = mediumDimens.size24
-            ),
-        shape = RoundedCornerShape(mediumDimens.size10),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background,
-            contentColor = MaterialTheme.colorScheme.background,
-            disabledContentColor = MaterialTheme.colorScheme.background,
-            disabledContainerColor = MaterialTheme.colorScheme.background,
-        ),
-        elevation = CardDefaults.cardElevation(mediumDimens.size04),
-        border = BorderStroke(width = 1.dp, color = Color.LightGray)
+
+    LazyColumn(
+        modifier = Modifier.fillMaxHeight(0.8f)
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxHeight(0.8f)
-        ) {
-            items(players) { registerMatchScreenModel ->
-                Card(
+        items(players) { registerMatchScreenModel ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(mediumDimens.size65)
+                    .padding(mediumDimens.size06)
+                    .clickable(onClick = { onClickCard(registerMatchScreenModel.player) }),
+                shape = RoundedCornerShape(mediumDimens.size06),
+                elevation = CardDefaults.cardElevation(mediumDimens.size04)
+            ) {
+
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(mediumDimens.size65)
-                        .padding(mediumDimens.size06)
-                        .clickable(onClick = { onClickCard(registerMatchScreenModel.player) }),
-                    shape = RoundedCornerShape(mediumDimens.size06),
-                    elevation = CardDefaults.cardElevation(mediumDimens.size04)
+                        .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-
-                    Row(
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(),
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically
+                            .wrapContentWidth()
+                            .fillMaxHeight()
+                            .padding(start = mediumDimens.size30),
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        Column(
-                            modifier = Modifier
-                                .wrapContentWidth()
-                                .fillMaxHeight()
-                                .padding(start = mediumDimens.size30),
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = registerMatchScreenModel.player.name,
-                                style = MaterialTheme.typography.titleSmall
-                            )
-                        }
                         Text(
-                            text = registerMatchScreenModel.totalEntries.toString(),
+                            text = registerMatchScreenModel.player.name,
                             style = MaterialTheme.typography.titleSmall
                         )
                     }
+                    Text(
+                        text = registerMatchScreenModel.totalEntries.toString(),
+                        style = MaterialTheme.typography.titleSmall
+                    )
                 }
             }
         }

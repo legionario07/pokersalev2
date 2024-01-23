@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.pokersale.R
@@ -37,6 +35,7 @@ import br.com.khodahafez.pokersale.ui.views.login.PasswordField
 @Composable
 fun PlayerScreen(
     viewModel: PlayerViewModel = viewModel(factory = PlayerViewModelFactory()),
+    onSaveSuccessful: () -> Unit
 ) {
 
     val loginStateUI by viewModel.playerStateUI.collectAsState()
@@ -56,6 +55,7 @@ fun PlayerScreen(
             context.showToast(
                 stringResource(id = R.string.poker_sale_register_player_save_successful)
             )
+            onSaveSuccessful()
         }
 
         is PlayerStateUI.Loading -> {
@@ -165,7 +165,7 @@ private fun PlayerScreenContent(
             enabled = login.isNotEmpty() && password.isNotEmpty() && name.isNotEmpty(),
             shape = RoundedCornerShape(mediumDimens.size05),
         ) {
-            Text(stringResource(id = R.string.poker_sale_button_label))
+            Text(stringResource(id = R.string.poker_sale_register_player_btn_save))
         }
     }
 }
