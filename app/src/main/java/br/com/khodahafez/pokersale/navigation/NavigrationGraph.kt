@@ -81,7 +81,7 @@ internal fun navigationGraph(
             route = ScreenEnum.REGISTER_PLAYER.route
         ) {
             PlayerScreen(
-                onSaveSuccessful = { navController.popBackStack() }
+                onSaveSuccessful = { navController.navigate(ScreenEnum.HOME.route) }
             )
         }
 
