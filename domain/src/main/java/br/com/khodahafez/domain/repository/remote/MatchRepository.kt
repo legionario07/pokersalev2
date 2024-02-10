@@ -19,6 +19,10 @@ interface MatchRepository {
         playerDto: PlayerDto,
     ): Flow<ResultOf<List<MatchOfPoker>>>
 
+    fun getByRankingNumber(
+        rankingNumber: Int,
+    ): Flow<ResultOf<List<MatchOfPoker>>>
+
     fun getById(
         id: String,
     ): Flow<ResultOf<MatchOfPoker>>

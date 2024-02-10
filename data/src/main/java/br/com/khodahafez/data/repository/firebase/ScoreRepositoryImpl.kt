@@ -101,4 +101,42 @@ class ScoreRepositoryImpl(
             }
         }
     }
+
+    override fun getAllByRanking(matches: List<String>): Flow<ResultOf<List<ScoreDto>>> {
+        return callbackFlow {
+            kotlin.runCatching {
+                val listener = object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            val list: MutableList<ScoreDto> = dataSnapshot.children.map {
+                                it.getValue<ScoreDto>()!!
+                            }.filter {
+                                matches.contains(it.idMatchOfPlayer)
+                            }.toMutableList()
+
+                            trySend(
+                                ResultOf.Success(list)
+                            )
+                        } else {
+                            trySend(
+                                ResultOf.Failure(
+                                    NotFoundEntityException()
+                                )
+                            )
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                }
+
+                databaseReference.addListenerForSingleValueEvent(listener)
+
+                awaitClose {
+                    databaseReference.removeEventListener(listener)
+                }
+            }.onFailure {
+                trySend((ResultOf.Failure(it)))
+            }
+        }
+    }
 }

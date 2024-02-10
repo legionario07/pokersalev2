@@ -89,7 +89,9 @@ fun HomeScreen(
             border = BorderStroke(width = mediumDimens.size01, color = Color.LightGray)
         ) {
             LazyColumn {
-                items(playersHelpers) { it ->
+                items(
+                    playersHelpers
+                ) { it ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -161,3 +163,8 @@ fun HomeScreen(
         }
     }
 }
+
+data class CategoryPlayersHelper(
+    val stickerTitle: String,
+
+)

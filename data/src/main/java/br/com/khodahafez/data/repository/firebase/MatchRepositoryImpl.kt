@@ -79,6 +79,41 @@ class MatchRepositoryImpl(
         }
     }
 
+    override fun getByRankingNumber(rankingNumber: Int): Flow<ResultOf<List<MatchOfPoker>>> {
+        return callbackFlow {
+            kotlin.runCatching {
+                val listener = object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            val listItems = dataSnapshot.children.map { item ->
+                                item.getValue<MatchOfPoker>()
+                            }.filter {matchOfPoker ->
+                                matchOfPoker?.ranking == rankingNumber
+                            }
+                            trySend(ResultOf.Success(listItems as List<MatchOfPoker>))
+                        } else {
+                            trySend(
+                                ResultOf.Failure(
+                                    NotFoundEntityException()
+                                )
+                            )
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                }
+
+                databaseReference.addListenerForSingleValueEvent(listener)
+
+                awaitClose {
+                    databaseReference.removeEventListener(listener)
+                }
+            }.onFailure {
+                trySend((ResultOf.Failure(it)))
+            }
+        }
+    }
+
     override fun getById(id: String): Flow<ResultOf<MatchOfPoker>> {
         return callbackFlow {
             kotlin.runCatching {

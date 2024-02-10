@@ -20,4 +20,12 @@ class GetMatchUseCase(
             }
             .flowOn(scope)
     }
+
+    fun getByRanking(rankingNumber: Int): Flow<ResultOf<List<MatchOfPoker>>> {
+        return repository.getByRankingNumber(rankingNumber)
+            .onStart {
+                emit(ResultOf.Loading(true))
+            }
+            .flowOn(scope)
+    }
 }

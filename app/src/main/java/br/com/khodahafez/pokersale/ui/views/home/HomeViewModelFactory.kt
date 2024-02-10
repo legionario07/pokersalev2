@@ -18,6 +18,7 @@ class HomeViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val dbReferencesScore = FirebaseModule.provideFirebaseReference("/scores")
         val dbReferencesPlayers = FirebaseModule.provideFirebaseReference("/users")
+        val dbReferencesMatches = FirebaseModule.provideFirebaseReference("/matches")
 
         val playerRepository = RepositoryModule.providePlayerRepository(dbReferencesPlayers)
         val scoreRepository = RepositoryModule.provideScoreRepository(dbReferencesScore)
@@ -34,6 +35,7 @@ class HomeViewModelFactory : ViewModelProvider.Factory {
             session = Session
         )
 
+        val repositoryMatches = RepositoryModule.provideMatchOfPokerRepository(dbReferencesMatches)
 
         val repositoryScoreDataSource =
             RepositoryDataSourceProvide.provideScoreRepositoryDataSource(
@@ -50,9 +52,14 @@ class HomeViewModelFactory : ViewModelProvider.Factory {
             repositoryDataSource = repositoryScoreDataSource
         )
 
+        val getMatchUseCase = UseCaseModule.provideGetMatchUseCase(
+            repository = repositoryMatches
+        )
+
         return HomeViewModel(
             getAllScoreUseCase = getScoreUseCase,
-            getAllPlayerUseCase = getPlayerUseCase
+            getAllPlayerUseCase = getPlayerUseCase,
+            getMatchUseCase = getMatchUseCase
         ) as T
     }
 }

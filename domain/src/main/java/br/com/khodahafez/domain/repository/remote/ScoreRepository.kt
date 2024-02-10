@@ -14,4 +14,6 @@ interface ScoreRepository {
     ): Flow<ResultOf<List<ScoreDto>>>
 
     fun getAll(): Flow<ResultOf<List<ScoreDto>>>
+
+    fun getAllByRanking(matches: List<String>): Flow<ResultOf<List<ScoreDto>>>
 }

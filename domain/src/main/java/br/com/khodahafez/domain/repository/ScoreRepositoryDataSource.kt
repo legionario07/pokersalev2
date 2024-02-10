@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ScoreRepositoryDataSource {
     fun getAll(): Flow<ResultOf<List<Score>>>
+    fun getAllByRanking(matches: List<String>): Flow<ResultOf<List<Score>>>
 }

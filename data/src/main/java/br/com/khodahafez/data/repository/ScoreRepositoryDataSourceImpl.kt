@@ -57,6 +57,44 @@ class ScoreRepositoryDataSourceImpl(
         }
     }
 
+    override fun getAllByRanking(matches: List<String>): Flow<ResultOf<List<Score>>> {
+        return flow {
+            if (session.shouldGetPlayersInRemoteDatabase) {
+
+                scoreRepository.getAllByRanking(matches).map { resultOf ->
+                    when (resultOf) {
+                        is ResultOf.Success -> {
+                            setValueForSearchingNextInLocal(session)
+                            emit(
+                                ResultOf.Success(resultOf.response.map {
+                                    val domain = mapper.toDomain(it)
+                                    saveInDataBaseLocal(domain)
+                                    domain
+                                })
+                            )
+                        }
+
+                        is ResultOf.Failure -> {
+                            emit(resultOf)
+                        }
+
+                        else -> {
+                            // Do Nothing
+                        }
+                    }
+                }.collect()
+            } else {
+                emit(
+                    ResultOf.Success(
+                        scoreDao.getAllByRanking(matches).map {
+                            mapper.toDomain(it)
+                        }
+                    )
+                )
+            }
+        }
+    }
+
     private fun setValueForSearchingNextInLocal(session: Session) {
         session.shouldGetScoreInRemoteDatabase = false
     }

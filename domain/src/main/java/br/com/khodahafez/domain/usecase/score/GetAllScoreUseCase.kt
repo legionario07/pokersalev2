@@ -18,4 +18,11 @@ class GetAllScoreUseCase(
                 emit(ResultOf.Loading(true))
             }.flowOn(scope)
     }
+
+    fun getAllByRanking(matches: List<String>): Flow<ResultOf<List<Score>>> {
+        return repositoryDataSource.getAllByRanking(matches)
+            .onStart {
+                emit(ResultOf.Loading(true))
+            }.flowOn(scope)
+    }
 }

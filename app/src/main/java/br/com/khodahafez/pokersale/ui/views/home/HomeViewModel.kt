@@ -2,9 +2,11 @@ package br.com.khodahafez.pokersale.ui.views.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.khodahafez.domain.model.MatchOfPoker
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.model.Score
 import br.com.khodahafez.domain.state.ResultOf
+import br.com.khodahafez.domain.usecase.match.register.GetMatchUseCase
 import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
 import br.com.khodahafez.domain.usecase.score.GetAllScoreUseCase
 import br.com.khodahafez.pokersale.ui.model.PlayerHelper
@@ -16,7 +18,8 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val getAllScoreUseCase: GetAllScoreUseCase,
-    private val getAllPlayerUseCase: GetAllPlayerUseCase
+    private val getAllPlayerUseCase: GetAllPlayerUseCase,
+    private val getMatchUseCase: GetMatchUseCase
 ) : ViewModel() {
 
     private val _homeStateUI = MutableStateFlow<HomeStateUI>(HomeStateUI.InitialState)
@@ -26,12 +29,46 @@ class HomeViewModel(
     private val players: MutableList<Player> = mutableListOf()
 
     init {
-        getAllScore()
+        getMatchByRanking()
     }
 
-    private fun getAllScore() {
+    private fun getMatchByRanking(rankingNumber: Int = 1) {
         viewModelScope.launch {
-            getAllScoreUseCase.getAll()
+            getMatchUseCase.getByRanking(rankingNumber)
+                .catch { error ->
+                    _homeStateUI.update {
+                        HomeStateUI.Error(error.message)
+                    }
+                }.collect { resultOf ->
+                    when (resultOf) {
+                        is ResultOf.Success -> {
+                            getAllScoreByRaking(resultOf.response)
+//                            scores.addAll(resultOf.response)
+//                            getAllPlayers()
+                        }
+
+                        is ResultOf.Failure -> {
+                            _homeStateUI.update {
+                                HomeStateUI.Error(resultOf.error.message)
+                            }
+                        }
+
+                        else -> {
+                            _homeStateUI.update {
+                                HomeStateUI.Loading
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun getAllScoreByRaking(listMatches: List<MatchOfPoker>) {
+        viewModelScope.launch {
+            val idMatches = listMatches.map {
+                it.id!!
+            }
+            getAllScoreUseCase.getAllByRanking(idMatches)
                 .catch { error ->
                     _homeStateUI.update {
                         HomeStateUI.Error(error.message)

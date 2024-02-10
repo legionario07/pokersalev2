@@ -11,6 +11,9 @@ interface ScoreDao {
     @Query("SELECT * FROM scores")
     fun getAll(): List<ScoreDb>
 
+    @Query("SELECT * FROM scores where id_match_of_player in (:matches)")
+    fun getAllByRanking(matches: List<String>): List<ScoreDb>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg scoreDb: ScoreDb)
 }
