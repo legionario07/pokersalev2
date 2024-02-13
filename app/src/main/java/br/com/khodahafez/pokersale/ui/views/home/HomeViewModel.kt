@@ -32,7 +32,7 @@ class HomeViewModel(
         getMatchByRanking()
     }
 
-    private fun getMatchByRanking(rankingNumber: Int = 1) {
+    fun getMatchByRanking(rankingNumber: Int = 1) {
         viewModelScope.launch {
             getMatchUseCase.getByRanking(rankingNumber)
                 .catch { error ->
@@ -42,9 +42,13 @@ class HomeViewModel(
                 }.collect { resultOf ->
                     when (resultOf) {
                         is ResultOf.Success -> {
-                            getAllScoreByRaking(resultOf.response)
-//                            scores.addAll(resultOf.response)
-//                            getAllPlayers()
+                            if (resultOf.response.isEmpty()) {
+                                _homeStateUI.update {
+                                    HomeStateUI.EmptyRanking
+                                }
+                            } else {
+                                getAllScoreByRaking(resultOf.response)
+                            }
                         }
 
                         is ResultOf.Failure -> {
@@ -162,5 +166,7 @@ sealed class HomeStateUI {
     object InitialState : HomeStateUI()
     object Loading : HomeStateUI()
     data class Error(val message: String?) : HomeStateUI()
+
+    object EmptyRanking: HomeStateUI()
     data class GetAllSuccessful(val listPlayerHelper: List<PlayerHelper>) : HomeStateUI()
 }
