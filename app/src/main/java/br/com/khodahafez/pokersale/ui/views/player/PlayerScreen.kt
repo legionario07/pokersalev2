@@ -56,6 +56,7 @@ fun PlayerScreen(
                 stringResource(id = R.string.poker_sale_register_player_save_successful)
             )
             onSaveSuccessful()
+            viewModel.clearState()
         }
 
         is PlayerStateUI.Loading -> {

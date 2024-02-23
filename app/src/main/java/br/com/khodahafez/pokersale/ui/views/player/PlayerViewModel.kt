@@ -48,6 +48,12 @@ class PlayerViewModel(
                 }
         }
     }
+
+    fun clearState() {
+        _playerStateUI.update {
+            PlayerStateUI.InitialState
+        }
+    }
 }
 
 sealed class PlayerStateUI {
