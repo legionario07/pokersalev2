@@ -56,7 +56,7 @@ fun HomeScreen(
     }
 
     var loading by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
 
     var isEmptyRanking by remember {
@@ -73,6 +73,7 @@ fun HomeScreen(
         }
 
         is HomeStateUI.GetAllSuccessful -> {
+            playersHelpers.clear()
             playersHelpers.addAll(result.listPlayerHelper)
             isEmptyRanking = false
             loading = false
@@ -91,8 +92,6 @@ fun HomeScreen(
             isEmptyRanking = true
         }
     }
-
-    CircularLoading(isLoading = loading)
 
     Card(
         modifier = Modifier
@@ -145,91 +144,96 @@ fun HomeScreen(
             )
         }
 
-        if (isEmptyRanking.not()) {
-            LazyColumn {
-                items(
-                    playersHelpers
-                ) { it ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(mediumDimens.size70)
-                            .padding(
-                                horizontal = mediumDimens.size06,
-                                vertical = mediumDimens.size04
-                            ),
-                        shape = RoundedCornerShape(mediumDimens.size06),
-                        elevation = CardDefaults.cardElevation(mediumDimens.size04)
-                    ) {
-
-                        Row(
+        if (loading) {
+            CircularLoading(isLoading = true)
+        } else {
+            if (isEmptyRanking.not()) {
+                LazyColumn {
+                    items(
+                        playersHelpers
+                    ) { it ->
+                        Card(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .fillMaxHeight()
+                                .height(mediumDimens.size70)
+                                .padding(
+                                    horizontal = mediumDimens.size06,
+                                    vertical = mediumDimens.size04
+                                ),
+                            shape = RoundedCornerShape(mediumDimens.size06),
+                            elevation = CardDefaults.cardElevation(mediumDimens.size04)
                         ) {
-                            Column(
-                                modifier = Modifier
-                                    .wrapContentWidth()
-                                    .fillMaxHeight()
-                                    .padding(start = mediumDimens.size30),
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Text(
-                                    text = playersHelpers.indexOf(it).inc().toString(),
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-                            }
-                            Column(
-                                modifier = Modifier
-                                    .wrapContentWidth()
-                                    .fillMaxHeight()
-                                    .padding(start = mediumDimens.size30),
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Text(
-                                    text = it.player.name,
-                                    modifier = Modifier
-                                        .padding(bottom = mediumDimens.size02)
-                                        .align(Alignment.Start),
-                                    fontWeight = FontWeight.Bold,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.primary,
-                                )
-                                Text(
-                                    text = "${it.bounties} bounties",
-                                    Modifier.align(Alignment.Start),
-                                    style = MaterialTheme.typography.labelLarge,
-                                    color = MaterialTheme.colorScheme.secondary
-                                )
-                            }
-                            Column(
+
+                            Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .fillMaxHeight()
-                                    .padding(end = mediumDimens.size30),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.End
                             ) {
-                                Text(
-                                    text = "${it.pointsTotal} pontos",
-                                    fontWeight = FontWeight.Bold,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
+                                Column(
+                                    modifier = Modifier
+                                        .wrapContentWidth()
+                                        .fillMaxHeight()
+                                        .padding(start = mediumDimens.size30),
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = playersHelpers.indexOf(it).inc().toString(),
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+                                }
+                                Column(
+                                    modifier = Modifier
+                                        .wrapContentWidth()
+                                        .fillMaxHeight()
+                                        .padding(start = mediumDimens.size30),
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = it.player.name,
+                                        modifier = Modifier
+                                            .padding(bottom = mediumDimens.size02)
+                                            .align(Alignment.Start),
+                                        fontWeight = FontWeight.Bold,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.primary,
+                                    )
+                                    Text(
+                                        text = "${it.bounties} bounties",
+                                        Modifier.align(Alignment.Start),
+                                        style = MaterialTheme.typography.labelLarge,
+                                        color = MaterialTheme.colorScheme.secondary
+                                    )
+                                }
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight()
+                                        .padding(end = mediumDimens.size30),
+                                    verticalArrangement = Arrangement.Center,
+                                    horizontalAlignment = Alignment.End
+                                ) {
+                                    Text(
+                                        text = "${it.pointsTotal} pontos",
+                                        fontWeight = FontWeight.Bold,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                }
                             }
                         }
                     }
                 }
+
+            } else {
+                Text(
+                    modifier = Modifier.fillMaxSize(),
+                    text = "Não existem partidas para o ranking $rankingNumber",
+                    fontStyle = FontStyle.Normal,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color.Red,
+                    textAlign = TextAlign.Center
+                )
             }
-        } else {
-            Text(
-                modifier = Modifier.fillMaxSize(),
-                text = "Não existem partidas para o ranking $rankingNumber",
-                fontStyle = FontStyle.Normal,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color.Red,
-                textAlign = TextAlign.Center
-            )
         }
     }
 }

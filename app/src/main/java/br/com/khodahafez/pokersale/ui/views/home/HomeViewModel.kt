@@ -26,7 +26,7 @@ class HomeViewModel(
     val homeStateUI: StateFlow<HomeStateUI> = _homeStateUI
 
     private val scores: MutableList<Score> = mutableListOf()
-    private val players: MutableList<Player> = mutableListOf()
+    private val players: MutableSet<Player> = mutableSetOf()
 
     init {
         getMatchByRanking()
@@ -34,6 +34,9 @@ class HomeViewModel(
 
     fun getMatchByRanking(rankingNumber: Int = 1) {
         viewModelScope.launch {
+            _homeStateUI.update {
+                HomeStateUI.Loading
+            }
             getMatchUseCase.getByRanking(rankingNumber)
                 .catch { error ->
                     _homeStateUI.update {
@@ -80,6 +83,7 @@ class HomeViewModel(
                 }.collect { resultOf ->
                     when (resultOf) {
                         is ResultOf.Success -> {
+                            scores.clear()
                             scores.addAll(resultOf.response)
                             getAllPlayers()
                         }
@@ -134,7 +138,8 @@ class HomeViewModel(
         }
     }
 
-    private fun getTransformToPlayerHelper(): List<PlayerHelper> {
+    private fun
+            getTransformToPlayerHelper(): List<PlayerHelper> {
         return players.map { player ->
             player to scores.filter { score ->
                 player.id == score.idPlayer

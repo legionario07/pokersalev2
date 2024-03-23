@@ -85,10 +85,14 @@ class MatchRepositoryImpl(
                 val listener = object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            val listItems = dataSnapshot.children.map { item ->
+                            var listItems = dataSnapshot.children.map { item ->
                                 item.getValue<MatchOfPoker>()
-                            }.filter {matchOfPoker ->
-                                matchOfPoker?.ranking == rankingNumber
+                            }
+
+                            if (rankingNumber > 0) {
+                                listItems = listItems.filter { matchOfPoker ->
+                                    matchOfPoker?.ranking == rankingNumber
+                                }
                             }
                             trySend(ResultOf.Success(listItems as List<MatchOfPoker>))
                         } else {

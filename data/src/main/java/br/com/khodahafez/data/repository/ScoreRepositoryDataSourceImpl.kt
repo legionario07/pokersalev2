@@ -59,7 +59,7 @@ class ScoreRepositoryDataSourceImpl(
 
     override fun getAllByRanking(matches: List<String>): Flow<ResultOf<List<Score>>> {
         return flow {
-            if (session.shouldGetPlayersInRemoteDatabase) {
+            if (session.shouldGetScoreInRemoteDatabase) {
 
                 scoreRepository.getAllByRanking(matches).map { resultOf ->
                     when (resultOf) {
@@ -96,7 +96,7 @@ class ScoreRepositoryDataSourceImpl(
     }
 
     private fun setValueForSearchingNextInLocal(session: Session) {
-        session.shouldGetScoreInRemoteDatabase = false
+        // session.shouldGetScoreInRemoteDatabase = false
     }
 
     private fun saveInDataBaseLocal(domain: Score) {
