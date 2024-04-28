@@ -55,6 +55,10 @@ fun HomeScreen(
         mutableListOf<PlayerHelper>()
     }
 
+    val totalMatchesForRanking = remember {
+        mutableStateOf(0)
+    }
+
     var loading by remember {
         mutableStateOf(true)
     }
@@ -64,7 +68,7 @@ fun HomeScreen(
     }
 
     var rankingNumber by remember {
-        mutableStateOf("1")
+        mutableStateOf("0")
     }
 
     when (val result = stateUI) {
@@ -75,6 +79,7 @@ fun HomeScreen(
         is HomeStateUI.GetAllSuccessful -> {
             playersHelpers.clear()
             playersHelpers.addAll(result.listPlayerHelper)
+            totalMatchesForRanking.value = result.totalMatches
             isEmptyRanking = false
             loading = false
         }
@@ -141,6 +146,15 @@ fun HomeScreen(
                 ),
                 singleLine = true,
                 textStyle = TextStyle(color = Color.Blue, fontWeight = FontWeight.Bold),
+            )
+
+
+            Text(
+                modifier = Modifier.wrapContentWidth(),
+                text = "Partidas: ${totalMatchesForRanking.value}",
+                fontStyle = FontStyle.Normal,
+                fontWeight = FontWeight.Bold,
+                color = Color.Blue
             )
         }
 

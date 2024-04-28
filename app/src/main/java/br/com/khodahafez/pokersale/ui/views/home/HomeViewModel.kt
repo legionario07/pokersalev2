@@ -27,12 +27,13 @@ class HomeViewModel(
 
     private val scores: MutableList<Score> = mutableListOf()
     private val players: MutableSet<Player> = mutableSetOf()
+    private var matches: List<MatchOfPoker> = emptyList()
 
     init {
         getMatchByRanking()
     }
 
-    fun getMatchByRanking(rankingNumber: Int = 1) {
+    fun getMatchByRanking(rankingNumber: Int = 0) {
         viewModelScope.launch {
             _homeStateUI.update {
                 HomeStateUI.Loading
@@ -71,6 +72,7 @@ class HomeViewModel(
     }
 
     private fun getAllScoreByRaking(listMatches: List<MatchOfPoker>) {
+        matches = listMatches
         viewModelScope.launch {
             val idMatches = listMatches.map {
                 it.id!!
@@ -115,9 +117,11 @@ class HomeViewModel(
                     when (resultOf) {
                         is ResultOf.Success -> {
                             players.addAll(resultOf.response)
+                            val pairTransformed = getTransformToPlayerHelper()
                             _homeStateUI.update {
                                 HomeStateUI.GetAllSuccessful(
-                                    getTransformToPlayerHelper()
+                                    matches.size,
+                                    pairTransformed
                                 )
                             }
                         }
@@ -173,5 +177,5 @@ sealed class HomeStateUI {
     data class Error(val message: String?) : HomeStateUI()
 
     object EmptyRanking: HomeStateUI()
-    data class GetAllSuccessful(val listPlayerHelper: List<PlayerHelper>) : HomeStateUI()
+    data class GetAllSuccessful(val totalMatches: Int, val listPlayerHelper: List<PlayerHelper>) : HomeStateUI()
 }

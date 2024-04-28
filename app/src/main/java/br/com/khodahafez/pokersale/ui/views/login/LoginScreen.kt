@@ -95,7 +95,7 @@ private fun LoginScreenContent(
     )
     {
         Text(
-            text = "Versão: 1.0.5",
+            text = "Versão: 1.0.6",
             fontSize = 10.sp
         )
     }
