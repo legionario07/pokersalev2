@@ -22,4 +22,10 @@ object PokerSaleConstants {
     object Domain {
         const val MIN_PLAYERS_FOR_MATCH = 6
     }
+
+    object PreferencesKeys {
+        const val KEY_SHARED_PREFERENCES = "POKER_SALE_PREFERENCES"
+        const val REMEMBER_LOGIN_PLAYER = "POKER_SALE_PLAYER_LOGIN"
+        const val REMEMBER_LOGIN_CHECKED = "REMEMBER_LOGIN_CHECKED"
+    }
 }

@@ -45,6 +45,7 @@ dependencies {
     implementation(Dependencies.depRoomRuntime)
     implementation(Dependencies.depRoomKtx)
     annotationProcessor(Dependencies.depRoomCompile)
+    implementation(Dependencies.depGson)
 
     kapt(Dependencies.depRoomCompile)
 }

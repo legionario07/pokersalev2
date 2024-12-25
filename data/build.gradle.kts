@@ -47,4 +47,5 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
     implementation(Dependencies.depRoomRuntime)
     implementation(Dependencies.depRoomKtx)
+    implementation(Dependencies.depGson)
 }

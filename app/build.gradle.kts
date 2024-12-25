@@ -80,6 +80,7 @@ dependencies {
     androidTestImplementation(Dependencies.depComposeUiTestJUnit)
     debugImplementation(Dependencies.depComposeUiTooling)
     debugImplementation(Dependencies.depComposeUiTestManifest)
+    implementation(Dependencies.depGson)
 
     // Import the BoM for the Firebase platform
     implementation(platform(Dependencies.depFirebaseBom))

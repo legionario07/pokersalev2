@@ -22,6 +22,7 @@ object Dependencies {
     val depLifecycleRuntimeKtx = lib("androidx.lifecycle:lifecycle-runtime-ktx", Versions.LIFECYCLE_RUNTIME_KTX)
     val depTruth = lib("com.google.truth:truth", Versions.TRUTH)
     val depMockk = lib("io.mockk:mockk", Versions.MOCKK)
+    val depGson = lib("com.google.code.gson:gson", Versions.GSON)
 
     val depFirebaseBom = lib("com.google.firebase:firebase-bom", Versions.FIREBASE_BOM)
     val depFirebaseDatabaseKtx = lib("com.google.firebase:firebase-database-ktx")

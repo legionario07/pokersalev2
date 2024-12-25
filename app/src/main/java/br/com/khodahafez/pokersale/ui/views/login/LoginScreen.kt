@@ -1,5 +1,6 @@
 package br.com.khodahafez.pokersale.ui.views.login
 
+import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,7 +37,9 @@ import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
 
 @Composable
 internal fun LoginScreen(
-    viewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory()),
+    viewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory(
+        activity = LocalContext.current as Activity
+    )),
     onLoginSuccessful: (Player) -> Unit
 ) {
 
@@ -46,6 +49,11 @@ internal fun LoginScreen(
     var loading by remember {
         mutableStateOf(false)
     }
+
+    var loginValue by remember { mutableStateOf(EMPTY_STRING) }
+    var passwordValue by remember { mutableStateOf(EMPTY_STRING) }
+    var isCheckedValue by remember { mutableStateOf(false) }
+
 
     when (val result = loginStateUI) {
         is LoginStateUI.InitialState -> {
@@ -65,12 +73,23 @@ internal fun LoginScreen(
             loading = false
             context.showToast(result.message)
         }
+
+        is LoginStateUI.LoginByPreferencesState -> {
+            loginValue = result.player?.login.orEmpty()
+            passwordValue = viewModel.getPasswordDecrypt(result.player?.password.orEmpty())
+            isCheckedValue = true
+        }
     }
 
-    LoginScreenContent { login, password ->
+    LoginScreenContent(
+        loginValue = loginValue,
+        passwordValue = passwordValue,
+        isCheckedValue = isCheckedValue
+    ) { login, password, isChecked ->
         viewModel.login(
             login = login,
-            password = password
+            password = password,
+            isChecked = isChecked
         )
     }
 
@@ -79,12 +98,15 @@ internal fun LoginScreen(
 
 @Composable
 private fun LoginScreenContent(
-    onClickButton: (String, String) -> Unit
+    loginValue: String = EMPTY_STRING,
+    passwordValue: String = EMPTY_STRING,
+    isCheckedValue: Boolean = false,
+    onClickButton: (String, String, Boolean) -> Unit
 ) {
 
-    var login by remember { mutableStateOf(EMPTY_STRING) }
-    var password by remember { mutableStateOf(EMPTY_STRING) }
-    var isChecked by remember { mutableStateOf(false) }
+    var login by remember { mutableStateOf(loginValue) }
+    var password by remember { mutableStateOf(passwordValue) }
+    var isChecked by remember { mutableStateOf(isCheckedValue) }
 
     Row(
         modifier = Modifier
@@ -124,15 +146,15 @@ private fun LoginScreenContent(
             submit = { },
         )
         Spacer(modifier = Modifier.height(mediumDimens.size10))
-//        LabeledCheckBox(
-//            label = stringResource(
-//                id = R.string.poker_sale_remember_label
-//            ),
-//            onCheckChanged = {
-//                isChecked = isChecked.not()
-//            },
-//            isChecked = isChecked
-//        )
+        LabeledCheckBox(
+            label = stringResource(
+                id = R.string.poker_sale_remember_label
+            ),
+            onCheckChanged = {
+                isChecked = isChecked.not()
+            },
+            isChecked = isChecked
+        )
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -148,7 +170,8 @@ private fun LoginScreenContent(
             onClick = {
                 onClickButton(
                     login,
-                    password
+                    password,
+                    isChecked
                 )
             },
             enabled = login.isNotEmpty() && password.isNotEmpty(),
