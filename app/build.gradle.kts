@@ -8,13 +8,13 @@ plugins {
 
 android {
     namespace = "br.com.khodahafez.pokersale"
-    compileSdk = 33
-    buildToolsVersion = "33.0.0"
+    compileSdk = 34
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
         applicationId = "br.com.khodahafez.pokersale"
-        minSdk = 24
-        targetSdk = 33
+        minSdk = 28
+        targetSdk = 34
         versionCode = 1
         versionName = "1.5.0"
 
@@ -44,14 +44,14 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = "1.4.4"
     }
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    buildToolsVersion = "33.0.0"
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
