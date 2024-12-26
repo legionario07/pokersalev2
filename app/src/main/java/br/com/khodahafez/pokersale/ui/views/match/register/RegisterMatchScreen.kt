@@ -358,14 +358,14 @@ private fun PlayersListContent(
 data class RegisterMatchScreenModel(
     val player: Player,
     val buy: Int = 1,
-    val reBuy: Int = 0,
-    val doubleReBuy: Int = 0,
-    val addon: Int = 0,
-    val tax: Int = 0,
-    val bounties: Int = 0,
-    val totalEntries: Double = 0.0,
-    val prize: Double = 0.0,
-    val position: Int = 10
+    var reBuy: Int = 0,
+    var doubleReBuy: Int = 0,
+    var addon: Int = 0,
+    var tax: Int = 0,
+    var bounties: Int = 0,
+    var totalEntries: Double = 0.0,
+    var prize: Double = 0.0,
+    var position: Int = 10
 )
 
 fun <T, R> Collection<T>.minusByFor(elements: Collection<T>, selector: (T) -> R?) =

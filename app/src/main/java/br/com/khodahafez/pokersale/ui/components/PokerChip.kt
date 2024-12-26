@@ -5,9 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -19,10 +17,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -35,9 +31,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PokerChip(
     modifier: Modifier = Modifier,
-    value: Int,
-    onIncrement: () -> Unit,
-    onDecrement: () -> Unit
+    valueCounter: Int,
+    onChange: (Int) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -72,7 +67,8 @@ fun PokerChip(
             contentAlignment = Alignment.Center
         ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(
                         vertical = 2.dp
                     ),
@@ -83,7 +79,7 @@ fun PokerChip(
                 IconButton(
                     modifier = Modifier.size(16.dp),
                     onClick = {
-                        onIncrement()
+                        onChange(valueCounter.inc())
                     }
                 ) {
                     Icon(
@@ -95,7 +91,7 @@ fun PokerChip(
 
                 Text(
                     modifier = Modifier.padding(vertical = 1.dp),
-                    text = "$value",
+                    text = "$valueCounter",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF00796B),
@@ -104,7 +100,9 @@ fun PokerChip(
                 IconButton(
                     modifier = Modifier.size(16.dp),
                     onClick = {
-                        onDecrement()
+                        if (valueCounter > 0) {
+                            onChange(valueCounter.dec())
+                        }
                     }
                 ) {
                     Icon(
@@ -121,13 +119,17 @@ fun PokerChip(
 @Preview(showBackground = true)
 @Composable
 fun PokerChipPreview() {
-    var value by remember {
-        mutableIntStateOf(5)
-    }
-
-    PokerChip(
-        value = value,
-        onIncrement = { value++ },
-        onDecrement = { if (value > 0) value-- }
-    )
+//    var valueCounter = remember {
+//        mutableIntStateOf(5)
+//    }
+//
+//    PokerChip(
+//        valueCounter = valueCounter,
+//        onIncrement = { value ->
+//            println(value)
+//        },
+//        onDecrement = { value ->
+//            println(value)
+//        }
+//    )
 }
