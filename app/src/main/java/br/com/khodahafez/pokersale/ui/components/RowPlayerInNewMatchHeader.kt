@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RowPlayerInNewMatch(
+fun RowPlayerInNewMatchHeader(
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -35,7 +35,7 @@ fun RowPlayerInNewMatch(
             .fillMaxWidth()
             .background(
                 brush = Brush.radialGradient(
-                    colors = listOf(Color(0xFFB3E5FC), Color(0xFF81D4DA), Color(0xFF0288D1)),
+                    colors = listOf(Color(0xFFed5231), Color(0xFFfa917a), Color(0xFFfa5c39)),
                     center = Offset(100f, 100f),
                     radius = 400f
                 ),
@@ -44,7 +44,7 @@ fun RowPlayerInNewMatch(
             .border(
                 width = 2.dp,
                 brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFFFFFFFF), Color(0xFFB3E5FC), Color(0xFF0288D1)),
+                    colors = listOf(Color(0xFFFFFFFF), Color(0xFFfe9f8a), Color(0xFFfa8870)),
                 ),
                 shape = RoundedCornerShape(16.dp)
             )
@@ -55,59 +55,46 @@ fun RowPlayerInNewMatch(
         Spacer(modifier = Modifier.width(16.dp))
         Text(
             modifier = Modifier.width(70.dp),
-            text = "Theodoro",
-            style = MaterialTheme.typography.labelMedium,
+            text = "Jogador",
+            style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
-            color = Color(0xFF00796B),
+            color = Color(0xFFfcfbfb),
         )
         Spacer(modifier = Modifier.width(4.dp))
-        PokerChip(
-            value = 2,
-            onDecrement = {},
-            onIncrement = {}
+        PokerChipHeader(
+            value = "Rebuy"
         )
         Spacer(modifier = Modifier.width(2.dp))
-        PokerChip(
-            value = 2,
-            onDecrement = {},
-            onIncrement = {}
+        PokerChipHeader(
+            value = "Reb. Duplo"
         )
         Spacer(modifier = Modifier.width(2.dp))
-        PokerCheckChip(
-            onChecked = { isChecked ->
-                println(isChecked)
-            }
+        PokerChipHeader(
+            value = "Addon"
         )
         Spacer(modifier = Modifier.width(2.dp))
-        PokerChip(
-            value = 2,
-            onDecrement = {},
-            onIncrement = {}
+        PokerChipHeader(
+            value = "Posição"
         )
         Spacer(modifier = Modifier.width(2.dp))
-        PokerChip(
-            value = 2,
-            onDecrement = {},
-            onIncrement = {}
+        PokerChipHeader(
+            value = "Bountys"
         )
         Spacer(modifier = Modifier.width(2.dp))
-        PokerChip(
-            value = 200,
-            onDecrement = {},
-            onIncrement = {}
+        PokerChipHeader(
+            value = "Premiação"
         )
-
         Spacer(modifier = Modifier.width(16.dp))
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun RowPlayerInNewMatchPreview() {
+fun RowPlayerInNewMatchHeaderPreview() {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(count = 10) {
-            RowPlayerInNewMatch()
+        items(count = 1) {
+            RowPlayerInNewMatchHeader()
         }
     }
 }

@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import br.com.khodahafez.pokersale.ui.components.RowPlayerInNewMatch
+import br.com.khodahafez.pokersale.ui.components.RowPlayerInNewMatchHeaderPreview
 import br.com.khodahafez.pokersale.ui.components.RowPlayerInNewMatchPreview
 import br.com.khodahafez.pokersale.ui.views.balance.BalanceAllScreen
 import br.com.khodahafez.pokersale.ui.views.balance.NewBalanceScreen
@@ -14,6 +15,7 @@ import br.com.khodahafez.pokersale.ui.views.bounty_type.BountyTypeScreen
 import br.com.khodahafez.pokersale.ui.views.home.HomeScreen
 import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchDataEntryScreen
+import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchPlayerWithListScreen
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchScreen
 import br.com.khodahafez.pokersale.ui.views.player.PlayerScreen
 import br.com.khodahafez.pokersale.ui.views.position_score.PositionScoreScreen
@@ -33,7 +35,7 @@ internal fun navigationGraph(
 //                    navController.navigate(ScreenEnum.HOME.route)
 //                }
 //            )
-            RowPlayerInNewMatchPreview()
+            RegisterMatchPlayerWithListScreen()
         }
 
         composable(route = ScreenEnum.HOME.route) {
