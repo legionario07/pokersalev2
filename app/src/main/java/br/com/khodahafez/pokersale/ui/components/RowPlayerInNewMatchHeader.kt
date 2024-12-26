@@ -31,7 +31,7 @@ fun RowPlayerInNewMatchHeader(
 ) {
     Row(
         modifier = modifier
-            .height(80.dp)
+            .height(100.dp)
             .fillMaxWidth()
             .background(
                 brush = Brush.radialGradient(
@@ -54,7 +54,7 @@ fun RowPlayerInNewMatchHeader(
     ) {
         Spacer(modifier = Modifier.width(16.dp))
         Text(
-            modifier = Modifier.width(70.dp),
+            modifier = Modifier.width(90.dp),
             text = "Jogador",
             style = MaterialTheme.typography.labelLarge,
             fontWeight = FontWeight.Bold,

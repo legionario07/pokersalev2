@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,7 +19,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -28,9 +28,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import br.com.khodahafez.pokersale.ui.UiConstants.Colors.disableColors
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchScreenModel
+
+private val enabledColorsRow = listOf(Color(0xFFB3E5FC), Color(0xFF81D4DA), Color(0xFF0288D1))
+private val enabledColorsBorders = listOf(Color(0xFFFFFFFF), Color(0xFFB3E5FC), Color(0xFF0288D1))
 
 @Composable
 fun RowPlayerInNewMatch(
@@ -62,6 +65,10 @@ fun RowPlayerInNewMatch(
         mutableIntStateOf(player.position)
     }
 
+    var isCheckedRowToAddPlayer by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     LaunchedEffect(doubleReBuy) {
         player.reBuy = reBuy
         player.doubleReBuy = doubleReBuy
@@ -75,9 +82,10 @@ fun RowPlayerInNewMatch(
         modifier = modifier
             .height(80.dp)
             .fillMaxWidth()
+            .padding(vertical = 1.dp)
             .background(
                 brush = Brush.radialGradient(
-                    colors = listOf(Color(0xFFB3E5FC), Color(0xFF81D4DA), Color(0xFF0288D1)),
+                    colors = if (isCheckedRowToAddPlayer) enabledColorsRow else disableColors,
                     center = Offset(100f, 100f),
                     radius = 400f
                 ),
@@ -86,7 +94,7 @@ fun RowPlayerInNewMatch(
             .border(
                 width = 2.dp,
                 brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFFFFFFFF), Color(0xFFB3E5FC), Color(0xFF0288D1)),
+                    colors = if (isCheckedRowToAddPlayer) enabledColorsBorders else disableColors,
                 ),
                 shape = RoundedCornerShape(16.dp)
             )
@@ -94,9 +102,14 @@ fun RowPlayerInNewMatch(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(12.dp))
+
+        PokerCheckIsPlayed { isChecked ->
+            isCheckedRowToAddPlayer = isChecked
+        }
+        Spacer(modifier = Modifier.width(4.dp))
         Text(
-            modifier = Modifier.width(70.dp),
+            modifier = Modifier.width(60.dp),
             text = player.player.name,
             style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.Bold,
@@ -106,7 +119,7 @@ fun RowPlayerInNewMatch(
         Spacer(modifier = Modifier.width(4.dp))
         PokerChip(
             valueCounter = reBuy,
-            onChange = {value ->
+            onChange = { value ->
                 reBuy = value
             }
         )
@@ -120,7 +133,7 @@ fun RowPlayerInNewMatch(
         Spacer(modifier = Modifier.width(2.dp))
         PokerCheckChip(
             onChecked = { isChecked ->
-                addOn = if(isChecked) 1 else 0
+                addOn = if (isChecked) 1 else 0
             }
         )
         Spacer(modifier = Modifier.width(2.dp))
@@ -147,14 +160,4 @@ fun RowPlayerInNewMatch(
 
         Spacer(modifier = Modifier.width(16.dp))
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun RowPlayerInNewMatchPreview() {
-//    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-//        items(count = 10) {
-//            RowPlayerInNewMatch(RegisterMatchScreenModel())
-//        }
-//    }
 }

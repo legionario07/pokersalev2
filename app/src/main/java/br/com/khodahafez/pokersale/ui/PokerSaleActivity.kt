@@ -37,9 +37,10 @@ import androidx.navigation.compose.rememberNavController
 import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.domain.utils.Session
 import br.com.khodahafez.pokersale.navigation.ScreenEnum
-import br.com.khodahafez.pokersale.navigation.navigationGraph
+import br.com.khodahafez.pokersale.navigation.NavigationGraph
 import br.com.khodahafez.pokersale.ui.ui.theme.PokerSaleV2DomainTheme
 import br.com.khodahafez.pokersale.ui.views.components.currentRoute
+import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchPlayerWithListScreen
 import br.com.khodahafez.pokersale.ui.views.tabbar.PokerSaleBottomNavigation
 import br.com.khodahafez.pokersale.ui.views.tabbar.TabItem
 
@@ -67,8 +68,7 @@ class PokerSaleActivity : ComponentActivity() {
 
                 Scaffold(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .nestedScroll(scrollBehavior.nestedScrollConnection),
+                        .fillMaxSize(),
                     topBar = {
                         if (currentRoute.isTopBar && Session.player != null) {
                             TopAppBar(
@@ -156,8 +156,9 @@ class PokerSaleActivity : ComponentActivity() {
                                 bottom = paddingValues.calculateBottomPadding()
                             )
                     ) {
-                        navigationGraph(
-                            navController = navController, startDestination = getStartRoute()
+                        NavigationGraph(
+                            navController = navController,
+                            startDestination = getStartRoute()
                         )
                     }
                 }

@@ -25,13 +25,13 @@ import br.com.khodahafez.pokersale.ui.components.RowPlayerInNewMatchHeader
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
 import br.com.khodahafez.pokersale.ui.views.match.register.factory.RegisterMatchViewModelFactory
-import java.util.UUID
 
 @Composable
 fun RegisterMatchPlayerWithListScreen(
     modifier: Modifier = Modifier,
     viewModel: RegisterMatchViewModel = viewModel(factory = RegisterMatchViewModelFactory()),
 ) {
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -42,7 +42,7 @@ fun RegisterMatchPlayerWithListScreen(
 
         val context = LocalContext.current
 
-        var loading by remember {
+        var loading by rememberSaveable {
             mutableStateOf(true)
         }
 
@@ -54,14 +54,10 @@ fun RegisterMatchPlayerWithListScreen(
             viewModel.stateUI
         }.collectAsState()
 
-
         when (val result = uiState) {
-            is RegisterMatchStateUI.InitialState -> {
-                // Do Nothing
-            }
-
+            is RegisterMatchStateUI.InitialState,
             is RegisterMatchStateUI.Loading -> {
-                loading = true
+                // Do Nothing
             }
 
             is RegisterMatchStateUI.Error -> {
@@ -73,7 +69,6 @@ fun RegisterMatchPlayerWithListScreen(
                 players.addAll(result.players.map {
                     RegisterMatchScreenModel(player = it)
                 })
-                println(players)
             }
 
             is RegisterMatchStateUI.SaveSuccessful -> {
@@ -84,17 +79,20 @@ fun RegisterMatchPlayerWithListScreen(
 
         CircularLoading(isLoading = loading)
 
-        if(loading.not()) {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                stickyHeader {
-                    RowPlayerInNewMatchHeader()
-                }
+        if (loading.not()) {
+            RowPlayerInNewMatchHeader()
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
                 items(
                     players.toList(),
                     key = { playerItem ->
-                        playerItem.player.id ?: UUID.randomUUID()
+                        playerItem.player.login
                     }
-                ) {item ->
+                ) { item ->
+
                     RowPlayerInNewMatch(
                         player = item
                     )
