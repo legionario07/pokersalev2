@@ -14,7 +14,7 @@
         android:theme="@style/Theme.PokerSaleV2Domain"
         tools:targetApi="31" >
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.PokerSaleActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"

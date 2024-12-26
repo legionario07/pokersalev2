@@ -13,14 +13,12 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.AutoGraph
-import androidx.compose.material.icons.filled.ChangeCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material.icons.filled.Money
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -41,14 +39,13 @@ import br.com.khodahafez.domain.utils.Session
 import br.com.khodahafez.pokersale.navigation.ScreenEnum
 import br.com.khodahafez.pokersale.navigation.navigationGraph
 import br.com.khodahafez.pokersale.ui.ui.theme.PokerSaleV2DomainTheme
-import br.com.khodahafez.pokersale.ui.views.components.ModalBottomComponent
 import br.com.khodahafez.pokersale.ui.views.components.currentRoute
 import br.com.khodahafez.pokersale.ui.views.tabbar.PokerSaleBottomNavigation
 import br.com.khodahafez.pokersale.ui.views.tabbar.TabItem
 
 
 @OptIn(ExperimentalMaterial3Api::class)
-class MainActivity : ComponentActivity() {
+class PokerSaleActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
 
@@ -56,14 +53,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
-            setupInitNavHostController()
+            SetupInitNavHostController()
             val listItems = remember {
                 mutableSetOf<TabItem>()
             }
             PokerSaleV2DomainTheme(darkTheme = false) {
 
                 val currentRoute = currentRoute(navController = navController)
-                builderIcons(listItems, currentRoute == ScreenEnum.LOGIN)
+                BuilderIcons(listItems, currentRoute == ScreenEnum.LOGIN)
 
                 val scrollBehavior =
                     TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -169,7 +166,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun setupInitNavHostController() {
+    private fun SetupInitNavHostController() {
         navController = rememberNavController()
     }
 
@@ -178,7 +175,7 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun builderIcons(
+    private fun BuilderIcons(
         listItems: MutableSet<TabItem>,
         isLoginScreen: Boolean,
     ) {

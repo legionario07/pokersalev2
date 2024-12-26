@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import br.com.khodahafez.pokersale.ui.components.RowPlayerInNewMatch
+import br.com.khodahafez.pokersale.ui.components.RowPlayerInNewMatchPreview
 import br.com.khodahafez.pokersale.ui.views.balance.BalanceAllScreen
 import br.com.khodahafez.pokersale.ui.views.balance.NewBalanceScreen
 import br.com.khodahafez.pokersale.ui.views.balance.my_balance.MyBalanceScreen
@@ -26,11 +28,12 @@ internal fun navigationGraph(
         startDestination = startDestination.route
     ) {
         composable(route = ScreenEnum.LOGIN.route) {
-            LoginScreen(
-                onLoginSuccessful = {
-                    navController.navigate(ScreenEnum.HOME.route)
-                }
-            )
+//            LoginScreen(
+//                onLoginSuccessful = {
+//                    navController.navigate(ScreenEnum.HOME.route)
+//                }
+//            )
+            RowPlayerInNewMatchPreview()
         }
 
         composable(route = ScreenEnum.HOME.route) {

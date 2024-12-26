@@ -23,6 +23,7 @@ object Dependencies {
     val depTruth = lib("com.google.truth:truth", Versions.TRUTH)
     val depMockk = lib("io.mockk:mockk", Versions.MOCKK)
     val depGson = lib("com.google.code.gson:gson", Versions.GSON)
+    val depCoil = lib("io.coil-kt:coil-compose", Versions.COIL_COMPOSE)
 
     val depFirebaseBom = lib("com.google.firebase:firebase-bom", Versions.FIREBASE_BOM)
     val depFirebaseDatabaseKtx = lib("com.google.firebase:firebase-database-ktx")

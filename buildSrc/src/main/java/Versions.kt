@@ -14,6 +14,7 @@ object Versions {
     const val FIREBASE_BOM = "32.0.0"
     const val HILT_ANDROID = "2.44"
     const val GSON = "2.10.1"
+    const val COIL_COMPOSE = "2.2.2"
 
     // ROOM DATABASE
     const val ROOM_DATABASE = "2.5.0"

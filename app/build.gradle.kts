@@ -81,6 +81,7 @@ dependencies {
     debugImplementation(Dependencies.depComposeUiTooling)
     debugImplementation(Dependencies.depComposeUiTestManifest)
     implementation(Dependencies.depGson)
+    implementation(Dependencies.depCoil)
 
     // Import the BoM for the Firebase platform
     implementation(platform(Dependencies.depFirebaseBom))
