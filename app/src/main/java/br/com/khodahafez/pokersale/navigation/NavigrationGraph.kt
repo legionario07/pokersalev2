@@ -10,9 +10,9 @@ import br.com.khodahafez.pokersale.ui.views.balance.my_balance.MyBalanceScreen
 import br.com.khodahafez.pokersale.ui.views.balance.ranking_balance.RankingBalanceScreen
 import br.com.khodahafez.pokersale.ui.views.bounty_type.BountyTypeScreen
 import br.com.khodahafez.pokersale.ui.views.home.HomeScreen
+import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchDataEntryScreen
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchPlayerWithListScreen
-import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchScreen
 import br.com.khodahafez.pokersale.ui.views.player.PlayerScreen
 import br.com.khodahafez.pokersale.ui.views.position_score.PositionScoreScreen
 
@@ -31,8 +31,16 @@ internal fun NavigationGraph(
 //                    navController.navigate(ScreenEnum.HOME.route)
 //                }
 //            )
-            println("composable")
-            RegisterMatchPlayerWithListScreen()
+            RegisterMatchPlayerWithListScreen(
+                idMatchCreated =
+                    "idMatchCreated",
+                onSaveMatchSuccessful = {
+                    navController.navigate(ScreenEnum.NEW_BALANCE_POKER_SALE.route) {
+                        launchSingleTop = true
+                        popUpTo(ScreenEnum.HOME.route)
+                    }
+                }
+            )
         }
 
         composable(route = ScreenEnum.HOME.route) {
@@ -58,7 +66,7 @@ internal fun NavigationGraph(
         }
 
         composable(route = ScreenEnum.REGISTER_MATCH.route.plus(ScreensConstants.REGISTER_MATCH_ARGUMENT)) { backStackEntry ->
-            RegisterMatchScreen(
+            RegisterMatchPlayerWithListScreen(
                 idMatchCreated = backStackEntry.arguments?.getString(
                     "idMatchCreated"
                 ).orEmpty(),

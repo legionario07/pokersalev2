@@ -5,9 +5,12 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -17,8 +20,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -29,7 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun PokerChip(
+fun PokerChipWithTwoOptionToInc(
     modifier: Modifier = Modifier,
     valueCounter: Int,
     incrementValue: Int = 1,
@@ -37,7 +38,8 @@ fun PokerChip(
 ) {
     Box(
         modifier = modifier
-            .size(70.dp)
+            .height(70.dp)
+            .width(80.dp)
             .background(
                 brush = Brush.radialGradient(
                     colors = listOf(Color(0xFFB3E5FC), Color(0xFF81D4DA), Color(0xFF0288D1)),
@@ -57,7 +59,8 @@ fun PokerChip(
     ) {
         Box(
             modifier = Modifier
-                .size(60.dp)
+                .height(60.dp)
+                .width(70.dp)
                 .background(Color.White, shape = CircleShape)
                 .border(
                     width = 4.dp,
@@ -90,13 +93,46 @@ fun PokerChip(
                     )
                 }
 
-                Text(
-                    modifier = Modifier.padding(vertical = 1.dp),
-                    text = "$valueCounter",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF00796B),
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(
+                        modifier = Modifier.size(16.dp),
+                        onClick = {
+                            onChange(valueCounter + 5)
+                        }
+                    ) {
+                        Icon(
+                            Icons.Default.Add,
+                            contentDescription = "Increment",
+                            tint = Color(0xFF00796B)
+                        )
+                    }
+                    Text(
+                        modifier = Modifier.padding(
+                            vertical = 1.dp,
+                            horizontal = 1.dp
+                        ),
+                        text = "$valueCounter",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF00796B),
+                    )
+                    IconButton(
+                        modifier = Modifier.size(16.dp),
+                        onClick = {
+                            if (valueCounter > 0) {
+                                onChange(valueCounter - 5)
+                            }
+                        }
+                    ) {
+                        Icon(
+                            Icons.Default.Remove,
+                            contentDescription = "Decrement",
+                            tint = Color(0xFF00796B)
+                        )
+                    }
+                }
 
                 IconButton(
                     modifier = Modifier.size(16.dp),
@@ -115,4 +151,12 @@ fun PokerChip(
             }
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun PokerChipInputPreview() {
+    PokerChipWithTwoOptionToInc(
+        valueCounter = 10
+    ) { }
 }

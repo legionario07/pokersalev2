@@ -1,15 +1,17 @@
 package br.com.khodahafez.pokersale.ui.components
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -22,12 +24,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun RowPlayerInNewMatchHeader(
     modifier: Modifier = Modifier,
+    selected: Int,
+    scrollState: ScrollState = rememberScrollState()
 ) {
     Row(
         modifier = modifier
@@ -35,7 +38,7 @@ fun RowPlayerInNewMatchHeader(
             .fillMaxWidth()
             .background(
                 brush = Brush.radialGradient(
-                    colors = listOf(Color(0xFFed5231), Color(0xFFfa917a), Color(0xFFfa5c39)),
+                    colors = listOf(Color(0xFF3d81c4), Color(0xFF194d80), Color(0xFF3d81c4)),
                     center = Offset(100f, 100f),
                     radius = 400f
                 ),
@@ -44,23 +47,34 @@ fun RowPlayerInNewMatchHeader(
             .border(
                 width = 2.dp,
                 brush = Brush.linearGradient(
-                    colors = listOf(Color(0xFFFFFFFF), Color(0xFFfe9f8a), Color(0xFFfa8870)),
+                    colors = listOf(Color(0xFF75b3f0), Color(0xFF3d81c4), Color(0xFF3d81c4)),
                 ),
                 shape = RoundedCornerShape(16.dp)
             )
-            .horizontalScroll(rememberScrollState()),
+            .horizontalScroll(scrollState),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            modifier = Modifier.width(90.dp),
-            text = "Jogador",
-            style = MaterialTheme.typography.labelLarge,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            color = Color(0xFFfcfbfb),
-        )
+        Column(modifier = Modifier.wrapContentSize()) {
+            Text(
+                modifier = Modifier.width(90.dp),
+                text = "Jogador",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = Color(0xFFfcfbfb),
+            )
+
+            Text(
+                modifier = Modifier.width(90.dp),
+                text = "$selected Selecionados",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = Color(0xFFfcfbfb),
+            )
+        }
         Spacer(modifier = Modifier.width(4.dp))
         PokerChipHeader(
             value = "Rebuy"
@@ -86,15 +100,5 @@ fun RowPlayerInNewMatchHeader(
             value = "Premiação"
         )
         Spacer(modifier = Modifier.width(16.dp))
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun RowPlayerInNewMatchHeaderPreview() {
-    LazyColumn(modifier = Modifier.fillMaxWidth()) {
-        items(count = 1) {
-            RowPlayerInNewMatchHeader()
-        }
     }
 }

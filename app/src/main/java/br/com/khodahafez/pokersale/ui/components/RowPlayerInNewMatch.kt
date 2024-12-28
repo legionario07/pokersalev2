@@ -1,5 +1,6 @@
 package br.com.khodahafez.pokersale.ui.components
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
@@ -18,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -39,6 +39,9 @@ private val enabledColorsBorders = listOf(Color(0xFFFFFFFF), Color(0xFFB3E5FC), 
 fun RowPlayerInNewMatch(
     modifier: Modifier = Modifier,
     player: RegisterMatchScreenModel,
+    scrollState: ScrollState = rememberScrollState(),
+    isChecked: Boolean,
+    onChecked: (Boolean) -> Unit
 ) {
 
     var reBuy by rememberSaveable {
@@ -65,11 +68,7 @@ fun RowPlayerInNewMatch(
         mutableIntStateOf(player.position)
     }
 
-    var isCheckedRowToAddPlayer by rememberSaveable {
-        mutableStateOf(false)
-    }
-
-    LaunchedEffect(doubleReBuy) {
+    LaunchedEffect(doubleReBuy, reBuy, doubleReBuy, addOn, bounties, prize, position) {
         player.reBuy = reBuy
         player.doubleReBuy = doubleReBuy
         player.addon = addOn
@@ -85,7 +84,7 @@ fun RowPlayerInNewMatch(
             .padding(vertical = 1.dp)
             .background(
                 brush = Brush.radialGradient(
-                    colors = if (isCheckedRowToAddPlayer) enabledColorsRow else disableColors,
+                    colors = if (isChecked) enabledColorsRow else disableColors,
                     center = Offset(100f, 100f),
                     radius = 400f
                 ),
@@ -94,18 +93,18 @@ fun RowPlayerInNewMatch(
             .border(
                 width = 2.dp,
                 brush = Brush.linearGradient(
-                    colors = if (isCheckedRowToAddPlayer) enabledColorsBorders else disableColors,
+                    colors = if (isChecked) enabledColorsBorders else disableColors,
                 ),
                 shape = RoundedCornerShape(16.dp)
             )
-            .horizontalScroll(rememberScrollState()),
+            .horizontalScroll(scrollState),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Spacer(modifier = Modifier.width(12.dp))
 
-        PokerCheckIsPlayed { isChecked ->
-            isCheckedRowToAddPlayer = isChecked
+        PokerCheckIsPlayed(isChecked = isChecked) { isChecked ->
+            onChecked(isChecked)
         }
         Spacer(modifier = Modifier.width(4.dp))
         Text(
@@ -132,6 +131,7 @@ fun RowPlayerInNewMatch(
         )
         Spacer(modifier = Modifier.width(2.dp))
         PokerCheckChip(
+            addonValue = addOn,
             onChecked = { isChecked ->
                 addOn = if (isChecked) 1 else 0
             }
@@ -151,8 +151,9 @@ fun RowPlayerInNewMatch(
             }
         )
         Spacer(modifier = Modifier.width(2.dp))
-        PokerChip(
+        PokerChipWithTwoOptionToInc(
             valueCounter = prize,
+            incrementValue = 20,
             onChange = { value ->
                 prize = value
             }

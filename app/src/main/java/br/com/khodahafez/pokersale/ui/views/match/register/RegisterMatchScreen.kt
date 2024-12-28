@@ -360,12 +360,13 @@ data class RegisterMatchScreenModel(
     val buy: Int = 1,
     var reBuy: Int = 0,
     var doubleReBuy: Int = 0,
-    var addon: Int = 0,
+    var addon: Int = 1,
     var tax: Int = 0,
     var bounties: Int = 0,
     var totalEntries: Double = 0.0,
     var prize: Double = 0.0,
-    var position: Int = 10
+    var position: Int = 10,
+    var isChecked: Boolean = false
 )
 
 fun <T, R> Collection<T>.minusByFor(elements: Collection<T>, selector: (T) -> R?) =
