@@ -25,11 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.utils.Session
 import br.com.khodahafez.pokersale.R
+import br.com.khodahafez.pokersale.ui.components.YearSelector
 import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
@@ -37,9 +40,11 @@ import br.com.khodahafez.pokersale.ui.views.components.TextFieldComponent
 
 @Composable
 internal fun LoginScreen(
-    viewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory(
-        activity = LocalContext.current as Activity
-    )),
+    viewModel: LoginViewModel = viewModel(
+        factory = LoginViewModelFactory(
+            activity = LocalContext.current as Activity
+        )
+    ),
     onLoginSuccessful: (Player) -> Unit
 ) {
 
@@ -117,7 +122,7 @@ private fun LoginScreenContent(
     )
     {
         Text(
-            text = "Versão: 1.0.6",
+            text = "Versão: 1.1.0",
             fontSize = 10.sp
         )
     }
@@ -155,6 +160,12 @@ private fun LoginScreenContent(
             },
             isChecked = isChecked
         )
+
+        YearSelector(
+            modifier = Modifier
+        ) { year ->
+            Session.yearSelected = year
+        }
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -180,4 +191,10 @@ private fun LoginScreenContent(
             Text(stringResource(id = R.string.poker_sale_button_label))
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen { }
 }

@@ -6,4 +6,5 @@ object Session {
     var player: Player? = null
     var shouldGetPlayersInRemoteDatabase = true
     var shouldGetScoreInRemoteDatabase = true
+    var yearSelected = 0
 }

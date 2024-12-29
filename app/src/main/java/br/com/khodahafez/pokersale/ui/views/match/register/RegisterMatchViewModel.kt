@@ -38,6 +38,7 @@ class RegisterMatchViewModel(
     }
 
     fun saveMatch(listRegisterMatch: List<RegisterMatchScreenModel>) {
+
         matchOfPoker?.registeredBy = playerLogged
         matchOfPoker?.players?.addAll(listRegisterMatch.map {
             it.player
@@ -178,8 +179,14 @@ class RegisterMatchViewModel(
                 }.collect { resultOf ->
                     when (resultOf) {
                         is ResultOf.Success -> {
+
+                            val playerSorted =   resultOf.response.sortedBy {
+                                it.name
+                            }
                             _stateUI.update {
-                                RegisterMatchStateUI.GetAllUsersState(resultOf.response)
+                                RegisterMatchStateUI.GetAllUsersState(
+                                    playerSorted
+                                )
                             }
                         }
 

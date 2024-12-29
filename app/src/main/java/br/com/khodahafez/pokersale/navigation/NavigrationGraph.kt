@@ -26,19 +26,9 @@ internal fun NavigationGraph(
         startDestination = startDestination.route
     ) {
         composable(route = ScreenEnum.LOGIN.route) {
-//            LoginScreen(
-//                onLoginSuccessful = {
-//                    navController.navigate(ScreenEnum.HOME.route)
-//                }
-//            )
-            RegisterMatchPlayerWithListScreen(
-                idMatchCreated =
-                    "idMatchCreated",
-                onSaveMatchSuccessful = {
-                    navController.navigate(ScreenEnum.NEW_BALANCE_POKER_SALE.route) {
-                        launchSingleTop = true
-                        popUpTo(ScreenEnum.HOME.route)
-                    }
+            LoginScreen(
+                onLoginSuccessful = {
+                    navController.navigate(ScreenEnum.HOME.route)
                 }
             )
         }
