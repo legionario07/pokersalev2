@@ -1,5 +1,6 @@
 package br.com.khodahafez.pokersale.navigation
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,7 +20,8 @@ import br.com.khodahafez.pokersale.ui.views.position_score.PositionScoreScreen
 @Composable
 internal fun NavigationGraph(
     navController: NavHostController,
-    startDestination: ScreenEnum
+    startDestination: ScreenEnum,
+    context: Context
 ) {
     NavHost(
         navController = navController,
@@ -27,6 +29,7 @@ internal fun NavigationGraph(
     ) {
         composable(route = ScreenEnum.LOGIN.route) {
             LoginScreen(
+                context = context,
                 onLoginSuccessful = {
                     navController.navigate(ScreenEnum.HOME.route)
                 }

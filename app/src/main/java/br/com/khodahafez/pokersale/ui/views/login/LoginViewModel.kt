@@ -2,6 +2,7 @@ package br.com.khodahafez.pokersale.ui.views.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.khodahafez.domain.PokerSaleConstants.EMPTY_STRING
 import br.com.khodahafez.domain.PokerSaleConstants.ErrorMessage.GENERIC_ERROR
 import br.com.khodahafez.domain.PokerSaleConstants.PreferencesKeys.REMEMBER_LOGIN_CHECKED
 import br.com.khodahafez.domain.PokerSaleConstants.PreferencesKeys.REMEMBER_LOGIN_PLAYER
@@ -27,6 +28,10 @@ class LoginViewModel(
     private val _loginStateUI = MutableStateFlow<LoginStateUI>(LoginStateUI.InitialState)
     val loginStateUI: StateFlow<LoginStateUI> = _loginStateUI
 
+    var isCheckedToRemember = false
+    var login = EMPTY_STRING
+    var password = EMPTY_STRING
+
     init {
         checkIfHasPlayerInPreferences()
     }
@@ -34,18 +39,24 @@ class LoginViewModel(
     private fun checkIfHasPlayerInPreferences() {
 
         if (isLoginCheckedToRemember() == true) {
+            isCheckedToRemember = true
             val player = getPlayerInPreferences()
+
+
+            login = player?.login.orEmpty()
+            password = getPasswordDecrypt(player?.password.orEmpty())
 
             _loginStateUI.update {
                 LoginStateUI.LoginByPreferencesState(player)
             }
+        } else {
+            isCheckedToRemember = false
         }
     }
 
     fun login(
         login: String,
-        password: String,
-        isChecked: Boolean
+        password: String
     ) {
         _loginStateUI.update {
             LoginStateUI.Loading
@@ -71,7 +82,7 @@ class LoginViewModel(
             }.collect { player ->
                 Session.player = player
                 checkIfLoginIsCheckedToRemember(
-                    isChecked = isChecked,
+                    isChecked = isCheckedToRemember,
                     player = player
                 )
                 _loginStateUI.update {
@@ -100,7 +111,7 @@ class LoginViewModel(
     private fun getPlayerInPreferences() =
         loginPreferencesUseCase.get(REMEMBER_LOGIN_PLAYER, Player::class.java)
 
-    fun getPasswordDecrypt(password: String) =
+    private fun getPasswordDecrypt(password: String) =
         EncryptUtils.decrypt(password)
 }
 

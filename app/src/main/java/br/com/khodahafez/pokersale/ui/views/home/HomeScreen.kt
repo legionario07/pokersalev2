@@ -94,6 +94,7 @@ fun HomeScreen(
         }
 
         is HomeStateUI.EmptyRanking -> {
+            loading = false
             isEmptyRanking = true
         }
     }
@@ -241,7 +242,8 @@ fun HomeScreen(
             } else {
                 Text(
                     modifier = Modifier.fillMaxSize(),
-                    text = "Não existem partidas para o ranking $rankingNumber",
+                    text = if (rankingNumber == "0") "Sem partidas para o Ano selecionado!"
+                    else "Não existem partidas para o ranking $rankingNumber",
                     fontStyle = FontStyle.Normal,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.Red,

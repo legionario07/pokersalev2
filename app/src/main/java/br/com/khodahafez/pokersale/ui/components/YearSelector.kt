@@ -15,8 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,28 +34,36 @@ fun YearSelector(
     modifier: Modifier = Modifier,
     onYearSelected: (Int) -> Unit
 ) {
-    val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-    val years = listOf(
-        currentYear - 1, currentYear
-    )
+    val currentYear by remember {
+        mutableIntStateOf(Calendar.getInstance().get(Calendar.YEAR))
+    }
+
+    val years by remember {
+        mutableStateOf(
+            listOf(
+                currentYear - 1, currentYear
+            )
+        )
+    }
 
     LaunchedEffect(Unit) {
         onYearSelected(currentYear)
     }
 
-    var selectedYear by remember {
-        mutableStateOf(years.last())
+    var selectedYear by rememberSaveable {
+        mutableIntStateOf(years.last())
     }
 
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
             .padding(
                 vertical = 24.dp,
                 horizontal = 32.dp
             )
     ) {
         Text(
-            modifier =  Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             text = "Selecione o ano:",
             style = TextStyle(fontSize = 18.sp),
             textAlign = TextAlign.Center
@@ -82,37 +92,38 @@ fun DropdownMenuSample(
     }
 
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(
                 vertical = 24.dp,
-                horizontal = 32.dp
+                horizontal = 24.dp
             ),
     ) {
-       OutlinedButton(
-           modifier = Modifier.fillMaxWidth(),
-           border = BorderStroke(
-               width = 2.dp,
-               Color(0xFF466583)
-           ),
-           onClick = {
-               expanded = !expanded
-           }
-       ) {
-           Text(
-               modifier = Modifier.fillMaxWidth(),
-               text = selectedYear.toString(),
-               textAlign = TextAlign.Center
-           )
-       }
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth(),
+            border = BorderStroke(
+                width = 2.dp,
+                Color(0xFF466583)
+            ),
+            onClick = {
+                expanded = !expanded
+            }
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = selectedYear.toString(),
+                textAlign = TextAlign.Center
+            )
+        }
 
         DropdownMenu(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.width(300.dp),
             expanded = expanded,
             onDismissRequest = {
                 expanded = false
             }
         ) {
-            years.forEach {year ->
+            years.forEach { year ->
                 DropdownMenuItem(
                     modifier = Modifier.fillMaxWidth(),
                     text = {

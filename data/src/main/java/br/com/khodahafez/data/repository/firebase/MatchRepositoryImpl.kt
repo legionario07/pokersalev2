@@ -5,6 +5,8 @@ import br.com.khodahafez.domain.model.MatchOfPoker
 import br.com.khodahafez.domain.model.dto.PlayerDto
 import br.com.khodahafez.domain.repository.remote.MatchRepository
 import br.com.khodahafez.domain.state.ResultOf
+import br.com.khodahafez.domain.utils.PokerSaleUtils
+import br.com.khodahafez.domain.utils.Session
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -87,6 +89,11 @@ class MatchRepositoryImpl(
                         if (dataSnapshot.exists()) {
                             var listItems = dataSnapshot.children.map { item ->
                                 item.getValue<MatchOfPoker>()
+                            }.filter { match ->
+                                PokerSaleUtils.checkIfDateAllowed(
+                                    dateString = match?.date.orEmpty(),
+                                    expectedYear = Session.yearSelected
+                                )
                             }
 
                             if (rankingNumber > 0) {
@@ -161,6 +168,11 @@ class MatchRepositoryImpl(
                         if (dataSnapshot.exists()) {
                             val listMatches: MutableList<MatchOfPoker> = dataSnapshot.children.map {
                                 it.getValue<MatchOfPoker>()!!
+                            }.filter { match ->
+                                PokerSaleUtils.checkIfDateAllowed(
+                                    dateString = match.date.orEmpty(),
+                                    expectedYear = Session.yearSelected
+                                )
                             }.toMutableList()
 
                             trySend(

@@ -1,6 +1,7 @@
 package br.com.khodahafez.pokersale.di
 
 import android.app.Activity
+import android.content.Context
 import br.com.khodahafez.domain.mapper.PlayerMapper
 import br.com.khodahafez.domain.mapper.ScoreMapper
 import br.com.khodahafez.domain.repository.PlayerRepositoryDataSource
@@ -191,9 +192,9 @@ object UseCaseModule {
     }
 
     fun provideLoginPreferencesUseCase(
-        activity: Activity,
+        context: Context,
         preferences: Preferences = RepositoryModule.providePreferencesRepository(
-            activity = activity
+            context = context
         )
     ) = LoginPreferencesUseCase(
         preferences = preferences

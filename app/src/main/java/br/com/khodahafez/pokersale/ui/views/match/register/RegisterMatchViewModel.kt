@@ -2,6 +2,7 @@ package br.com.khodahafez.pokersale.ui.views.match.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.khodahafez.domain.extensions.converterToStringDate
 import br.com.khodahafez.domain.model.MatchOfPoker
 import br.com.khodahafez.domain.model.MatchOfPokerType
 import br.com.khodahafez.domain.model.Player
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class RegisterMatchViewModel(
     private val playerLogged: Player?,
@@ -118,6 +120,7 @@ class RegisterMatchViewModel(
                         idPlayer = registerMatchScreenModel.player.id,
                         totalEntries = registerMatchScreenModel.totalEntries,
                         cashPrize = registerMatchScreenModel.prize,
+                        date = Calendar.getInstance().timeInMillis.converterToStringDate(),
                         idMatchOfPoker = matchOfPoker?.id.orEmpty()
                     )
                 ).catch { error ->

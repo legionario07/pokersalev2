@@ -68,17 +68,17 @@ object RepositoryModule {
     }
 
     private fun providePreferences(
-        activity: Activity,
+        context: Context,
         key: String = KEY_SHARED_PREFERENCES
     ): SharedPreferences {
-        return activity.getSharedPreferences(
+        return context.getSharedPreferences(
           key, Context.MODE_PRIVATE
         )
     }
 
     fun providePreferencesRepository(
-        activity: Activity,
-        sharedPreferences: SharedPreferences = providePreferences(activity)
+        context: Context,
+        sharedPreferences: SharedPreferences = providePreferences(context)
     ) = PreferencesRepositoryImpl(
         sharedPreferences = sharedPreferences,
         gson = Gson()

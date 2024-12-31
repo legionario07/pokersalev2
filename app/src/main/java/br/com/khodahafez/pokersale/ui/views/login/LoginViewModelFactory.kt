@@ -2,34 +2,38 @@
 
 package br.com.khodahafez.pokersale.ui.views.login
 
-import android.app.Activity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import android.content.Context
 import br.com.khodahafez.pokersale.di.FirebaseModule
 import br.com.khodahafez.pokersale.di.MapperProvide
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
 import br.com.khodahafez.pokersale.di.UseCaseModule.provideLoginPreferencesUseCase
 
-class LoginViewModelFactory(private val activity: Activity) : ViewModelProvider.Factory {
+object LoginViewModelFactory {
 
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val dbReferences = FirebaseModule.provideFirebaseReference("/users")
+    private var viewModel: LoginViewModel? = null
 
-        val playerRepository = RepositoryModule.providePlayerRepository(dbReferences)
+    fun create(context: Context): LoginViewModel? {
+        if (viewModel == null) {
+            val dbReferences = FirebaseModule.provideFirebaseReference("/users")
 
-        val mapper = MapperProvide.providePlayerMapper()
+            val playerRepository = RepositoryModule.providePlayerRepository(dbReferences)
 
-        val loginUseCase = UseCaseModule.provideLoginUseCase(
-            playerRepository,
-            mapper
-        )
+            val mapper = MapperProvide.providePlayerMapper()
 
-        return LoginViewModel(
-            loginUseCase = loginUseCase,
-            loginPreferencesUseCase = provideLoginPreferencesUseCase(
-                activity = activity
+            val loginUseCase = UseCaseModule.provideLoginUseCase(
+                playerRepository,
+                mapper
             )
-        ) as T
+
+            viewModel = LoginViewModel(
+                loginUseCase = loginUseCase,
+                loginPreferencesUseCase = provideLoginPreferencesUseCase(
+                    context = context
+                )
+            )
+        }
+
+        return viewModel
     }
 }
