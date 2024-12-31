@@ -4,6 +4,8 @@ import br.com.khodahafez.domain.errors.NotFoundEntityException
 import br.com.khodahafez.domain.model.dto.ExpensesDto
 import br.com.khodahafez.domain.repository.remote.ExpensesRepository
 import br.com.khodahafez.domain.state.ResultOf
+import br.com.khodahafez.domain.utils.PokerSaleUtils
+import br.com.khodahafez.domain.utils.Session
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -40,6 +42,11 @@ class ExpensesRepositoryImpl(
                         if (dataSnapshot.exists()) {
                             val list: MutableList<ExpensesDto> = dataSnapshot.children.map {
                                 it.getValue<ExpensesDto>()!!
+                            }.filter { item ->
+                                PokerSaleUtils.checkIfDateAllowed(
+                                    dateString = item.date ?: "10/01/2024 19:30:47",
+                                    expectedYear = Session.yearSelected
+                                )
                             }.toMutableList()
                             trySend(
                                 ResultOf.Success(list)
@@ -75,6 +82,11 @@ class ExpensesRepositoryImpl(
                         if (dataSnapshot.exists()) {
                             val list: MutableList<ExpensesDto> = dataSnapshot.children.map {
                                 it.getValue<ExpensesDto>()!!
+                            }.filter { item ->
+                                PokerSaleUtils.checkIfDateAllowed(
+                                    dateString = item.date ?: "10/01/2024 19:30:47",
+                                    expectedYear = Session.yearSelected
+                                )
                             }.toMutableList()
                             trySend(
                                 ResultOf.Success(list)

@@ -1,9 +1,12 @@
 package br.com.khodahafez.pokersale.di
 
+import android.app.Activity
+import android.content.Context
 import br.com.khodahafez.domain.mapper.PlayerMapper
 import br.com.khodahafez.domain.mapper.ScoreMapper
 import br.com.khodahafez.domain.repository.PlayerRepositoryDataSource
 import br.com.khodahafez.domain.repository.ScoreRepositoryDataSource
+import br.com.khodahafez.domain.repository.local.Preferences
 import br.com.khodahafez.domain.repository.remote.BalanceRepository
 import br.com.khodahafez.domain.repository.remote.BountyTypeRepository
 import br.com.khodahafez.domain.repository.remote.ExpensesRepository
@@ -25,6 +28,7 @@ import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
 import br.com.khodahafez.domain.usecase.player.SavePlayerUseCase
 import br.com.khodahafez.domain.usecase.position_score.GetAllPositionScoreUseCase
 import br.com.khodahafez.domain.usecase.position_score.SavePositionScoreUseCase
+import br.com.khodahafez.domain.usecase.preferences.LoginPreferencesUseCase
 import br.com.khodahafez.domain.usecase.score.GetAllScoreUseCase
 import br.com.khodahafez.domain.usecase.score.SaveScoreUseCase
 import br.com.khodahafez.domain.utils.EncryptUtils
@@ -186,4 +190,13 @@ object UseCaseModule {
             repository = repository
         )
     }
+
+    fun provideLoginPreferencesUseCase(
+        context: Context,
+        preferences: Preferences = RepositoryModule.providePreferencesRepository(
+            context = context
+        )
+    ) = LoginPreferencesUseCase(
+        preferences = preferences
+    )
 }

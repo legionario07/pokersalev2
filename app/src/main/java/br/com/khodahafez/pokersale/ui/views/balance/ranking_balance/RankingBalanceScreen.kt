@@ -27,10 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.extensions.toMonetary
 import br.com.khodahafez.domain.model.screen.RankingBalanceUiHelper
+import br.com.khodahafez.pokersale.R
 import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
@@ -77,16 +80,37 @@ private fun RankingBalanceContentScreen(balancesUIHelper: List<RankingBalanceUiH
         modifier = Modifier
             .fillMaxSize()
     ) {
-        LazyColumn {
-            items(items = balancesUIHelper, key = {item ->
-                item.player?.id!!
-            }) {item ->
-                CardContent(
-                    balancesUIHelper.indexOf(item).inc(),
-                    item
-                )
+        if (balancesUIHelper.isEmpty()) {
+            MyBalanceEmpty()
+        } else {
+            LazyColumn {
+                items(items = balancesUIHelper, key = { item ->
+                    item.player?.id!!
+                }) { item ->
+                    CardContent(
+                        balancesUIHelper.indexOf(item).inc(),
+                        item
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun MyBalanceEmpty() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Text(
+            text = stringResource(id = R.string.poker_sale_expense_no_data),
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.labelLarge,
+        )
     }
 }
 
@@ -121,7 +145,7 @@ private fun CardContent(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text =  index.toString(),
+                    text = index.toString(),
                     style = MaterialTheme.typography.titleMedium
                 )
             }

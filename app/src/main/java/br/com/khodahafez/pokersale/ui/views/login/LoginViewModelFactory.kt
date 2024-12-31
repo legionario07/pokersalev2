@@ -1,36 +1,39 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package br.com.khodahafez.pokersale.ui.views.login
 
-import androidx.annotation.NonNull
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import android.content.Context
 import br.com.khodahafez.pokersale.di.FirebaseModule
 import br.com.khodahafez.pokersale.di.MapperProvide
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
+import br.com.khodahafez.pokersale.di.UseCaseModule.provideLoginPreferencesUseCase
 
-class LoginViewModelFactory : ViewModelProvider.Factory {
+object LoginViewModelFactory {
 
-    @NonNull
-    @Override
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val dbReferences = FirebaseModule.provideFirebaseReference("/users")
+    private var viewModel: LoginViewModel? = null
 
-        val playerRepository = RepositoryModule.providePlayerRepository(dbReferences)
+    fun create(context: Context): LoginViewModel? {
+        if (viewModel == null) {
+            val dbReferences = FirebaseModule.provideFirebaseReference("/users")
 
-        val mapper = MapperProvide.providePlayerMapper()
+            val playerRepository = RepositoryModule.providePlayerRepository(dbReferences)
 
-        val loginUseCase = UseCaseModule.provideLoginUseCase(
-            playerRepository,
-            mapper
-        )
-        val playerUseCase = UseCaseModule.providePlayerSaveUseCase(
-            playerRepository,
-            mapper
-        )
+            val mapper = MapperProvide.providePlayerMapper()
 
-        return LoginViewModel(
-            loginUseCase = loginUseCase,
-            savePlayerUseCase = playerUseCase
-        ) as T
+            val loginUseCase = UseCaseModule.provideLoginUseCase(
+                playerRepository,
+                mapper
+            )
+
+            viewModel = LoginViewModel(
+                loginUseCase = loginUseCase,
+                loginPreferencesUseCase = provideLoginPreferencesUseCase(
+                    context = context
+                )
+            )
+        }
+
+        return viewModel
     }
 }

@@ -8,15 +8,15 @@ plugins {
 
 android {
     namespace = "br.com.khodahafez.pokersale"
-    compileSdk = 33
-    buildToolsVersion = "33.0.0"
+    compileSdk = 34
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
         applicationId = "br.com.khodahafez.pokersale"
-        minSdk = 24
-        targetSdk = 33
+        minSdk = 28
+        targetSdk = 34
         versionCode = 1
-        versionName = "1.5.0"
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -44,14 +44,14 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = "1.4.4"
     }
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    buildToolsVersion = "33.0.0"
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -80,6 +80,8 @@ dependencies {
     androidTestImplementation(Dependencies.depComposeUiTestJUnit)
     debugImplementation(Dependencies.depComposeUiTooling)
     debugImplementation(Dependencies.depComposeUiTestManifest)
+    implementation(Dependencies.depGson)
+    implementation(Dependencies.depCoil)
 
     // Import the BoM for the Firebase platform
     implementation(platform(Dependencies.depFirebaseBom))

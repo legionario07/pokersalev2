@@ -5,6 +5,8 @@ import br.com.khodahafez.domain.model.dto.BalanceDto
 import br.com.khodahafez.domain.model.BankType
 import br.com.khodahafez.domain.repository.remote.BalanceRepository
 import br.com.khodahafez.domain.state.ResultOf
+import br.com.khodahafez.domain.utils.PokerSaleUtils
+import br.com.khodahafez.domain.utils.Session
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -35,12 +37,18 @@ class BalanceRepositoryImpl(
     override fun getByOperationType(operationType: BankType): Flow<ResultOf<List<BalanceDto>>> {
         return callbackFlow {
             kotlin.runCatching {
-                val query = databaseReference.orderByChild("operationType").equalTo(operationType.name)
+                val query =
+                    databaseReference.orderByChild("operationType").equalTo(operationType.name)
                 val listener = object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
                             val list: MutableList<BalanceDto> = dataSnapshot.children.map {
                                 it.getValue<BalanceDto>()!!
+                            }.filter { item ->
+                                PokerSaleUtils.checkIfDateAllowed(
+                                    dateString = item.date.orEmpty(),
+                                    expectedYear = Session.yearSelected
+                                )
                             }.toMutableList()
                             trySend(
                                 ResultOf.Success(list)
@@ -76,6 +84,11 @@ class BalanceRepositoryImpl(
                         if (dataSnapshot.exists()) {
                             val list: MutableList<BalanceDto> = dataSnapshot.children.map {
                                 it.getValue<BalanceDto>()!!
+                            }.filter { item ->
+                                PokerSaleUtils.checkIfDateAllowed(
+                                    dateString = item.date.orEmpty(),
+                                    expectedYear = Session.yearSelected
+                                )
                             }.toMutableList()
                             trySend(
                                 ResultOf.Success(list)

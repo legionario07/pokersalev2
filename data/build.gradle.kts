@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "br.com.khodahafez.data"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
 
-        minSdk = 24
+        minSdk = 28
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 //        consumerProguardFiles = "consumer-rules.pro"
     }
@@ -28,7 +28,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildToolsVersion = "30.0.3"
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -47,4 +47,5 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
     implementation(Dependencies.depRoomRuntime)
     implementation(Dependencies.depRoomKtx)
+    implementation(Dependencies.depGson)
 }
