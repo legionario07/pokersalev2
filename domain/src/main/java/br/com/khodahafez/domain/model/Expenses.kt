@@ -1,11 +1,13 @@
 package br.com.khodahafez.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Expenses(
-    val id: String? = null,
-    val player: Player? = null,
-    val buyIn: Double? = null,
-    val reBuy: Double? = null,
-    val addOn: Double? = null,
-    val double: Double? = null,
-    val award: Double? = null
-)
+    var id: String? = null,
+    val idPlayer: String? = null,
+    val totalEntries: Double? = null,
+    val cashPrize: Double? = null,
+    val idMatchOfPoker: String? = null
+): Parcelable

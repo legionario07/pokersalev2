@@ -1,5 +1,6 @@
 package br.com.khodahafez.domain.usecase.login
 
+import br.com.khodahafez.domain.mapper.PlayerMapper
 import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.repository.remote.PlayerRepository
 import br.com.khodahafez.domain.state.ResultOf
@@ -12,16 +13,18 @@ import kotlin.coroutines.CoroutineContext
 class LoginUseCase(
     private val scope: CoroutineContext,
     private val playerRepository: PlayerRepository,
-    private val encryptUtil: EncryptUtils
+    private val encryptUtil: EncryptUtils,
+    private val mapper: PlayerMapper
 ) {
 
     fun login(login: String, password: String): Flow<Player> {
         val passwordEncrypted = encryptUtil.encrypt(password)
         return playerRepository.get(login, passwordEncrypted).map {
-            when(it) {
+            when (it) {
                 is ResultOf.Success -> {
-                    it.response
+                    mapper.toDomain(it.response)
                 }
+
                 is ResultOf.Failure -> {
                     throw it.error
                 }

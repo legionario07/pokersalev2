@@ -1,33 +1,39 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package br.com.khodahafez.pokersale.ui.views.login
 
-import androidx.annotation.NonNull
-import androidx.annotation.RestrictTo
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import br.com.khodahafez.data.repository.firebase.FirebaseDatabaseConstants
-import br.com.khodahafez.data.repository.firebase.PlayerRepositoryImpl
-import br.com.khodahafez.data.repository.firebase.PokerSaleV2FirebaseDataSourceImpl
+import android.content.Context
+import br.com.khodahafez.pokersale.di.FirebaseModule
+import br.com.khodahafez.pokersale.di.MapperProvide
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-class LoginViewModelFactory : ViewModelProvider.Factory {
+import br.com.khodahafez.pokersale.di.UseCaseModule.provideLoginPreferencesUseCase
 
-    @NonNull
-    @Override
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        val firebase = FirebaseDatabase.getInstance()
-        val dbReferences = firebase.getReference(FirebaseDatabaseConstants.REFERENCIES.DATABASE_POKER_SALE.plus("/users"))
+object LoginViewModelFactory {
 
-        val playerRepository = RepositoryModule.providePlayerRepository(dbReferences)
+    private var viewModel: LoginViewModel? = null
 
-        val loginUseCase = UseCaseModule.provideLoginUseCase(playerRepository)
-        val playerUseCase = UseCaseModule.providePlayerSaveUseCase(playerRepository)
+    fun create(context: Context): LoginViewModel? {
+        if (viewModel == null) {
+            val dbReferences = FirebaseModule.provideFirebaseReference("/users")
 
-        return LoginViewModel(
-            loginUseCase = loginUseCase,
-            playerSaveUseCase = playerUseCase
-        ) as T
+            val playerRepository = RepositoryModule.providePlayerRepository(dbReferences)
+
+            val mapper = MapperProvide.providePlayerMapper()
+
+            val loginUseCase = UseCaseModule.provideLoginUseCase(
+                playerRepository,
+                mapper
+            )
+
+            viewModel = LoginViewModel(
+                loginUseCase = loginUseCase,
+                loginPreferencesUseCase = provideLoginPreferencesUseCase(
+                    context = context
+                )
+            )
+        }
+
+        return viewModel
     }
 }

@@ -1,22 +1,22 @@
-import Dependencies
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("kotlin-parcelize")
+    id("kotlin-kapt")
 }
 
 android {
     namespace = "br.com.khodahafez.pokersale"
-    compileSdk = 33
-    buildToolsVersion = "33.0.0"
+    compileSdk = 34
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
         applicationId = "br.com.khodahafez.pokersale"
-        minSdk = 24
-        targetSdk = 33
+        minSdk = 28
+        targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -44,14 +44,14 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = "1.4.4"
     }
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    buildToolsVersion = "33.0.0"
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -70,6 +70,8 @@ dependencies {
     implementation(Dependencies.depComposeUiGraphics)
     implementation(Dependencies.depComposeUiToolingPreview)
     implementation(Dependencies.depComposeMaterial3)
+    implementation(Dependencies.depComposeFoundation)
+    implementation(Dependencies.depComposeMaterial)
     implementation("com.google.firebase:firebase-database-ktx:20.1.0")
     testImplementation(Dependencies.depJunit)
     androidTestImplementation(Dependencies.depJunitExt)
@@ -78,6 +80,8 @@ dependencies {
     androidTestImplementation(Dependencies.depComposeUiTestJUnit)
     debugImplementation(Dependencies.depComposeUiTooling)
     debugImplementation(Dependencies.depComposeUiTestManifest)
+    implementation(Dependencies.depGson)
+    implementation(Dependencies.depCoil)
 
     // Import the BoM for the Firebase platform
     implementation(platform(Dependencies.depFirebaseBom))
@@ -86,4 +90,10 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation(Dependencies.depFirebaseDatabaseKtx)
 
+    // Room Database
+    implementation(Dependencies.depRoomRuntime)
+    implementation(Dependencies.depRoomKtx)
+    annotationProcessor(Dependencies.depRoomKtx)
+
+    kapt(Dependencies.depRoomCompile)
 }

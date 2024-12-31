@@ -1,15 +1,18 @@
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
+    id("kotlin-kapt")
 }
 
 android {
     namespace = "br.com.khodahafez.domain"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
 
-        minSdk = 24
+        minSdk = 27
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,7 +29,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildToolsVersion = "33.0.0"
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
@@ -38,4 +41,11 @@ dependencies {
     testImplementation(Dependencies.depJunit)
     androidTestImplementation(Dependencies.depJunitExt)
     androidTestImplementation(Dependencies.depExpressoCore)
+
+    implementation(Dependencies.depRoomRuntime)
+    implementation(Dependencies.depRoomKtx)
+    annotationProcessor(Dependencies.depRoomCompile)
+    implementation(Dependencies.depGson)
+
+    kapt(Dependencies.depRoomCompile)
 }
