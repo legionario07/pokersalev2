@@ -1,6 +1,5 @@
 package br.com.khodahafez.pokersale.di
 
-import android.app.Activity
 import android.content.Context
 import br.com.khodahafez.domain.mapper.PlayerMapper
 import br.com.khodahafez.domain.mapper.ScoreMapper
@@ -29,6 +28,7 @@ import br.com.khodahafez.domain.usecase.player.SavePlayerUseCase
 import br.com.khodahafez.domain.usecase.position_score.GetAllPositionScoreUseCase
 import br.com.khodahafez.domain.usecase.position_score.SavePositionScoreUseCase
 import br.com.khodahafez.domain.usecase.preferences.LoginPreferencesUseCase
+import br.com.khodahafez.domain.usecase.preferences.PokerSalePreferencesUseCase
 import br.com.khodahafez.domain.usecase.score.GetAllScoreUseCase
 import br.com.khodahafez.domain.usecase.score.SaveScoreUseCase
 import br.com.khodahafez.domain.utils.EncryptUtils
@@ -197,6 +197,15 @@ object UseCaseModule {
             context = context
         )
     ) = LoginPreferencesUseCase(
+        preferences = preferences
+    )
+
+    fun providePokerSalePreferencesUseCase(
+        context: Context,
+        preferences: Preferences = RepositoryModule.providePreferencesRepository(
+            context = context
+        )
+    ) = PokerSalePreferencesUseCase(
         preferences = preferences
     )
 }

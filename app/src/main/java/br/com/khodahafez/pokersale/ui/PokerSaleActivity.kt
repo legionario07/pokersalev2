@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.AutoGraph
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Dataset
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material.icons.filled.Money
@@ -134,6 +135,13 @@ class PokerSaleActivity : ComponentActivity() {
                                                 Icon(
                                                     tint = Color.White,
                                                     imageVector = Icons.Default.PersonAdd,
+                                                    contentDescription = EMPTY_STRING
+                                                )
+                                            }
+                                            IconButton(onClick = { navController.navigate(ScreenEnum.REGISTER_DATA_RUNTIME_MATCH.route) }) {
+                                                Icon(
+                                                    tint = Color.White,
+                                                    imageVector = Icons.Default.Dataset,
                                                     contentDescription = EMPTY_STRING
                                                 )
                                             }

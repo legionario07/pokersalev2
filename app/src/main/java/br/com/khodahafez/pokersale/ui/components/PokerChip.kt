@@ -26,18 +26,20 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun PokerChip(
     modifier: Modifier = Modifier,
     valueCounter: Int,
+    height: Dp = 70.dp,
     incrementValue: Int = 1,
     onChange: (Int) -> Unit,
 ) {
     Box(
         modifier = modifier
-            .size(70.dp)
+            .size(height)
             .background(
                 brush = Brush.radialGradient(
                     colors = listOf(Color(0xFFB3E5FC), Color(0xFF81D4DA), Color(0xFF0288D1)),
@@ -57,7 +59,7 @@ fun PokerChip(
     ) {
         Box(
             modifier = Modifier
-                .size(60.dp)
+                .size(height - 10.dp)
                 .background(Color.White, shape = CircleShape)
                 .border(
                     width = 4.dp,

@@ -33,17 +33,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun PokerChipHeader(
     modifier: Modifier = Modifier,
     value: String,
+    height: Dp = 70.dp,
     style: TextStyle = MaterialTheme.typography.labelSmall
 ) {
     Box(
         modifier = modifier
-            .size(70.dp)
+            .size(height)
             .background(
                 brush = Brush.radialGradient(
                     colors = listOf(Color(0xE51F62FF), Color(0xFF81D4DA), Color(0xFFE51F62)),
@@ -63,7 +65,7 @@ fun PokerChipHeader(
     ) {
         Box(
             modifier = Modifier
-                .size(60.dp)
+                .size(height - 10.dp)
                 .background(Color.White, shape = CircleShape)
                 .border(
                     width = 4.dp,
@@ -74,7 +76,8 @@ fun PokerChipHeader(
             contentAlignment = Alignment.Center
         ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .padding(
                         vertical = 2.dp
                     ),
@@ -107,6 +110,6 @@ fun PokerChipHeaderPreview() {
     }
 
     PokerChipHeader(
-         value = value
+        value = value
     )
 }

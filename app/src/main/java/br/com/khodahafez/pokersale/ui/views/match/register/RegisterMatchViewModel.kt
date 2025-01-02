@@ -6,6 +6,7 @@ import br.com.khodahafez.domain.extensions.converterToStringDate
 import br.com.khodahafez.domain.model.MatchOfPoker
 import br.com.khodahafez.domain.model.MatchOfPokerType
 import br.com.khodahafez.domain.model.Player
+import br.com.khodahafez.domain.model.RegisterMatchDataRuntimeModel
 import br.com.khodahafez.domain.model.Score
 import br.com.khodahafez.domain.model.dto.ExpensesDto
 import br.com.khodahafez.domain.state.ResultOf
@@ -13,12 +14,15 @@ import br.com.khodahafez.domain.usecase.expenses.SaveExpensesUseCase
 import br.com.khodahafez.domain.usecase.match.register.GetMatchUseCase
 import br.com.khodahafez.domain.usecase.match.register.UpdateMatchUseCase
 import br.com.khodahafez.domain.usecase.player.GetAllPlayerUseCase
+import br.com.khodahafez.domain.usecase.preferences.PokerSalePreferencesUseCase
 import br.com.khodahafez.domain.usecase.score.SaveScoreUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
+import java.math.RoundingMode
 import java.util.Calendar
 
 class RegisterMatchViewModel(
@@ -28,6 +32,7 @@ class RegisterMatchViewModel(
     private val getAllPlayerUseCase: GetAllPlayerUseCase,
     private val saveExpensesUseCase: SaveExpensesUseCase,
     private val saveScoreUseCase: SaveScoreUseCase,
+    private val preferencesUseCase: PokerSalePreferencesUseCase
 ) : ViewModel() {
 
     private val _stateUI = MutableStateFlow<RegisterMatchStateUI>(RegisterMatchStateUI.InitialState)
@@ -183,7 +188,7 @@ class RegisterMatchViewModel(
                     when (resultOf) {
                         is ResultOf.Success -> {
 
-                            val playerSorted =   resultOf.response.sortedBy {
+                            val playerSorted = resultOf.response.sortedBy {
                                 it.name
                             }
                             _stateUI.update {
@@ -228,6 +233,62 @@ class RegisterMatchViewModel(
         }
 
         return total
+    }
+
+    fun saveDataRuntimeMatch(
+        listPlayers: List<RegisterMatchDataRuntimeModel>
+    ) {
+
+    }
+
+    fun calculatePercentage(totalValue: Double, percentage: Int = 5): Double {
+        val percentageDecimal = BigDecimal.valueOf(percentage.toDouble())
+        val valueDecimal = BigDecimal.valueOf(totalValue)
+
+        val percentageResult = valueDecimal.multiply(percentageDecimal).divide(
+            BigDecimal.valueOf(100), RoundingMode.DOWN
+        ).toDouble()
+
+        val mod = percentageResult % 10
+
+        return if (mod > 5) {
+            percentageResult - (mod - 5)
+        } else if (mod < 5) {
+            percentageResult - mod
+        } else {
+            percentageResult
+        }
+    }
+
+    fun calculateExpense(
+        registerMatchDataRuntimeModel: RegisterMatchDataRuntimeModel
+    ): Double {
+        with(registerMatchDataRuntimeModel) {
+            expensesValue = taxCounter + (
+                    buyInCounter * 30
+                    ) + (
+                    reBuyCounter.toDouble() * 30
+                    ) + (
+                    doubleReBuyCounter * 50
+                    ) + (
+                    addonCounter * 50
+                    )
+        }
+
+        return registerMatchDataRuntimeModel.expensesValue
+    }
+
+    fun calculateExpense(
+        players: List<RegisterMatchDataRuntimeModel>
+    ): Double {
+        var value = 0.0
+        players.forEach { player ->
+            if (player.isChecked) {
+                value += calculateExpense(player)
+            }
+        }
+
+        return value
     }
 }
 

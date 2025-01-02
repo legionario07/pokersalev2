@@ -13,6 +13,7 @@ import br.com.khodahafez.pokersale.ui.views.bounty_type.BountyTypeScreen
 import br.com.khodahafez.pokersale.ui.views.home.HomeScreen
 import br.com.khodahafez.pokersale.ui.views.login.LoginScreen
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchDataEntryScreen
+import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchDataPlayerRuntimeMatchScreen
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchPlayerWithListScreen
 import br.com.khodahafez.pokersale.ui.views.player.PlayerScreen
 import br.com.khodahafez.pokersale.ui.views.position_score.PositionScoreScreen
@@ -65,6 +66,17 @@ internal fun NavigationGraph(
                 ).orEmpty(),
                 onSaveMatchSuccessful = {
                     navController.navigate(ScreenEnum.NEW_BALANCE_POKER_SALE.route) {
+                        launchSingleTop = true
+                        popUpTo(ScreenEnum.HOME.route)
+                    }
+                }
+            )
+        }
+
+        composable(route = ScreenEnum.REGISTER_DATA_RUNTIME_MATCH.route) {
+            RegisterMatchDataPlayerRuntimeMatchScreen(
+                onSaveMatchSuccessful = {
+                    navController.navigate(ScreenEnum.HOME.route) {
                         launchSingleTop = true
                         popUpTo(ScreenEnum.HOME.route)
                     }

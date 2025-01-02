@@ -1,6 +1,5 @@
 package br.com.khodahafez.pokersale.ui.views.match.register
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,18 +32,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.PokerSaleConstants.Domain.MIN_PLAYERS_FOR_MATCH
 import br.com.khodahafez.domain.model.Player
-import br.com.khodahafez.domain.model.dto.PlayerDto
 import br.com.khodahafez.pokersale.R
 import br.com.khodahafez.pokersale.ui.ui.theme.mediumDimens
 import br.com.khodahafez.pokersale.ui.utils.showToast
@@ -54,7 +50,9 @@ import br.com.khodahafez.pokersale.ui.views.match.register.factory.RegisterMatch
 
 @Composable
 fun RegisterMatchScreen(
-    viewModel: RegisterMatchViewModel = viewModel(factory = RegisterMatchViewModelFactory()),
+    viewModel: RegisterMatchViewModel = viewModel(factory = RegisterMatchViewModelFactory(
+        context = LocalContext.current
+    )),
     idMatchCreated: String,
     onSaveMatchSuccessful: () -> Unit
 ) {

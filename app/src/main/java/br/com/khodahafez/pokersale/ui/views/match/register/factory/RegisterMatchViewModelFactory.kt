@@ -1,5 +1,6 @@
 package br.com.khodahafez.pokersale.ui.views.match.register.factory
 
+import android.content.Context
 import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,12 +11,13 @@ import br.com.khodahafez.pokersale.di.MapperProvide
 import br.com.khodahafez.pokersale.di.RepositoryDataSourceProvide
 import br.com.khodahafez.pokersale.di.RepositoryModule
 import br.com.khodahafez.pokersale.di.UseCaseModule
+import br.com.khodahafez.pokersale.di.UseCaseModule.providePokerSalePreferencesUseCase
 import br.com.khodahafez.pokersale.ui.views.match.register.RegisterMatchViewModel
 
-class RegisterMatchViewModelFactory : ViewModelProvider.Factory {
+class RegisterMatchViewModelFactory(
+    private val context: Context
+) : ViewModelProvider.Factory {
 
-    @NonNull
-    @Override
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val dbReferences = FirebaseModule.provideFirebaseReference("/matches")
         val dbReferencesPlayers = FirebaseModule.provideFirebaseReference("/users")
@@ -56,7 +58,10 @@ class RegisterMatchViewModelFactory : ViewModelProvider.Factory {
             getAllPlayerUseCase = getAllPlayerUseCase,
             saveExpensesUseCase = saveExpensesUseCase,
             saveScoreUseCase = saveScoreUseCase,
-            updateMatchUseCase = updateMatchUseCase
+            updateMatchUseCase = updateMatchUseCase,
+            preferencesUseCase = providePokerSalePreferencesUseCase(
+                context = context
+            )
         ) as T
     }
 }
