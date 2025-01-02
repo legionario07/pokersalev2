@@ -82,6 +82,7 @@ fun RegisterMatchPlayerWithListScreen(
 
         when (val result = uiState) {
             is RegisterMatchStateUI.InitialState,
+            is RegisterMatchStateUI.GetPlayerRuntimeState,
             is RegisterMatchStateUI.Loading -> {
                 // Do Nothing
             }

@@ -36,7 +36,7 @@ fun RowPlayerDataRuntimeHeader(
 ) {
     Row(
         modifier = modifier
-            .height(90.dp)
+            .height(100.dp)
             .fillMaxWidth()
             .background(
                 brush = Brush.radialGradient(

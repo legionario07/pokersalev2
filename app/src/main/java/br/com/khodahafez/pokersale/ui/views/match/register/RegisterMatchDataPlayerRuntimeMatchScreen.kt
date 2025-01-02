@@ -9,18 +9,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,7 +35,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.khodahafez.domain.model.RegisterMatchDataRuntimeModel
 import br.com.khodahafez.pokersale.ui.components.RowPlayerDataRuntimeHeader
-import br.com.khodahafez.pokersale.ui.components.RowPlayerInNewMatchHeader
 import br.com.khodahafez.pokersale.ui.components.RowPlayerInRuntimeMatch
 import br.com.khodahafez.pokersale.ui.utils.showToast
 import br.com.khodahafez.pokersale.ui.views.components.CircularLoading
@@ -55,6 +51,17 @@ fun RegisterMatchDataPlayerRuntimeMatchScreen(
     onSaveMatchSuccessful: () -> Unit
 ) {
 
+    val players = remember {
+        mutableStateListOf<RegisterMatchDataRuntimeModel>()
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            println("Salvando")
+            viewModel.saveDataRuntimeMatch(players)
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -69,10 +76,6 @@ fun RegisterMatchDataPlayerRuntimeMatchScreen(
 
         var loading by rememberSaveable {
             mutableStateOf(true)
-        }
-
-        val players = remember {
-            mutableStateListOf<RegisterMatchDataRuntimeModel>()
         }
 
         var totalValue by remember {
@@ -105,13 +108,19 @@ fun RegisterMatchDataPlayerRuntimeMatchScreen(
 
             is RegisterMatchStateUI.GetAllUsersState -> {
                 if (loading) {
-                    loading = false
-                    players.addAll(result.players.map {
+                    val playersTemp = result.players.map {
                         RegisterMatchDataRuntimeModel(
                             player = it
                         )
-                    })
+                    }
+                    viewModel.checkIfHasDataInPreferences(playersTemp)
                 }
+            }
+
+            is RegisterMatchStateUI.GetPlayerRuntimeState -> {
+                players.clear()
+                loading = false
+                players.addAll(result.players)
             }
 
             is RegisterMatchStateUI.SaveSuccessful -> {

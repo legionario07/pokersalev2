@@ -50,9 +50,11 @@ import br.com.khodahafez.pokersale.ui.views.match.register.factory.RegisterMatch
 
 @Composable
 fun RegisterMatchScreen(
-    viewModel: RegisterMatchViewModel = viewModel(factory = RegisterMatchViewModelFactory(
-        context = LocalContext.current
-    )),
+    viewModel: RegisterMatchViewModel = viewModel(
+        factory = RegisterMatchViewModelFactory(
+            context = LocalContext.current
+        )
+    ),
     idMatchCreated: String,
     onSaveMatchSuccessful: () -> Unit
 ) {
@@ -102,6 +104,7 @@ fun RegisterMatchScreen(
     val uiState by viewModel.stateUI.collectAsState()
 
     when (val result = uiState) {
+        is RegisterMatchStateUI.GetPlayerRuntimeState,
         is RegisterMatchStateUI.InitialState -> {
             // Do Nothing
         }

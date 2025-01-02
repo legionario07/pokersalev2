@@ -2,6 +2,7 @@ package br.com.khodahafez.pokersale.ui.views.match.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.khodahafez.domain.PokerSaleConstants.PreferencesKeys.PLAYERS_MATCH_RUNTIME
 import br.com.khodahafez.domain.extensions.converterToStringDate
 import br.com.khodahafez.domain.model.MatchOfPoker
 import br.com.khodahafez.domain.model.MatchOfPokerType
@@ -9,6 +10,7 @@ import br.com.khodahafez.domain.model.Player
 import br.com.khodahafez.domain.model.RegisterMatchDataRuntimeModel
 import br.com.khodahafez.domain.model.Score
 import br.com.khodahafez.domain.model.dto.ExpensesDto
+import br.com.khodahafez.domain.model.preferences.PlayerDataRuntime
 import br.com.khodahafez.domain.state.ResultOf
 import br.com.khodahafez.domain.usecase.expenses.SaveExpensesUseCase
 import br.com.khodahafez.domain.usecase.match.register.GetMatchUseCase
@@ -238,7 +240,22 @@ class RegisterMatchViewModel(
     fun saveDataRuntimeMatch(
         listPlayers: List<RegisterMatchDataRuntimeModel>
     ) {
+        val playerDataRuntime = PlayerDataRuntime(
+            listPlayers
+        )
+        preferencesUseCase.save(
+            key = PLAYERS_MATCH_RUNTIME,
+            value = playerDataRuntime
+        )
+    }
 
+    fun checkIfHasDataInPreferences(players: List<RegisterMatchDataRuntimeModel>) {
+        val playersTemp = preferencesUseCase.get(PLAYERS_MATCH_RUNTIME, PlayerDataRuntime::class.java)
+        playersTemp?.let {
+            _stateUI.value = RegisterMatchStateUI.GetPlayerRuntimeState(playersTemp.listPlayers)
+        } ?: kotlin.run {
+            _stateUI.value = RegisterMatchStateUI.GetPlayerRuntimeState(players)
+        }
     }
 
     fun calculatePercentage(totalValue: Double, percentage: Int = 5): Double {
@@ -297,7 +314,9 @@ sealed class RegisterMatchStateUI {
     object Loading : RegisterMatchStateUI()
     data class Error(val message: String?) : RegisterMatchStateUI()
     data class GetAllUsersState(val players: List<Player>) : RegisterMatchStateUI()
+    data class GetPlayerRuntimeState(val players: List<RegisterMatchDataRuntimeModel>) : RegisterMatchStateUI()
     data class SaveSuccessful(
         val idMatchCreated: String
     ) : RegisterMatchStateUI()
 }
+
