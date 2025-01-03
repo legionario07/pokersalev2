@@ -5,6 +5,7 @@ package br.com.khodahafez.pokersale.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -57,11 +58,13 @@ class PokerSaleActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         setContent {
 
             SetupInitNavHostController()
             var currentRoute = currentRoute(navController = navController)
+            PokerSaleV2DomainTheme(darkTheme = false) {
 
             var isLogin by remember {
                 mutableStateOf(true)
@@ -77,7 +80,7 @@ class PokerSaleActivity : ComponentActivity() {
                 val listItems = remember {
                     mutableSetOf<TabItem>()
                 }
-                PokerSaleV2DomainTheme(darkTheme = false) {
+
 
 
                     BuilderIcons(listItems, currentRoute == ScreenEnum.LOGIN)

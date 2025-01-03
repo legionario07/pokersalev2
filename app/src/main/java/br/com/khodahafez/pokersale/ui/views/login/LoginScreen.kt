@@ -178,7 +178,7 @@ fun Version() {
         horizontalArrangement = Arrangement.End
     ) {
         Text(
-            text = "Versão: 1.2.0",
+            text = "Versão: 1.2.1",
             fontSize = 10.sp
         )
     }
