@@ -19,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,7 +49,6 @@ fun RegisterMatchDataPlayerRuntimeMatchScreen(
             context = LocalContext.current
         )
     ),
-    onSaveMatchSuccessful: () -> Unit
 ) {
 
     val players = remember {
@@ -57,7 +57,6 @@ fun RegisterMatchDataPlayerRuntimeMatchScreen(
 
     DisposableEffect(Unit) {
         onDispose {
-            println("Salvando")
             viewModel.saveDataRuntimeMatch(players)
         }
     }
@@ -118,9 +117,9 @@ fun RegisterMatchDataPlayerRuntimeMatchScreen(
             }
 
             is RegisterMatchStateUI.GetPlayerRuntimeState -> {
-                players.clear()
                 loading = false
                 players.addAll(result.players)
+                viewModel.clearStateUI()
             }
 
             is RegisterMatchStateUI.SaveSuccessful -> {

@@ -74,14 +74,7 @@ internal fun NavigationGraph(
         }
 
         composable(route = ScreenEnum.REGISTER_DATA_RUNTIME_MATCH.route) {
-            RegisterMatchDataPlayerRuntimeMatchScreen(
-                onSaveMatchSuccessful = {
-                    navController.navigate(ScreenEnum.HOME.route) {
-                        launchSingleTop = true
-                        popUpTo(ScreenEnum.HOME.route)
-                    }
-                }
-            )
+            RegisterMatchDataPlayerRuntimeMatchScreen()
         }
 
         composable(
